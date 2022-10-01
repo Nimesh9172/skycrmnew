@@ -31,7 +31,7 @@
     
   }
   .ots-filter{
-        width: 120px;
+        width: 100%;
       }
 
       .select2-container .select2-selection--single{
@@ -68,6 +68,23 @@
 .flatpickr-time{
   display: none;
 }
+
+.fa-caret-downs{
+        color: #197AA4;
+        font-size: 11px;
+        position: absolute;
+        background-color: #fff;
+        right: 3px;
+        top: 6px;
+        width: 12px;
+
+      }
+
+      .fa-caret-downs img{
+        width: 8px;
+        height: 5px;
+      }
+
   @media screen and (max-width: 512px){
     .uploaddiv{
       margin-left: 97px;
@@ -90,21 +107,131 @@
                 {% endfor %}
               </select>
             </div>
+
+            <div class="uploadinput-div3 pl-0">
+              <div class="column d-flex gap-2 align-items-end justify-content-end flex-wrap " style="width: 100%;">
+                {% csrf_token %}
+                <div class="ots-filter">
+                 
+                
+          <div class="multiselect">                
+            <div class="selectbox" onclick="showCheckBoxes()">
+      <img src="{% static 'Images/filterby.png' %}" style="height: 13px; margin-top: 2px; width: 15.7px;" class="sort-icon" alt="">
+      
+                      <select class="customselect" >
+                          <option value="">Filter By</option>
+                      </select>
+                      <div class="fa-caret-downs">
+                        <img class="" src="{% static 'Images/caret.png'  %}" alt="">
+                      </div>
+                       <div class="overselect"></div>
+                    </div>
+                    <div id="checkboxes">
+
+                      <label for="ptp" class="checkbox-wrapper">
+                        <input type="checkbox" value="Promise To Pay" name="remcb" id="ptp">
+                        <label for="ptp">Promise To Pay</label>
+                      </label>
+
+                      <label for="paid" class="checkbox-wrapper">
+                        <input type="checkbox" value="Paid" name="remcb" id="paid">
+                        <label for="paid">Paid</label>
+                      </label>
+
+                      <label for="cbk" class="checkbox-wrapper">
+                        <input type="checkbox" value="Call Back" name="remcb" id="cbk">
+                        <label for="cbk">Call Back</label>
+                      </label>
+                      
+                      <label for="shc" class="checkbox-wrapper">
+                        <input type="checkbox" value="Schedule Call" name="remcb" id="shc">
+                        <label for="shc">Schedule Call</label>
+                      </label>
+                      
+                      <label for="ots" class="checkbox-wrapper">
+                        <input type="checkbox" value="OTS Request" name="remcb" id="ots">
+                        <label for="ots">OTS Request</label>
+                      </label>
+                      
+                      <label for="set" class="checkbox-wrapper">
+                        <input type="checkbox" value="Send FE To Collect" name="remcb" id="set">
+                        <label for="set">Send FE To collect</label>
+                      </label>
+    
+                      <label for="settlement" class="checkbox-wrapper">
+                        <input type="checkbox" value="Settlement" name="remcb" id="settlement">
+                        <label for="settlement">Settlement</label>
+                      </label>
+    
+                      <label for="bp" class="checkbox-wrapper">
+                        <input type="checkbox" value="Broken Promise" name="remcb" id="bp">
+                        <label for="bp">Broken Promise To Pay</label>
+                      </label>
+    
+                      <label for="Refused To Pay" class="checkbox-wrapper">
+                        <input type="checkbox" value="Refused To Pay" name="remcb" id="Refused To Pay">
+                        <label for="Refused To Pay">Refused To Pay</label>
+                      </label>
+    
+                      <label for="busy" class="checkbox-wrapper">
+                        <input type="checkbox" value="Busy" name="remcb" id="busy">
+                        <label for="busy">Busy</label>
+                      </label>
+    
+                      <label for="nc" class="checkbox-wrapper">
+                        <input type="checkbox" value="No-recall" name="remcb" id="nc">
+                        <label for="nc">No-recall</label>
+                      </label>
+                      
+                      <label for="rn" class="checkbox-wrapper">
+                        <input type="checkbox" value="Ringing No Response" name="remcb" id="rn">
+                        <label for="rn">Ringing No Response</label>
+                      </label>
+                      
+                      <label for="cw" class="checkbox-wrapper">
+                        <input type="checkbox" value="Call Waiting" name="remcb" id="cw">
+                        <label for="cw">Call Waiting</label>
+                      </label>
+    
+                      <label for="swm" class="checkbox-wrapper">
+                        <input type="checkbox" value="Switch OFF" name="remcb" id="swm">
+                        <label for="swm">Switched OFF</label>
+                      </label>
+                      
+                       <label for="nr" class="checkbox-wrapper">
+                        <input type="checkbox" value="Not Reachable" name="remcb" id="nr">
+                        <label for="nr">Not Reachable</label>
+                      </label>
+    
+                      <label for="wc" class="checkbox-wrapper">
+                        <input type="checkbox" value="Wrong Contact" name="remcb" id="wc">
+                        <label for="wc">Wrong Contact</label>
+                      </label>
+    
+                      <label for="lnc" class="checkbox-wrapper">
+                        <input type="checkbox" value="Language Not Communicable" name="remcb" id="lnc">
+                        <label for="lnc">Language Not Communicable</label>
+                      </label>
+    
+                      <label for="na" class="checkbox-wrapper">
+                        <input type="checkbox" value="Not Available" name="remcb" id="na">
+                        <label for="na">Not Available But Resides Here</label>
+                      </label>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            
+            </div>
+      
+
             <div class="uploadinput-div2 ">
               <select id="" class="exp2" name="sel2">
                 <option value="">Select Criteria1</option>
-                <option value="all"> All</option>
-                <option value="Promise to Pay">ptp</option>
-                <option value="Call Back">Call Back</option>
-                <option value="paid">Paid</option>
+                
             </select>
             </div>
-            <div class="uploadinput-div3 pl-0">
-              <select name="sel3" id="" class="exp3">
-                <option value="">Select Criteria2</option>
-            </select>
-            </div>
-          </div>
+                </div>
           <div class="d-flex flex-wrap gap-3" style="margin-top: 20px;" >
            <div class="cal-con">
               <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" class="calender" alt="">
@@ -125,7 +252,19 @@
         </div>
 
 
-        
+        <script>
+          var expanded = false;
+          function showCheckBoxes() {
+             var checkboxes = document.getElementById('checkboxes');
+             if (!expanded){
+                checkboxes.style.display = "block";
+                expanded = true;
+             }else {
+                checkboxes.style.display = "none";
+                expanded = false;
+             }
+          }
+       </script>   
   <script>
     config={
   enableTime: true,
@@ -153,10 +292,42 @@
         $('.cal1').click()
       })
   });
+            
+      $('input[name=remcb]').click(function(){
+        rem = []
+
+        $("input[name=remcb]:checkbox:checked").each(function() {
+                rem.push($(this).val());
+                console.log(rem)
+            })
+      })
+
+
+  // $('#checkboxes').find('input[name=remcb]').each(function(){
+  //         if (rsfil.includes($(this).val())){
+  //           $(this).attr('checked',true)
+  //         }
+  //     })
+
   
   if ( window.history.replaceState ) {
       window.history.replaceState( null, null, window.location.href );
     }
+
+    $(document).on("click", function (event) {
+      // If the target is not the container or a child of the container, then process
+      // the click event for outside of the container.
+
+      if ($(event.target).parent().attr('id') != "checkboxes" ){
+        $('#checkboxes').css({'display':'none'})
+      }
+
+ 
+      if ($(event.target).attr('class') == "overselect" ){
+  
+        $('#checkboxes').css({'display':'block'})
+      }
+});
 </script>
   
 {% endblock content %}
