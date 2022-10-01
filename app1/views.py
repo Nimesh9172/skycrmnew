@@ -87,6 +87,7 @@ def dialer(request):
     except Exception as e:
         print(e)
         link = ''
+   
     return render(request,"vicidial.html",{'link':''})
 
 
@@ -411,7 +412,14 @@ def dialcal(request):
         url = f'http://{apilink}/agc/api.php?source=test&user=6666&pass=robust&agent_user={name}&function=external_dial&value={number}&phone_code=1&search=YES&preview=NO&focus=YES'
         g_url = requests.get(url)
         print(g_url)
-        return JsonResponse({'status':200})
+        r=g_url.text
+        print(g_url.text)
+        if 'ERROR' in r:
+            return JsonResponse({'status':300,"msg":r})
+        elif 'SUCCESS' in r:
+            return JsonResponse({'status':200})
+
+        return JsonResponse({'status':202})
 
     return JsonResponse({'r': 'r'})
 
@@ -913,7 +921,7 @@ def cms(request,id):
                 e=emi.objects.create(emidate1=emidate1,emidate2=emidate2,emidate3=emidate3,emidate4=emidate4,amount1=emiamt1,amount2=emiamt2,amount3=emiamt3,amount4=emiamt4,refrence_id=id,emi=emino)
         
         except Exception as e:
-            print(e)
+             print(e)
             
         #  main code running for sendfe
         if address != "" or area != "" or land!= '' or pin != '' or modeofpay != "" or time !=None or sendate != '' or  amt !=None  :
@@ -934,9 +942,9 @@ def cms(request,id):
                 # if i.bank_loan_accountno == 'nan':
                 #     i.bank_loan_accountno = None
                 
-                b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,personalForkey_id=id,list_id=i.list_id_id,campaign=camp,additional_number=i.additional_number,additional_address=i.additional_address,additional_emailid=i.additional_emailid)
+                b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,personalForkey_id=id,list_id=i.list_id_id,campaign=camp)
                 if  emidate1!=None or emidate2!=None or emidate3!=None or emidate4!=None:
-                    b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,emidate1=emidate1,emidate2=emidate2,emidate3=emidate3,emidate4=emidate4,amount1=emiamt1,amount2=emiamt2,amount3=emiamt3,amount4=emiamt4,emi=emino,personalForkey_id=id,list_id=i.list_id_id,campaign=camp,additional_number=i.additional_number,additional_address=i.additional_address,additional_emailid=i.additional_emailid)
+                    b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,emidate1=emidate1,emidate2=emidate2,emidate3=emidate3,emidate4=emidate4,amount1=emiamt1,amount2=emiamt2,amount3=emiamt3,amount4=emiamt4,emi=emino,personalForkey_id=id,list_id=i.list_id_id,campaign=camp)
               
         except Exception as e:
             print(e)
@@ -1081,6 +1089,7 @@ def additional(request):
         d=Additional.objects.create(debtor_id=pdid,email=email,contactnum=contactnum,relation=relation,address=address,state=state,city=city,landmark=landmark,pincode=pincode)
         d.save()
         return HttpResponse()
+
 def connect(request):
     value = notificationCount(request)
     return render(request,"connectto.html",{"value":value})
@@ -1388,17 +1397,21 @@ def dataexport(request):
     
 
     print("ID",campid,"Name",campname)
-    # value = notificationCount(request)
+    value = notificationCount(request)
     if request.method == "POST":
-        c1=request.POST.get("sel2")
         sd = request.POST.get('sdate').rstrip()
         ed = request.POST.get('edate').rstrip()
+        sel = request.POST.getlist('remcb')
+  
         read=LogData.objects
+        print(sel)
+        if sel!="":
+            print(sel,"inside if")
+            read=read.filter(sub_dispossitions__in=sel)
+            print(read)
+    
 
-        if c1!="all" and c1!="":
-            read=read.filter(sub_dispossitions=c1)
-        elif c1=="all":
-            read=LogData.objects
+       
 
         if sd != "" and ed != "":
             sd = datetime.strptime(sd,'%d-%m-%Y')
@@ -1409,7 +1422,10 @@ def dataexport(request):
             read=read.filter(contacted_DateTime__range=[sd,ed])
 
         # for i in read:
-        #     print(i.contacted_DateTime)
+
+            print(i.contacted_DateTime)
+        print("YOUR FINAL REPORT",read)
+        
         db.close()
         try:
             response = HttpResponse(content_type='application/ms-excel')
@@ -1420,14 +1436,14 @@ def dataexport(request):
 
             row_num = 0
 
-            columns = ["borrowor_name","mobile_number","address","state","pincode","dateofbirth","email_id","phone_number","bankname","trustname","systemlan","bank_loan_accountno","branchname","bankstate","nature_of_facility","sanctionamount","loan_sanction_date","NPA_Date","interest_rate","account_status","security_value","document_custody","security_flag","current_allocation","current_allocation_date","team_leader","zone_name","branch_mail_id","branch_contact_details","total_collected_amount","balance_POS_amount","TOS","TOS_as_on_Date","next_action_date","current_principal_outstanding","payment_date","agent_username","city","disposition","sub_dispossitions","mode","transactionid_chequeno","cash","schedule","field_branch","datetime","callbacktime","remark","contacted_DateTime","created_by","caller_name","Campaign","loanamt","lastdial","ots_amt","ots_tos","otspercentage","tlstat","tlstatdate","suggest","otsremark","emi","emidate1","amount1","emidate2","amount2","emidate3","amount3","emidate4","amount4","emiremark","fe_address","fe_area","fe_landmark","fe_pincode","fe_datetime","amount","modeofpay","additional_contact_no.",'additional_address','additional_emailid']
-            # print("lenghth",len(columns))
+            columns = ["borrowor_name","mobile_number","address","state","pincode","dateofbirth","email_id","phone_number","bankname","trustname","systemlan","bank_loan_accountno","branchname","bankstate","nature_of_facility","sanctionamount","loan_sanction_date","NPA_Date","interest_rate","account_status","security_value","document_custody","security_flag","current_allocation","current_allocation_date","team_leader","zone_name","branch_mail_id","branch_contact_details","total_collected_amount","balance_POS_amount","TOS","TOS_as_on_Date","next_action_date","current_principal_outstanding","payment_date","agent_username","city","disposition","sub_dispossitions","mode","transactionid_chequeno","cash","schedule","field_branch","datetime","callbacktime","remark","contacted_DateTime","created_by","caller_name","Campaign","loanamt","lastdial","ots_amt","ots_tos","otspercentage","tlstat","tlstatdate","suggest","otsremark","emi","emidate1","amount1","emidate2","amount2","emidate3","amount3","emidate4","amount4","emiremark","fe_address","fe_area","fe_landmark","fe_pincode","fe_date","time","amount","modeofpay","Additional Number","Aditional Email","Additional Address"]
+
             for col_num in range(len(columns)):
                 ws.write(row_num, col_num, columns[col_num]) # at 0 row 0 column 
 
             # Sheet body, remaining rows
             
-            rows = read.values_list("borrowor_name","mobile_number","address","state","pincode","dateofbirth","email_id","phone_number","bankname","trustname","systemlan","bank_loan_accountno","branchname","bankstate","nature_of_facility","sanctionamount","loan_sanction_date","NPA_Date","interest_rate","account_status","security_value","document_custody","security_flag","current_allocation","current_allocation_date","team_leader","zone_name","branch_mail_id","branch_contact_details","total_collected_amount","balance_POS_amount","TOS","TOS_as_on_Date","next_action_date","current_principal_outstanding","payment_date","agent_username","city","disposition","sub_dispossitions","mode","transactionid_chequeno","cash","schedule","field_branch","datetime","callbacktime","remark","contacted_DateTime","created_by","caller_name","campaign","loanamt","lastdial","ots_amt","ots_tos","otspercentage","tlstat","tlstatdate","suggest","otsremark","emi","emidate1","amount1","emidate2","amount2","emidate3","amount3","emidate4","amount4","emiremark","fe_address","fe_area","fe_landmark","fe_pincode","fe_datetime","amount","modeofpay","additional_number","additional_address","additional_emailid")
+            rows = read.values_list("borrowor_name","mobile_number","address","state","pincode","dateofbirth","email_id","phone_number","bankname","trustname","systemlan","bank_loan_accountno","branchname","bankstate","nature_of_facility","sanctionamount","loan_sanction_date","NPA_Date","interest_rate","account_status","security_value","document_custody","security_flag","current_allocation","current_allocation_date","team_leader","zone_name","branch_mail_id","branch_contact_details","total_collected_amount","balance_POS_amount","TOS","TOS_as_on_Date","next_action_date","current_principal_outstanding","payment_date","agent_username","city","disposition","sub_dispossitions","mode","transactionid_chequeno","cash","schedule","field_branch","datetime","callbacktime","remark","contacted_DateTime","created_by","caller_name","campaign","loanamt","lastdial","ots_amt","ots_tos","otspercentage","tlstat","tlstatdate","suggest","otsremark","emi","emidate1","amount1","emidate2","amount2","emidate3","amount3","emidate4","amount4","emiremark","fe_address","fe_area","fe_landmark","fe_pincode","fe_datetime","amount","modeofpay","additional_number","additional_emailid","additional_address")
             
             for row in rows:
                 row_num += 1
@@ -1440,6 +1456,7 @@ def dataexport(request):
 
         except Exception as e:
             print(e)
+
     
     return render(request,"dataexport.html",{"campname":campname})
 
@@ -1852,8 +1869,8 @@ def missedcallajax(request):
     missinfo =cur.fetchall()
     print(missinfo)
     # print("its",type(missinfo),len(missinfo))
-    today=datetime.now().date()
-    # today="2022-09-22"
+    # today=datetime.now().date()
+    today="2022-09-22"
     print(today)
     for i in missinfo:
         if MissedCall.objects.filter(callnum=i[1]).filter(missdt=i[2]).exists() == False:
