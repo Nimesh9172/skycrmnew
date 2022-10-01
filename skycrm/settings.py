@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'skycrm.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'skycrm',
+        'NAME': 'skycrm_skycrm',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
