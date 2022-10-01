@@ -1915,7 +1915,7 @@ Array.from(document.querySelectorAll('button[data-for]'))
               if (data.status == '300'){
                 $('.bts3').click()
                 $(".command").val(" ")
-                $(".command").append(msg)
+                $(".command").html(msg)
               }
               else if (data.status == '200'){
                 $('.open-modal2').click()
