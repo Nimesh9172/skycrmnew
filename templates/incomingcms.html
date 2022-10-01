@@ -14,114 +14,520 @@
   <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
   <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-  <style>
-    .form-control:disabled, .form-control[readonly] {
-    border: none;
-    background-color:#E8E8E8;
-    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+  style>
+  .form-control:disabled, .form-control[readonly] {
+  border: none;
+  background-color:#E8E8E8;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
 }
-    .btn-light {
-      background-color: #e8e8e8;
-    }
-    .btn {
-      font-size: 13px;
-    }
-    .bootstrap-select .dropdown-menu.inner {
+  .btn-light {
+    background-color: #e8e8e8;
+  }
+  .btn {
+    font-size: 13px;
+  }
+  .bootstrap-select .dropdown-menu.inner {
+    font-family: "Roboto";
+    font-size: 9px;
+  }
+  .dropdown-item {
+    font-weight: 600;
+  }
+  .dropdown-item:hover {
+    background-color: #197aa4;
+    color: white;
+  }
+  .dropdwon-menu .show {
+    left: 67px;
+  }
+  [type="radio"]:checked,
+  [type="radio"]:not(:checked) {
+    position: absolute;
+    left: -9999px;
+  }
+  [type="radio"]:checked + label,
+  [type="radio"]:not(:checked) + label {
+    position: relative;
+    padding-left: 17px;
+    cursor: pointer;
+    line-height: 20px;
+    display: inline-block;
+    color: #666;
+    font-size: 11px;
+  }
+  [type="radio"]:checked + label:before,
+  [type="radio"]:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #197aa4;
+    border-radius: 100%;
+    background: #fff;
+  }
+  [type="radio"]:checked + label:after,
+  [type="radio"]:not(:checked) + label:after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: #197aa4;
+    position: absolute;
+    top: 7px;
+    left: 2px;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+  }
+  [type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  [type="radio"]:checked + label:after {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+  .chequenable{
+      width: 178px;
+      height: 25px;
       font-family: "Roboto";
+      background: #F0F0F0;
+      padding: 0px 60px 0px 8px;
+      background: #F0F0F0;
       font-size: 9px;
-    }
-    .dropdown-item {
-      font-weight: 600;
-    }
-    .dropdown-item:hover {
-      background-color: #197aa4;
-      color: white;
-    }
-    .dropdwon-menu .show {
-      left: 67px;
-    }
-    [type="radio"]:checked,
-    [type="radio"]:not(:checked) {
-      position: absolute;
-      left: -9999px;
-    }
-    [type="radio"]:checked + label,
-    [type="radio"]:not(:checked) + label {
-      position: relative;
-      padding-left: 17px;
-      cursor: pointer;
-      line-height: 20px;
-      display: inline-block;
-      color: #666;
-      font-size: 11px;
-    }
-    [type="radio"]:checked + label:before,
-    [type="radio"]:not(:checked) + label:before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 5px;
-      width: 10px;
-      height: 10px;
-      border: 1px solid #197aa4;
-      border-radius: 100%;
-      background: #fff;
-    }
-    [type="radio"]:checked + label:after,
-    [type="radio"]:not(:checked) + label:after {
-      content: "";
-      width: 6px;
-      height: 6px;
-      background: #197aa4;
-      position: absolute;
-      top: 7px;
-      left: 2px;
-      border-radius: 100%;
-      -webkit-transition: all 0.2s ease;
-      transition: all 0.2s ease;
-    }
-    [type="radio"]:not(:checked) + label:after {
-      opacity: 0;
-      -webkit-transform: scale(0);
-      transform: scale(0);
-    }
-    [type="radio"]:checked + label:after {
-      opacity: 1;
-      -webkit-transform: scale(1);
-      transform: scale(1);
-    }
-    .chequenable{
-        width: 178px;
-        height: 25px;
-        font-family: "Roboto";
-        background: #F0F0F0;
-        padding: 0px 60px 0px 8px;
-        background: #F0F0F0;
-        font-size: 9px;
-        border: 1px solid #D2D2D2;
-        border-radius: 5px;
+      border: 1px solid #D2D2D2;
+      border-radius: 5px;
 
-    }
-    .emiseldiv{
-      width: 103px;
-      margin-right: 3px;
-    }
-    .error{
-      color:red;
-      font-size: 10px;
-    }
-      .form-control:disabled, .form-control[readonly] {
-    border: none;
-    background-color: #E8E8E8;
-    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
-    height: 22px;
-    font-size: 12px;
+  }
+  .emiseldiv{
+    width: 103px;
+    margin-right: 3px;
+  }
+  .error{
+    color:red;
+    font-size: 10px;
+  }
+  .blink_me {
+    height: 200px;
+  padding-top: 93px;
+  font-family: "Roboto";
+  font-size: 14px;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+.form-control:disabled, .form-control[readonly] {
+  border: none;
+  background-color: #E8E8E8;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+  height: 22px;
+  font-size: 12px;
 }
 .historyarrow{
-  margin-left: 15px !important;
-  cursor:pointer;
+margin-left: 15px !important;
+cursor:pointer;
 }
-  </style>
+
+.main-disposition-boxes > .select2-container--default .select2-selection--single {
+  background-color:#FFFF;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
+  border: none;
+}
+
+/* popup module  starts*/
+.modal-confirm {		
+color: #636363;
+width: 325px;
+font-size: 14px;
+}
+.modal-confirm .modal-content {
+padding: 20px;
+border-radius: 5px;
+border: none;
+}
+.modal-confirm .modal-header {
+border-bottom: none;   
+position: relative;
+}
+.modal-confirm h4 {
+text-align: center;
+font-size: 26px;
+margin: 30px 0 -15px;
+}
+.modal-confirm .form-control, .modal-confirm .btn {
+min-height: 40px;
+border-radius: 3px; 
+}
+.modal-confirm .close {
+position: absolute;
+top: -5px;
+right: -5px;
+}	
+.modal-confirm .modal-footer {
+border: none;
+text-align: center;
+border-radius: 5px;
+font-size: 13px;
+}	
+.modal-confirm .icon-box {
+color: #fff;		
+position: absolute;
+margin: 0 auto;
+left: 0;
+right: 0;
+top: -70px;
+width: 95px;
+height: 95px;
+border-radius: 50%;
+z-index: 9;
+background: #82ce34;
+padding: 15px;
+text-align: center;
+box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.modal-confirm .icon-box i {
+font-size: 58px;
+position: relative;
+top: 3px;
+}
+.modal-confirm.modal-dialog {
+margin-top: 80px;
+}
+.modal-confirm .btn {
+color: #fff;
+border-radius: 4px;
+background: #82ce34;
+text-decoration: none;
+transition: all 0.4s;
+line-height: normal;
+border: none;
+}
+.modal-confirm .btn:hover, .modal-confirm .btn:focus {
+background: #6fb32b;
+outline: none;
+}
+.trigger-btn {
+display: inline-block;
+margin: 100px auto;
+}
+
+#exampleModal2 .modal-dialog {
+width: 100%;
+height: 100%;
+margin: 0;
+padding: 0;
+}
+
+.modal-content {
+height: auto;
+min-height: 100%;
+border-radius: 0;
+}
+
+
+.modal-icon{
+background: #ffff;
+  color: #079D43; 
+  padding: 17px;
+  font-size: 25px;
+  border-radius: 44px;
+}
+.fill-bg{
+clip-path:circle(27px at 50% 9.8em);
+background:#079D43;
+}
+
+.fill-bg{
+animation-name: grow;
+animation-duration:1s;
+}
+
+
+@keyframes grow {
+0% { clip-path: circle(0%  at 50% 9.8em); }
+100% {clip-path: circle(100%  at 50% 9.8em); }
+}
+/* popup module ends*/
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400");
+*:before, *:after {
+box-sizing: inherit;
+-webkit-font-smoothing: antialiased;
+}
+h1 {
+margin-bottom: 20px;
+padding-bottom: 4px;
+border-bottom: 1px solid #ddd;
+font-size: 32px;
+font-weight: 100;
+color: #626262;
+}
+p {
+margin-bottom: 8px;
+}
+
+a {
+color: #2196f3;
+}
+.button {
+margin-bottom: 4px;
+padding: 8px 12px;
+border: 1px solid #75B9E1;
+border-radius: 3px;
+background: #4FA0D0;
+cursor: pointer;
+font-family: inherit;
+text-transform: uppercase;
+color: #fff;
+}
+.popup {
+visibility: hidden;
+transition: visibility 0ms linear 0.3s;
+}
+.popup--visible {
+visibility: visible;
+transition: visibility 0ms;
+}
+
+.popup__background {
+position: fixed;
+top: 0;
+left: 0;
+z-index: 10000;
+height: 100%;
+width: 100%;
+background: rgba(0, 0, 0, 0.4);
+opacity: 0;
+transition: opacity 0.3s ease-in-out;
+}
+.popup--visible .popup__background {
+opacity: 1;
+}
+.button--success {
+border: 1px solid #079D43;
+background: #079D43;
+}
+
+.button--error {
+border: 1px solid red;
+background: red;
+}
+.popup__content {
+position: fixed;
+top: 50%;
+left: 50%;
+z-index: 10001;
+min-width: 400px;
+padding: 25px 50px;
+background: #fff;
+border: 1px solid #ddd;
+border-radius: 3px;
+text-align: center;
+-webkit-animation: hide-popup 0.3s forwards;
+        animation: hide-popup 0.3s forwards;
+/**
+ * Popup types.
+ */
+}
+.popup--visible .popup__content {
+-webkit-animation: show-popup 0.3s forwards;
+        animation: show-popup 0.3s forwards;
+}
+.popup--icon .popup__content {
+padding-top: 130px;
+/**
+ * Animations on opened popups.
+ *
+ * We need to prepend ".popup--visible" with no space to "&" to match the
+ * an opened popup: ".popup--visible.popup--icon".
+ *
+ * Therefore we need the "at-root" function to break out of nesting as well as the
+ * "selector-append" function to append parent selectors without space.
+ *
+ * Details:
+ *  - https://css-tricks.com/the-sass-ampersand/
+ *  - http://sass-lang.com/documentation/Sass/Script/Functions.html#selector_append-instance_method
+ */
+/**
+ * Different popup icon styles
+ *
+ * E.g. selector for type question: ".popup--icon.-question" to match class="popup--icon -question"
+ *
+ * To have an easier selector in SCSS we use a little workaround and rearrange the selectors:
+ *  ".-question.popup--icon" is also matching class="popup--icon -question"
+ */
+}
+.popup--icon .popup__content:before, .popup--icon .popup__content:after {
+position: absolute;
+top: 25px;
+left: 50%;
+transform: translateX(-50%);
+display: block;
+height: 90px;
+width: 90px;
+}
+.popup--icon .popup__content:before {
+content: "";
+border: 3px solid currentColor;
+border-radius: 50%;
+transform: translateX(-50%) scale(1, 0);
+opacity: 0;
+color: #079D43;
+}
+.popup--icon .popup__content:after {
+content: "\f00c";
+line-height: 90px;
+font-size: 45px;
+font-family: "Font Awesome 5 Free";
+font-weight: 900;
+color: #079D43;
+transform: translateX(-50%) scale(0);
+opacity: 0;
+}
+.-error.popup--icon .popup__content:before {
+border-color: red;
+}
+.-error.popup--icon .popup__content:after {
+font-family: "Font Awesome 5 Free";
+content: "\f3dd";
+font-weight: 900;
+transform: translateX(-50%) scale(1, 0);
+color: red;
+}
+.-question.popup--icon .popup__content:before {
+border-color: red;
+}
+.-question.popup--icon .popup__content:after {
+content: "\f095";
+color: red;
+font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  transform: rotate(136deg);
+  font-size: 43px;
+}
+.popup--visible.popup--icon .popup__content:before {
+-webkit-animation: show-icon-cirlce 0.3s forwards 0.15s;
+        animation: show-icon-cirlce 0.3s forwards 0.15s;
+}
+.popup--visible.popup--icon .popup__content:after {
+-webkit-animation: show-icon 0.3s forwards 0.3s;
+        animation: show-icon 0.3s forwards 0.3s;
+}
+.popup__content__title {
+margin-bottom: 10px;
+font-size: 28px;
+font-weight: 100;
+color: #626262;
+}
+
+/**
+* Popup animations.
+* Based on Sweet Alert: "https://t4t5.github.io/sweetalert/"
+*/
+@-webkit-keyframes show-popup {
+0% {
+  transform: translate(-50%, -50%) scale(0.7);
+  opacity: 0;
+}
+45% {
+  transform: translate(-50%, -50%) scale(1.05);
+  opacity: 1;
+}
+80% {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+100% {
+  transform: translate(-50%, -50%) scale(1);
+}
+}
+@keyframes show-popup {
+0% {
+  transform: translate(-50%, -50%) scale(0.7);
+  opacity: 0;
+}
+45% {
+  transform: translate(-50%, -50%) scale(1.05);
+  opacity: 1;
+}
+80% {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+100% {
+  transform: translate(-50%, -50%) scale(1);
+}
+}
+@-webkit-keyframes hide-popup {
+0% {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+100% {
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
+}
+}
+@keyframes hide-popup {
+0% {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+100% {
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
+}
+}
+/**
+* Icon animations.
+*/
+@-webkit-keyframes show-icon {
+0% {
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+}
+100% {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+}
+@keyframes show-icon {
+0% {
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+}
+100% {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+}
+}
+@-webkit-keyframes show-icon-cirlce {
+0% {
+  transform: translateX(-50%) scale(1, 0);
+  opacity: 0;
+}
+100% {
+  transform: translateX(-50%) scale(1, 1);
+  opacity: 1;
+}
+}
+@keyframes show-icon-cirlce {
+0% {
+  transform: translateX(-50%) scale(1, 0);
+  opacity: 0;
+}
+100% {
+  transform: translateX(-50%) scale(1, 1);
+  opacity: 1;
+}
+}
+
+/* popup submit and error ends */
+</style>
 <div>
     <div class="row" style="margin-left: 31px">
     {% for i in info %}
@@ -786,7 +1192,7 @@
               font-weight: 500;">Add Details</span>
               <div class="select-details-div">
                   <select class="add-details" name="agenttag" id="selectBox">
-                      <option value="" style="display:none;">Select</option>
+                      <option value="select" >Select</option>
                       <option value="email">Email</option>
                       <option value="contactnum">Contact Number</option>
                       <option value="address">Address</option>
@@ -803,6 +1209,7 @@
                   type="email"
                   name="email"
                   placeholder="Enter Email-id"
+                  autocomplete="off"
                 />
                 <input
                   style="margin-left: 4%"
@@ -814,28 +1221,46 @@
 
               <div class="mb-2" id="contactbox" style="display: none">
                 <div class="d-flex align-items-center gap-2">
-                  <input class="contactsubdiv1" type="tel" id="contactnum"name="contactnum" placeholder="Contact no.">
+                  <input class="contactsubdiv1 allow-only-number" type="tel"  id="contactnum"name="contactnum" placeholder="Contact no.">
                   <div class="main-relation-div">
-                      <select class="relationsel" id="relation" name="relation">
-                          <option value="">Relation</option>
-                          <option value="">Own</option>
-                          <option value="">Father</option>
-                          <option value="">Mother</option>
-                          <option value="">Daughter</option>
-                          <option value="">Son</option>
-                          <option value="">Wife</option>
+                      <select class="relationsel" id="relation">
+                     
+                          <option value="Own">Own</option>
+                          <option value="Father">Father</option>
+                          <option value="Mother">Mother</option>
+                          <option value="Daughter">Daughter</option>
+                          <option value="Son">Son</option>
+                          <option value="Wife">Wife</option>
                       </select>
                   </div>
-                  <button class="addbtn add-contact" type="submit">Add <i class="bi bi-plus" style="font-size: 16px;"></i></button>
+                  <span class="addbtn testnumber">Add <i class="bi bi-plus" style="font-size: 16px;"></i></span>
+                  <button class="confirmcon" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;"></button>
+                </div>
+                
+              </div>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Mobile Confirmation</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Are you sure you want to match the <span class="mobconfirm"></span> with the LAN {{i.bank_loan_accountno}}? </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                      <button type="submit"  class="btn btn-primary add-contact" id="submitme" data-bs-dismiss="modal">Yes</button>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="Addis" id="Addressdiv" style="display: none">
                 <textarea name="address-txt" class="addressbar" cols="29" rows="4" placeholder="Address"></textarea>
                 <!-- <div class="moreaddress"> -->
-                <input class="dissub" style="padding-left: 2%;" id="state" type="text" name="state" placeholder="State">
-                <input class="dissub" style="padding-left: 2%;" id="city" type="text" name="city" placeholder="City">
-                <input class="dissub" style="padding-left: 2%;" id="landmark" type="text" name="landmark" placeholder="LandMark">
-                <input class="dissub" style="padding-left: 2%;" id="pincode" type="tel" name="pincode" placeholder="Pincode">
+                <input class="dissub" style="padding-left: 2%;" id="state" type="text" name="state" placeholder="State" autocomplete="off">
+                <input class="dissub" style="padding-left: 2%;" id="city" type="text" name="city" placeholder="City" autocomplete="off">
+                <input class="dissub" style="padding-left: 2%;" id="landmark" type="text" name="landmark" placeholder="Landmark" autocomplete="off">
+                <input class="dissub" style="padding-left: 2%;" id="pincode" type="tel" name="pincode" placeholder="Pincode" autocomplete="off">
                 <div class="d-flex justify-content-center my-2">
                     <button class="addbtn add-address" type="submit">Add <i class="bi bi-plus" style="font-size: 16px;"></i></button>
                 </div>
@@ -865,7 +1290,8 @@
               </div>
 
               <div class="paiddiv" style="display: none">
-               <span id="info">Enter Amount : </span><input type="tel" autocomplete="off" class="paidamtin" name="paidamt" onkeypress="return isNumber(event)" required>
+                   <span id="info">Enter Amount : </span><input type="tel" autocomplete="off" class="paidamtin" name="paidamt" onkeypress="return isNumber(event)" required>
+                  
                   <p style="margin-bottom:0px" class="radioval">
                     <input
                       type="radio"
@@ -904,7 +1330,7 @@
                   <input class="ptpdate"  type="date"
                     placeholder="Select Date Time" name="ptpdate"/>
 
-                  <input type="tel" class="otsamtint" placeholder="PTP Amount" name="ptpamt" autocomplete="off" required>
+                  <input type="tel" class="otsamtint" placeholder="PTP Amount" name="ptpamt" autocomplete="off" required onkeypress="return isNumber(event)">
                 </div>
               
                 
@@ -1051,14 +1477,7 @@
                 <!-- <span class="spanots">OTS</span> -->
                 
                 </div>
-              
-              <!-- <textarea name="otsremark" id="otsremark" class="rm"cols="30" rows="7"></textarea><i class="bi bi-mic-fill" style="float: right;"></i>
-                    
-                                                    
-                                        <input id="otsbtn" class="subbtn" type="submit"> -->
-              <!-- </form> -->
-
-              <!-- OTS request  settings ends -->
+             
               <!-- settelement  settings starts -->
               <div id="settle" style="display: none;justify-content: end;">
                 <!-- <form action="" method="post">
@@ -1068,10 +1487,10 @@
                     <option class="agentselect" value="">
                       Select EMI
                     </option>
-                    <option value="EMI1">EMI1</option>
-                    <option value="EMI2">EMI2</option>
-                    <option value="EMI3">EMI3</option>
-                    <option value="EMI4">EMI4</option>
+                    <option value="EMI1">EMI 1</option>
+                    <option value="EMI2">EMI 2</option>
+                    <option value="EMI3">EMI 3</option>
+                    <option value="EMI4">EMI 4</option>
                   </select>
                 </div>
               </div>
@@ -1083,35 +1502,35 @@
             
               <div class="emidiv" id="emid1" style="display: none;margin-top: 11px;">
                 <input type="date" placeholder="select" id="emical1" name="emidate1" class="emidate">
-                <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled>
+                <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)"  autocomplete="off">
               </div>
                 <div id="emid2"  style="display:none">
                 <input type="date" placeholder="select" id="emical2" name="emidate2" class="emidate" >
-                <input type="tel" name="emiamt2"  class="emidate"placeholder="Enter Amount" disabled>
+                <input type="tel" name="emiamt2"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
                 </div>
                 <div id="emid3"  style="display:none">
                 <input type="date" placeholder="select" id="emical3" name="emidate3"  class="emidate" >
-                <input type="tel" name="emiamt3"  class="emidate"placeholder="Enter Amount" disabled>
+                <input type="tel" name="emiamt3"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
                 </div>
                 <div id="emid4"  style="display:none">
                 <input type="date" id="emical4" placeholder="select" name="emidate4" class="emidate" >
-                <input type="tel" name="emiamt4"   class="emidate"placeholder="Enter Amount" disabled>
+                <input type="tel" name="emiamt4"   class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
               </div>
               
             <div class="sendFE" style="display: none;">
             <textarea name="saddress" class="addressin" id="remark" class="rm"cols="29" rows="7" placeholder="Complete Address" ></textarea>   
             
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area">
+            <input class="dissub" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area" autocomplete="off">
               
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark">
+            <input class="dissub" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark" autocomplete="off">
 
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="spincode" placeholder="Pincode"><br>
+            <input class="dissub" style="padding-left: 2%;"  type="text" name="spincode" placeholder="Pincode" autocomplete="off" onkeypress="return isNumber(event)"><br>
 
             <hr style="margin-right: 10px;"/>
 
             <div class="d-flex justify-content-around align-items-center">
                 <p class="m-0 sendfetext">Date & Time</p>
-                <input class="dissub" style="padding-left: 2%;"  type="date" name="sdate" placeholder="Date">
+                <input class="dissub" style="padding-left: 2%;"  type="datetime-local" name="sdate" placeholder="Date">
             </div>
 
             <div class="d-flex justify-content-around align-items-center mt-2">
@@ -1138,21 +1557,62 @@
                 ></i>
                 <textarea
                   name="remark"
+                  placeholder="Remark"
                   id="remark"
                   class="rm"
                   cols="29"
                   rows="7"
                   required
-                  style="position: relative"
+                  style="position: relative;resize:none"
                 ></textarea>
                 <span class="error" id="rem-error"></span>
               </div>
-              <input class="subbtn" type="submit" />
-            </form>
+              <input class="subbtn" type="button" value="Submit" />
+              <input type="hidden"  class="freeornot" value={{what}}>
+            
             <!-- send FE to Collect end-->
+             
+            <button class="button button--success bts2" type="button" data-for="js_success-popup" style="position: absolute;z-index:-11;opacity:0"></button> 
+              <!-- send FE to Collect end-->
+              <button class="button button--warning" type="button" data-for="js_question-popup" style="display:none">Show question popup</button>
+
           </div>
           </div>
+          <!-- popup call hangup starts -->
+
+<div class="popup popup--icon -question js_question-popup">
+  <div class="popup__background"></div>
+  <div class="popup__content">
+    <h3 class="popup__content__title">
+       Call Hang Up
+    </h3>
+   <button class="dismis-question" type="button" style="opacity:0;" data-for="js_question-popup"></button>
+   </div>
+</div>
+
+<!-- popup call hangup ends -->
+<!--modal  submit Data successfully starts -->
+<div class="popup popup--icon -success js_success-popup">
+  <div class="popup__background"></div>
+  <div class="popup__content">
+  
+    <h3 class="popup__content__title">
+     Done
+    </h1>
+    <p class="finalmsg">Data Submitted Succesfully</p>
+    <p>
+      <button class="button button--success" id="finalsubbtn" type="submit" data-for="js_success-popup">Submit</button>
+    </p>
+  </div>
+</form>
+</div>
+
+<!--modal  submit Data successfully ends -->
+
         </div>
+      </div>
+    </div>
+  </div>
       </div>
     </div>
   </div>
@@ -1166,8 +1626,35 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+  
+  <script>
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+</script>
+  
   <script type="text/javascript">
+
     $(document).ready(function () {
+
+      const addButtonTrigger = (el) => {
+                console.log("done")
+	el.addEventListener('click', () => {
+		const popupEl = document.querySelector(`.${el.dataset.for}`);
+		popupEl.classList.toggle('popup--visible');
+    console.log("its")
+	});
+};
+
+Array.from(document.querySelectorAll('button[data-for]'))
+           .forEach(addButtonTrigger); 
+
 
       //Pagination start
       var items = $(".main-data-wrapper .list-wrapper");
@@ -1322,29 +1809,80 @@
           })
         })
 
-         $(".subbtn").click(function(){
+  
+        $(".subbtn").click(function(){
+            if ($('#disform').valid()===true){
+            $('.bts2').click()
+            }
+          })
+         $("#finalsubbtn").click(function(){
           // console.log($('select[name=subdispositionvalue]').val())
-          if ($('#disform').valid()===true){
+         
             $.ajax({
             type:"post",
             url:'{% url "dispose" %}',
             data:{
-              // dialnum3:$('input[name=dialnum3]').val(),
-               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-               dispos:$('select[name=subdispositionvalue]').val(),
-               checks:$('input[name="checks[]"]:checked').val(),
-               schedule:$('input[name=scheduledate]').val(),
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+              checks:$('input[name="checks[]"]:checked').val(),
+              schedule:$('input[name=scheduledate]').val(),
+              dispos:$('select[name=subdispositionvalue]').val()
             },
             success: function(data){
               console.log("disposed")
               // alert(" Disposed")
-              window.close();
+              
+          wndow.close()
             }
           })
-          }
+          
         })
 
+        $('#submitme').click(function(e) {
+          e.preventDefault();
 
+$.ajax({
+  type: "POST",
+  url: "{% url 'additional'  %}",
+  data: {
+    email: $("#email").val(),
+    contactnum: $("#contactnum").val(),
+    relation:$("#relation").val(),
+    address: $(".addressbar").val(),
+    state: $("#state").val(),
+    city: $("#city").val(),
+    landmark: $("#landmark").val(),
+    pincode: $("#pincode").val(),
+    additional:$("input[name='additional_id']").val(),
+    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+  },
+  success: function () {
+    console.log("submit")
+    $("#email").val("");
+    $("#contactnum").val("");
+    $(".relationsel").val("own");
+    $("#address").val("");
+    $("#state").val("");
+    $("#ciy").val("");
+    
+    $("#landmark").val("");
+    $("#pincode").val("");
+    $(".addressbar").val("");
+    $("#contactbox").css({ "display": "none" });
+          
+          $("#Addressdiv").css({ "display": "none" });
+          $("#emaildiv").css({ "display": "none" });
+          $(".sendFE").css({ "display": "none" });
+          $('.add-details').empty()
+          $(".add-details").append(`<option value="select" >Select</option>
+                      <option value="email">Email</option>
+                      <option value="contactnum">Contact Number</option>
+                      <option value="address">Address</option>`)
+
+  
+  },
+ 
+});
+});
       $(document).on("submit", "#post-form", function (e) {
         e.preventDefault();
 
@@ -1363,14 +1901,27 @@
             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
           },
           success: function () {
+            console.log("submit")
             $("#email").val("");
             $("#contactnum").val("");
             $("#address").val("");
+            $("#relation").val("");
             $("#state").val("");
             $("#ciy").val("");
             $("#landmark").val("");
             $("#pincode").val("");
             $(".addressbar").val("");
+            $('.add-details').empty()
+          $(".add-details").append(`<option value="select" >Select</option>
+                      <option value="email">Email</option>
+                      <option value="contactnum">Contact Number</option>
+                      <option value="address">Address</option>`)
+            $("#contactbox").css({ "display": "none" });
+          
+          $("#Addressdiv").css({ "display": "none" });
+          $("#emaildiv").css({ "display": "none" });
+          $(".sendFE").css({ "display": "none" });
+           
           
           },
         });
@@ -1439,6 +1990,38 @@
         $(".sendFE").css({ display: "none" });
         $("#schedulecall").css({ display: "none" });
       });
+      $(".allow-only-number").keypress(function (e) {
+        console.log("start")
+        $(".allow-only-number").attr("min", "10");
+            var valueLength = this.value.length;
+            if (valueLength == 10) {
+                return false;
+            }
+            var kk = e.which;
+            if (kk < 48 || kk > 57)
+                e.preventDefault();
+    });
+    $(".testnumber").click(function(){
+      var conum=$("#contactnum").val()
+      if(conum.length < 10 ){
+        alert("Please Enter 10 Digit Number")
+      }
+      else{
+        $(".confirmcon").click()
+        $('.new-contacts').append(`<option>${$('input[name="contactnum"]').val()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${$('.relationsel').val()}</option>`)
+      }
+    })
+    $("#showcall").click(function(){
+      console.log("click")
+        $(".history").css({"display":"none"})
+        $(".callhistory").css({"display":"block"})
+     })
+     $("#back").click(function(){
+      console.log("click")
+        $(".history").css({"display":"block"})
+        $(".callhistory").css({"display":"none"})
+     })
+
 
 
       $(".add-address").click(function () {
