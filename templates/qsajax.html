@@ -1,0 +1,214 @@
+<script>
+  // console.log("asdf")
+    function infoSubmit(){
+      var data = new FormData();
+            data.append('agn',$('.agn').val())
+            data.append('campn',$('.campn').val())
+            data.append('dispo',$('.dispo').val())
+            data.append('fdate',$('.fd').val())
+            data.append('tdate',$('.td').val())
+            
+//  data =""
+$.ajax({
+    method: 'POST',
+    headers: {
+        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+    },
+    url: "{% url 'qsajax' %}",
+    data: data,
+    datatype:'json',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+      var len = data.info.length
+      var x = data.info
+      $('tbody').html('')
+      output = ""
+      for (var i=1;i<len;i++){
+
+        let dtFormat = new Intl.DateTimeFormat('en-US',{
+            month:'short',
+            day:'2-digit',
+            year:'numeric',
+            hour: 'numeric',
+            minute:'numeric',
+            second:'numeric',
+            hour12:false
+        })
+        console.log(x[i])
+
+                    let d = x[i][1]
+
+                    d = new Date(d);
+                    d = dtFormat.format(d)
+                        output +=  ( `
+                        <tr class="dashhover">
+                <input type="hidden" class="pno" value=${x[i][0]}>
+                <td class="agent">${x[i][4]}</td>
+                <td class="camp">${x[i][3]}</td>
+                <td class="dispo">${x[i][2]}</td>
+                <td class="contact">${d}</td>
+                <td style="display:none" class="recordid">${x[i][6]}</td>
+                
+                <td class="aud">
+                  <img src="/static/Images/pause.png" class="playnow"  height="20px" id="playBtn" alt="">
+                  <audio id="audio" class="track1"  src="${x[i][5]}" controls="1"></audio>
+                
+                </td>
+                <td>
+                  <a style="border-radius: 50%;height: 23px;width: 23px;background: #04E00D;margin-left: 29px;padding-top: 3px;display: block;"   download class="hideme" target="_blank">
+                  <i class="fa-solid fa-arrow-down" style="color: white;"></i></a>
+                  <div class="loader" style="display: none;"></div></td>
+                </td>
+              
+              
+                <td><a href="/score/${x[i][6]}" class="downloadbtn viewbtn" >View</a></td>
+              </tr>
+              `)
+            }
+            $('tbody').html(output)
+            $('.nw').each(function(){
+              console.log($(this).html())
+              $(this).html('nimesh')
+            })
+            $('.track1').each(function(){
+              var a = $(this).attr('src')
+              console.log(a)
+              var b = a.replace('http://192.168.1.46','http://192.168.1.46:1001')
+              $(this).attr('src',b)
+
+              console.log($(this).children().attr('src'))
+              console.log(b)
+              $(".hideme").attr("href",b)
+            })
+      }
+})
+}
+
+$(document).on('click','.viewbtn',function(){
+  var pno =  $(this).parent().parent().find(".pno").val()
+  var agn = $(this).parent().parent().find(".agent").html()
+  var camp = $(this).parent().parent().find(".camp").html()
+  var dispo = $(this).parent().parent().find(".dispo").html()
+  var con = $(this).parent().parent().find(".contact").html()
+  var rec = $(this).parent().parent().find(".recordid").html()
+  var aud =$(this).parent().parent().find(".aud").children().next().attr("src")
+  var fdata=new FormData()
+  fdata.append('agn',agn)
+  fdata.append('camp',camp)
+  fdata.append('dispo',dispo)
+  fdata.append('con',con)
+  fdata.append('aud',aud)
+  fdata.append("rec",rec)
+  fdata.append("pno",pno)
+  $.ajax({
+    method: 'POST',
+    headers: {
+        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+    },
+    url: "{% url 'scoredata' %}",
+    data: fdata,
+    datatype:'json',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+    }
+  })
+})
+
+
+
+ $('.campn').change(function(){
+            infoSubmit()
+            console.log($('.campn').val())
+            console.log("afrge")
+        })
+
+        $('.agn').change(function(){
+            infoSubmit()
+        })
+  
+
+        $('.dispo').change(function(){
+            infoSubmit()
+        })
+        $('.td').change(function(){
+            infoSubmit()
+            console.log("from",$(".fd").val())
+            console.log("to",$(".td").val())
+        })
+
+$.ajax({
+    method: 'GET',
+    headers: {
+        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+    },
+    url: "{% url 'qsajax' %}",
+    data: data,
+    datatype:'json',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+      var len = data.info.length
+      var x = data.info
+      $('tbody').html('')
+      output = ""
+      for (var i=1;i<len;i++){let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        month:'short',
+                                        day:'2-digit',
+                                        year:'numeric',
+                                        hour: 'numeric',
+                                        minute:'numeric',
+                                        second:'numeric',
+                                        hour12:false
+                                    })
+
+                    let d = x[i][0]
+
+                    d = new Date(d);
+                    d = dtFormat.format(d)
+                        output +=  ( `
+                          <tr class="dashhover">
+                            <td>${x[i][3]}</td>
+                            <td>${x[i][2]}</td>
+                            <td>${x[i][1]}</td>
+                            <td >${d}</td>
+                    
+                            <td class="aud">
+                              <img src="/static/Images/pause.png" class="playnow" height="20px" id="playBtn" alt="">
+                              <audio id="track1"   src="${x[i][4]}" controls="1"></audio>
+                            </td>
+                            <td>
+                              <a style="border-radius: 50%;height: 23px;width: 23px;background: #04E00D;margin-left: 29px;padding-top: 3px;display: block;"   download class="hideme" target="_blank">
+                              <i class="fa-solid fa-arrow-down" style="color: white;"></i></a>
+                              <div class="loader" style="display: none;"></div></td>
+                            </td>
+                        
+                        
+                          <td><a class="downloadbtn" href="/score/${x[i][3]}">View</a></td>
+                        </tr>`)
+            }
+            $('tbody').html(output)
+            $('.nw').each(function(){
+              console.log($(this).html())
+              $(this).html('nimesh')
+            })
+          
+            $('.aud').each(function(){
+              console.log($(".aud").text())
+              var a = $(this).children().attr('src')
+              console.log(a)
+              var b = a.replace('http://192.168.1.46','http://192.168.1.46:1001')
+              $(this).children().attr('src',b)
+
+              console.log($(this).children().attr('src'))
+              console.log(b)
+              $(".hideme").attr("href",b)
+            })
+      }
+      
+})
+      
+
+      
+</script>

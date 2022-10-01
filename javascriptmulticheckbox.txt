@@ -1,0 +1,32 @@
+function getvalues()
+    {
+    var selected=new Array();
+    var chbox=document.getElementById("tabl");
+    var selchk=chbox.getElementByTagName("input");
+     for(var i=;i<selchk.length;i++);
+      {
+       if(selchk[i].checked)
+       {
+          selected.push(selchk[i].value)
+        }
+      
+       }
+      if(selected.length>0)
+      {
+      document.getElementById("displayvalues").innerHTMML=selected;
+ }
+};
+
+
+
+
+
+{% for resultdisplay in colornames%}
+<input type="checkbox" value="resultdisplay.colorname"/>{{resultdisplay.colorname}}
+{% endfor %}
+
+
+<input id="but1" type="button" values="Display Records" onclick="getvalues()"/>
+<b id="displayvalues"></b>
+
+

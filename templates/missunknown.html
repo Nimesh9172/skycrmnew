@@ -1,0 +1,882 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} {% include "style.html" %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- CDN link used below is compatible with this example -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"
+  />
+  <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+  
+  
+  <style>
+    .form-control:disabled, .form-control[readonly] {
+    border: none;
+    background-color:#E8E8E8;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+}
+    .btn-light {
+      background-color: #e8e8e8;
+    }
+    .btn {
+      font-size: 13px;
+    }
+    .bootstrap-select .dropdown-menu.inner {
+      font-family: "Roboto";
+      font-size: 9px;
+    }
+    .dropdown-item {
+      font-weight: 600;
+    }
+    .dropdown-item:hover {
+      background-color: #197aa4;
+      color: white;
+    }
+    .dropdwon-menu .show {
+      left: 67px;
+    }
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+      position: absolute;
+      left: -9999px;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label {
+      position: relative;
+      padding-left: 17px;
+      cursor: pointer;
+      line-height: 20px;
+      display: inline-block;
+      color: #666;
+      font-size: 11px;
+    }
+    [type="radio"]:checked + label:before,
+    [type="radio"]:not(:checked) + label:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #197aa4;
+      border-radius: 100%;
+      background: #fff;
+    }
+    [type="radio"]:checked + label:after,
+    [type="radio"]:not(:checked) + label:after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #197aa4;
+      position: absolute;
+      top: 7px;
+      left: 2px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+    [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    [type="radio"]:checked + label:after {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    .chequenable{
+        width: 178px;
+        height: 25px;
+        font-family: "Roboto";
+        background: #F0F0F0;
+        padding: 0px 60px 0px 8px;
+        background: #F0F0F0;
+        font-size: 9px;
+        border: 1px solid #D2D2D2;
+        border-radius: 5px;
+
+    }
+    .emiseldiv{
+      width: 103px;
+      margin-right: 3px;
+    }
+    .error{
+      color:red;
+      font-size: 10px;
+    }
+      .form-control:disabled, .form-control[readonly] {
+    border: none;
+    background-color:#F6F5FA;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    height: 22px;
+    font-size: 12px;
+}
+.historyarrow{
+  margin-left: 15px !important;
+  cursor:pointer;
+}
+.select2-container {
+  width: 100% !important;
+}
+.main-disposition-box > .select2-container {
+    width: 100% !important;
+}
+.unknowndiv{
+  margin-top: 2em;
+  background: #F6F5FA;
+  border-radius: 10px;
+  padding: 1em 0;
+}
+.Agent{
+
+    padding-top: 1px;
+    padding-left: 45px;
+    padding-right: 45px;
+    border-radius: 10px;
+    height: 91%;
+    width: min(100% - 2em,500px);
+    margin: auto;
+}
+
+.misscall{
+  display: grid;
+    font-size: 12px;
+}
+.parent{
+  margin-left: 100px;
+    width: min(100% - 7em);
+    height: 90vh;
+}
+.minput{
+    background: #F6F5FA;
+    font-size: 10px;
+    font-family: "Roboto";
+    width: min(45%, 200px);
+    border-radius: 4px;
+    border: 1px solid #aaaa;
+    padding: 7px 12px;
+}
+.select2-container--default .select2-selection--single {
+
+    background: #F6F5FA;
+}
+.inputdiv{
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    gap: 3em;
+}
+.minin{
+  width: 50%;
+}
+.rm{
+  height: 89px;
+}
+.remark{
+  margin: 0px;
+  width: 100%;
+}
+.icondiv{
+      padding-left: 0px;
+    height: 0px;
+    padding-top: 0px;
+    display: flex;
+    margin-top: 0%;
+    margin-top: 21px;
+   justify-content: center;
+    gap: 1em;
+    font-size: 10px;
+
+}
+.hangme{
+  width: 30%;
+    height: 36px;
+    color: white;
+    background: red;
+    border-radius: 10px;
+    border: white;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 1em;
+}
+.subbtn{
+  width: 30%;
+  background: #047BD5;
+}
+
+/* popup module  starts*/
+.modal-confirm {		
+	color: #636363;
+	width: 325px;
+	font-size: 14px;
+}
+.modal-confirm .modal-content {
+	padding: 20px;
+	border-radius: 5px;
+	border: none;
+}
+.modal-confirm .modal-header {
+	border-bottom: none;   
+	position: relative;
+}
+.modal-confirm h4 {
+	text-align: center;
+	font-size: 26px;
+	margin: 30px 0 -15px;
+}
+.modal-confirm .form-control, .modal-confirm .btn {
+	min-height: 40px;
+	border-radius: 3px; 
+}
+.modal-confirm .close {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+}	
+.modal-confirm .modal-footer {
+	border: none;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 13px;
+}	
+.modal-confirm .icon-box {
+	color: #fff;		
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	top: -70px;
+	width: 95px;
+	height: 95px;
+	border-radius: 50%;
+	z-index: 9;
+	background: #82ce34;
+	padding: 15px;
+	text-align: center;
+	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+.modal-confirm .icon-box i {
+	font-size: 58px;
+	position: relative;
+	top: 3px;
+}
+.modal-confirm.modal-dialog {
+	margin-top: 80px;
+}
+.modal-confirm .btn {
+	color: #fff;
+	border-radius: 4px;
+	background: #82ce34;
+	text-decoration: none;
+	transition: all 0.4s;
+	line-height: normal;
+	border: none;
+}
+.modal-confirm .btn:hover, .modal-confirm .btn:focus {
+	background: #6fb32b;
+	outline: none;
+}
+.trigger-btn {
+	display: inline-block;
+	margin: 100px auto;
+}
+
+#exampleModal2 .modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+
+
+.modal-icon{
+  background: #ffff;
+    color: #079D43; 
+    padding: 17px;
+    font-size: 25px;
+    border-radius: 44px;
+}
+.fill-bg{
+  clip-path:circle(27px at 50% 9.8em);
+  background:#079D43;
+}
+
+.fill-bg{
+  animation-name: grow;
+  animation-duration:1s;
+}
+
+
+@keyframes grow {
+  0% { clip-path: circle(0%  at 50% 9.8em); }
+  100% {clip-path: circle(100%  at 50% 9.8em); }
+}
+/* popup module ends*/
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400");
+*:before, *:after {
+  box-sizing: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+h1 {
+  margin-bottom: 20px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #ddd;
+  font-size: 32px;
+  font-weight: 100;
+  color: #626262;
+}
+p {
+  margin-bottom: 8px;
+}
+
+a {
+  color: #2196f3;
+}
+.button {
+  margin-bottom: 4px;
+  padding: 8px 12px;
+  border: 1px solid #75B9E1;
+  border-radius: 3px;
+  background: #4FA0D0;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: #fff;
+}
+.popup {
+  visibility: hidden;
+  transition: visibility 0ms linear 0.3s;
+}
+.popup--visible {
+  visibility: visible;
+  transition: visibility 0ms;
+}
+
+.popup__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.popup--visible .popup__background {
+  opacity: 1;
+}
+.button--success {
+  border: 1px solid #079D43;
+  background: #079D43;
+}
+
+.button--error {
+  border: 1px solid red;
+  background: red;
+}
+.popup__content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10001;
+  min-width: 400px;
+  padding: 25px 50px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-align: center;
+  -webkit-animation: hide-popup 0.3s forwards;
+          animation: hide-popup 0.3s forwards;
+  /**
+   * Popup types.
+   */
+}
+.popup--visible .popup__content {
+  -webkit-animation: show-popup 0.3s forwards;
+          animation: show-popup 0.3s forwards;
+}
+.popup--icon .popup__content {
+  padding-top: 130px;
+  /**
+   * Animations on opened popups.
+   *
+   * We need to prepend ".popup--visible" with no space to "&" to match the
+   * an opened popup: ".popup--visible.popup--icon".
+   *
+   * Therefore we need the "at-root" function to break out of nesting as well as the
+   * "selector-append" function to append parent selectors without space.
+   *
+   * Details:
+   *  - https://css-tricks.com/the-sass-ampersand/
+   *  - http://sass-lang.com/documentation/Sass/Script/Functions.html#selector_append-instance_method
+   */
+  /**
+   * Different popup icon styles
+   *
+   * E.g. selector for type question: ".popup--icon.-question" to match class="popup--icon -question"
+   *
+   * To have an easier selector in SCSS we use a little workaround and rearrange the selectors:
+   *  ".-question.popup--icon" is also matching class="popup--icon -question"
+   */
+}
+.popup--icon .popup__content:before, .popup--icon .popup__content:after {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  height: 90px;
+  width: 90px;
+}
+.popup--icon .popup__content:before {
+  content: "";
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  transform: translateX(-50%) scale(1, 0);
+  opacity: 0;
+  color: #079D43;
+}
+.popup--icon .popup__content:after {
+  content: "\f00c";
+  line-height: 90px;
+  font-size: 45px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #079D43;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+}
+.-error.popup--icon .popup__content:before {
+  border-color: red;
+}
+.-error.popup--icon .popup__content:after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f3dd";
+  font-weight: 900;
+  transform: translateX(-50%) scale(1, 0);
+  color: red;
+}
+.-question.popup--icon .popup__content:before {
+  border-color: red;
+}
+.-question.popup--icon .popup__content:after {
+  content: "\f095";
+  color: red;
+  font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    transform: rotate(136deg);
+    font-size: 43px;
+}
+.popup--visible.popup--icon .popup__content:before {
+  -webkit-animation: show-icon-cirlce 0.3s forwards 0.15s;
+          animation: show-icon-cirlce 0.3s forwards 0.15s;
+}
+.popup--visible.popup--icon .popup__content:after {
+  -webkit-animation: show-icon 0.3s forwards 0.3s;
+          animation: show-icon 0.3s forwards 0.3s;
+}
+.popup__content__title {
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 100;
+  color: #626262;
+}
+
+/**
+ * Popup animations.
+ * Based on Sweet Alert: "https://t4t5.github.io/sweetalert/"
+ */
+@-webkit-keyframes show-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes show-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@-webkit-keyframes hide-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+}
+@keyframes hide-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+}
+/**
+ * Icon animations.
+ */
+@-webkit-keyframes show-icon {
+  0% {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes show-icon {
+  0% {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes show-icon-cirlce {
+  0% {
+    transform: translateX(-50%) scale(1, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1, 1);
+    opacity: 1;
+  }
+}
+@keyframes show-icon-cirlce {
+  0% {
+    transform: translateX(-50%) scale(1, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1, 1);
+    opacity: 1;
+  }
+}
+
+/* popup submit and error ends */
+  </style>
+
+<div class="parent" >
+    <div class="Agent" style="">
+      
+    <div class="unknowndiv" >
+      <div style="width: min(100% - 2em,291px);margin: auto;display: flex;gap: 2em;flex-wrap: wrap;">
+        <img src="/static/Images/un.svg" height="46px" width="46px" alt="" >
+        <div style="display: flex;align-items: center;gap: 1em;">
+          <img src="{% static 'Images/Icon.png'%}"  height="20px" width="20px" alt="">
+          <div class="misscall">Calling..... <span class="thisnum">{{ph}}</span></div>
+        </div>
+      </div>
+    </div>
+      
+    
+      <form action="" method="POST" id="disform">
+        {% csrf_token %}
+        <input type="hidden"  name='dialnum3'  value="">
+        <div class="inputdiv">
+          <input type="text" placeholder="Enter Name" name="name" class="minput">
+          <input type="text" placeholder="Enter Loan Account Number" name="lan" class="minput">
+     
+        </div>
+        <div class="d-flex" style="gap:3em" >
+          <div class="main-disposition-box" style="width: min(45%, 203px);">
+            <select class="dispositionsel" name="dispositionvalue" id="disposition" required>
+                <option value="">Disposition</option>
+                <option value="contacted">Contacted</option>
+            </select><br>
+            <span class="error" id="disposerror"></span>
+        </div>
+        
+        <div class="sub-disposition-box" style="width: min(45%, 203px) !important" >
+            <select class="subdispositionsel"  name="subdispositionvalue" placeholder="Subdisposition" id="sub_disposition" required>
+                <option value="">Subdisposition</option>
+                <option value="Fake Number">Fake Number</option>
+                <option value="Wrong Contact">Wrong Contact Number</option>
+                <option value="Exsisting Customer">Existing Customer</option>
+            </select>
+            <span class="error" id="subdisposerror"></span>
+
+          </div>
+        </div>
+
+       
+        <div class="remark" style="position: relative;margin-top: 20px">
+          <i class="bi bi-mic-fill" style="position: absolute;z-index: 1;right: 10px;margin-top: 10px;"></i>
+          <textarea name="remark" id="remark" class="rm" placeholder="Remark" cols="29"
+            rows="7"required style="position: relative"></textarea>
+          <span class="error" id="rem-error"></span>
+        </div>
+     
+        <div class="icondiv">
+          
+             <div class="hangme">
+              <button class="button button--error bts3" data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button> 
+             <i class="fa-solid fa-phone" style="transform: rotate(136deg);" style="font-size: 22px;"></i>
+              Hang up
+             </div>
+               
+      
+             <input class="subbtn" type="button" value="submit" style="margin-top:0px !important;margin-left: 0px!important;" />
+          </div>
+       
+        
+      </form>
+    </div>
+   <!-- popup call not connected error starts -->
+<div class="popup popup--icon -error js_error-popup">
+  <div class="popup__background"></div>
+  <div class="popup__content">
+    <h3 class="popup__content__title">
+   
+      call Not Connected
+    </h1>
+    <p>Please login in dailer</p>
+    <i class="fa-solid fa-phone-xmark"></i>
+    <p>
+      <button class="button button--error" data-for="js_error-popup">OK</button>
+    </p>
+  </div>
+</div>
+<!-- popup call not connected error ends -->
+<!-- modal call Successfully connected starts -->
+<button type="button" class="btn btn-primary open-modal2" data-bs-toggle="modal" data-bs-target="#exampleModal2" style="display: none;">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog  modal-xl m-0" style="width: 100vw;max-width:100%">
+    <div class="modal-content" >
+      <div class="text-center fill-bg"style="height: 100vh;padding-top:8em">
+        <div><i class="fa-solid fa-phone modal-icon" ></i></div>
+        <div class="mt-3" style="color:white;font-size: 24px;">Call Placed Successfully</div>
+        
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-secondary modal-cl2" style="opacity: 0; position:absolute;" data-bs-dismiss="modal">Close</button>
+</div>  
+<!-- modal call Successfully connected ends -->
+
+<!-- modal something went wrong starts -->
+
+<!-- modal something went wrong ends -->
+
+      
+  </div>
+   
+
+<script src="{% static 'vendor/js/select2.min.js' %}"></script>
+<script src="{% static 'js/select2custom.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+<script type="text/javascript">
+
+  function formsub(){
+    var ph=$(".thisnum").html()
+    console.log("came",ph)
+    $.ajax({
+            type:"POST",
+            url:`/unknown/${ph}`,
+            data:{
+              name:$("input[name=name]").val(),
+              lan:$("input[name=lan]").val(),
+              dispo:$('select[name=dispositionvalue]').val(),
+              sub_dispo:$('select[name=subdispositionvalue]').val(),
+              rem:$("textarea[name=remark]").val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+              },
+            success: function(data){
+              var status= data.status
+              if(status=200){
+                window.location.href="/missedcall"
+              }
+          
+             
+            }
+          })
+
+  }
+  $(document).ready(function () {
+
+    const addButtonTrigger = (el) => {
+                console.log("done")
+	el.addEventListener('click', () => {
+		const popupEl = document.querySelector(`.${el.dataset.for}`);
+		popupEl.classList.toggle('popup--visible');
+    console.log("its")
+	});
+};
+
+Array.from(document.querySelectorAll('button[data-for]'))
+           .forEach(addButtonTrigger); 
+
+
+    $.ajax({
+            type:"post",
+            url:'{% url "call" %}',
+            data:{
+            dialnum3:$(".thisnum").html(),
+            
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function(data){
+              console.log("done")
+              console.log(data.status)
+              if (data.status == '300'){
+                $('.bts3').click()
+               
+              }
+              else if (data.status == '200'){
+                $('.open-modal2').click()
+
+                    console.log("Asdd")
+                    $('.modal-cl2').click()
+            
+                  setTimeout( function() { 
+                    
+                    console.log("Asdd")
+                    $('.modal-cl2').click()
+                  }, 1000);
+                }
+            }
+          })
+   
+   
+    $('#disform').validate({ // initialize the plugin
+      rules: {
+        dispositionvalue : {
+              required: true,
+          },
+          subdispositionvalue: {
+              required: true,
+          },
+          remark:{
+            required:true
+          }
+      },errorPlacement: function(error,element){
+        if (element.attr("name")=='dispositionvalue'){
+          error.appendTo('#disposerror')
+        }if (element.attr("name")=='subdispositionvalue'){
+          error.appendTo('#subdisposerror')
+        }
+        if (element.attr("name")=='remark'){
+          error.appendTo('#rem-error')
+        }
+      }   
+   });   
+
+ 
+
+  
+  },
+  
+
+  $('select[name=dispositionvalue]').change(function(){
+    if ($("select[name=dispositionvalue]").val()!= ""){
+      $("#disposerror").css({'display':'none'})
+    }else{
+      $("#disposerror").css({'display':'block'})
+    }
+   }),
+   $('select[name=subdispositionvalue]').change(function(){
+    if ($("select[name=subdispositionvalue]").val()!= ""){
+      $("#subdisposerror").css({'display':'none'})
+    }else{
+      $("#subdisposerror").css({'display':'block'})
+    }
+   }),
+   $(".hangme").click(function(){
+          console.log('click')
+          $.ajax({
+            type:"post",
+            url:'{% url "disconnect" %}',
+            data:{
+              // dialnum3:$('input[name=dialnum3]').val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function(data){
+              console.log("oo ho")
+              // alert("Call Disconnected!!")
+              $(".callmsg").css({"display":"none"})
+              $("#callname").css({"display":"block"})
+            }
+          })
+        }),
+
+   $(".subbtn").click(function(){
+          // console.log($('select[name=subdispositionvalue]').val())
+          if ($('#disform').valid()===true){
+            $.ajax({
+            type:"post",
+            url:'{% url "dispose" %}',
+            data:{
+              // dialnum3:$('input[name=dialnum3]').val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+               dispos:$('select[name=subdispositionvalue]').val()
+            },
+            success: function(data){
+              console.log("disposed")
+              // alert(" Disposed")
+              formsub()
+
+             
+            }
+          })
+          }
+        })
+  )
+
+</script>
+
+{% endblock content %}

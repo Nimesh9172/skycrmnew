@@ -1,0 +1,203 @@
+<script>
+    function infoSubmit(btnval){
+        var data = new FormData();
+            data.append('fdate',$('.fromdate').val())
+            data.append('tdate',$('.otodate').val())
+            data.append('selval',$('.selectotss').val())
+            data.append('sortval',$('.sortbysel').val())
+            
+
+            sessionStorage.setItem("selval",$('.selectotss').val())
+            sessionStorage.setItem("sortval",$('.sortbysel').val())
+            $.ajax({
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'filterots' %}",
+                data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    let x = data.all_data
+                    // console.log(x)
+                    $('.otsdetails').empty()
+                    output = ""
+                    if (x != undefined){
+                    for (var i in x){
+                    // console.log('${x[i].tlstat}')
+                    
+                        output +=  (` 
+                        <a href="/cms/${x[i].info_id}" style="text-decoration:none;" class="otsinside row" >
+                            <div class="col-md-6">
+                                    <table>
+                                        <tr class="otr">
+                                            <td  class="heading" style="width: 9%; padding-right: 0%; height: 1px;">Borrower Name</td>
+                                            <td class="heading" style="width: 2%;">:</td>
+                                            <td  style="width: 20%;color:#047BD5;" class="otsloanidamt">${x[i].borrower_name} </td>
+                                        </tr>
+                                        <tr class="otr">
+                                            <td class="heading" style="height: 1px;">Loan ID</td>
+                                            <td class="otsheading">:</td>
+                                            <td class="otsloanidamt" style="color:#047BD5;">${x[i].loan_id}</td>
+                                        </tr>
+                                        <tr class="otr">
+                                            <td class="heading" style="height: 1px;">OTS Amount</td>
+                                            <td class="otsheading">:</td>
+                                            <td class="otsloanidamt" style="color:#047BD5;">${x[i].ots_amt}</td>
+                                        </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table>
+                                            <tr class="otr">
+                                                <td class="otsheading" style="width: 40%;">TL Status</td>
+                                                <td class="otsheading">:</td>
+                                                <td class="otsloanidamt tlstat" >${x[i].tlstat}</td>
+                                            </tr>
+                                            <tr class="otr">
+                                                <td class="otsheading">TL Status Date</td>
+                                                <td class="heading">:</td>
+                                                <td class="otsloanidamt" style="color:#047BD5;">${x[i].tlstatdate}</td>
+                                            </tr>
+                                            <tr class="otr">
+                                                <td class="otsheading">Suggested OTS Amount</td>
+                                                <td class="heading">:</td>
+                                                <td class="otsloanidamt" style="color:#047BD5;">${x[i].suggest}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <table>
+                                            <tr class="otr">
+                                                <td class="heading" style="display: flex; padding-top:15px">Remarks:</td>
+                                                
+                                                <td><div class="otsloanidamt" style="height: 82px;overflow-y: auto;margin-left: 8px;color: #047BD5; font-size: 12px;">${x[i].remark}</div></td>
+                                            </tr>
+                                        </table>
+                                    </div>  
+                                </a>
+                             `)
+
+                    }
+                    
+
+                 }
+                $('.otsdetails').html(output)
+                $('.tlstat').each(function(){
+                if($(this).html()=="Accepted"){
+                    $(this).css({'color':"#04E00D"})
+                }else if($(this).html()=="Declined"){
+                    
+                    $(this).css({'color':"Red"})
+                }
+                    // console.log($(this).html())
+                    
+            })
+                }
+                })
+                }
+
+
+        //         $.ajax({
+        //     type: 'GET',
+        //     url: "{% url 'filterots' %}",
+        //     // data: mydata,
+        //     success: function (data) {
+        //         let x = data.all_data
+        //         output = ""
+
+        //         if (x != undefined){
+        //            for (var i in x){
+        //             var stat=`${x[i].tlstat}`
+                   
+                    
+        //             output +=    (` 
+        //                  <a href="/cms/${x[i].info_id}" style="text-decoration:none;" class="otsinside row" >
+        //                     <div class="col-md-6">
+        //                             <table>
+        //                                 <tr class="otr" >
+        //                                     <td  class="heading" style="width: 9%; padding-right: 0%; height: 1px;">Borrower Name</td>
+        //                                     <td class="heading" style="width: 2%;">:</td>
+        //                                     <td  style="width: 20%;color:#047BD5;" class="otsloanidamt">${x[i].borrower_name} </td>
+        //                                 </tr>
+        //                                 <tr class="otr" >
+        //                                     <td class="heading" style="height: 1px;">Loan ID</td>
+        //                                     <td class="otsheading">:</td>
+        //                                     <td class="otsloanidamt"  style="color:#047BD5;">${x[i].loan_id}</td>
+        //                                 </tr>
+        //                                 <tr class="otr" >
+        //                                     <td class="heading" style="height: 1px;">OTS Amount</td>
+        //                                     <td class="otsheading">:</td>
+        //                                     <td class="otsloanidamt"   style="color:#047BD5;">${x[i].ots_amt}</td>
+        //                                 </tr>
+        //                                 </table>
+                          
+        //                             </div>
+        //                             <div class="col-md-6">
+        //                                 <table>
+        //                                     <tr class="otr">
+        //                                         <td class="otsheading" style="width: 40%;">TL Status</td>
+        //                                         <td class="otsheading">:</td>
+        //                                         <td class="otsloanidamt tlstat " {% if i.tlstat == "Accepted" %}style="color:purple"{% endif %}>${x[i].tlstat}</td>
+        //                                     </tr>
+        //                                     <tr class="otr" >
+        //                                         <td class="otsheading">TL Status Date</td>
+        //                                         <td class="heading">:</td>
+        //                                         <td class="otsloanidamt" style="color:#047BD5;">${x[i].tlstatdate}</td>
+        //                                     </tr>
+        //                                     <tr class="otr" >
+        //                                         <td class="otsheading">Suggested OTS Amount</td>
+        //                                         <td class="heading">:</td>
+        //                                         <td class="otsloanidamt"   style="color:#047BD5;">${x[i].suggest}</td>
+        //                                     </tr>
+        //                                 </table>
+        //                             </div>
+        //                             <div class="col-md-6">
+        //                                 <table>
+        //                                     <tr class="otr" >
+        //                                         <td class="heading" style="display: flex; padding-top:15px">Remarks:</td>
+                                                
+        //                                         <td><div class="otsloanidamt" style="height: 82px;overflow-y: auto;margin-left: 8px;color: #047BD5; font-size: 12px;">${x[i].remark}</div></td>
+        //                                     </tr>
+        //                                 </table>
+        //                             </div>  
+        //                 </a>
+        //                       `)
+                              
+        //     }
+            
+        // }
+        // $('.otsdetails').html(output)
+        // $('.tlstat').each(function(){
+        //         if($(this).html()=="Accepted"){
+        //             $(this).css({'color':"#04E00D"})
+        //         }else if($(this).html()=="Declined"){
+                    
+        //             $(this).css({'color':"Red"})
+        //         }
+        //             // console.log($(this).html())
+                    
+        //     })
+        //     }
+        // })
+
+        $(document).ready(function(){
+            infoSubmit()
+        })
+        $('.selectotss').change(function(){
+            infoSubmit()
+        })
+
+        $('.otodate').change(function(){
+            infoSubmit()
+         })
+
+         $('.sortbysel').change(function(){
+            infoSubmit()
+        })
+       
+             
+    
+</script>

@@ -1,0 +1,187 @@
+<script>
+    $(document).ready(function(){
+    function dataSubmit(btnval) {
+        var data = new FormData();
+
+            rem = []
+            
+            $("input[name=remcb]:checkbox:checked").each(function() {
+                rem.push($(this).val());
+            })
+            data.append('tdate',$('.rtodate').val())
+            data.append('fdate',$('.rfdate').val())
+            data.append('sortval',rem)
+
+            sessionStorage.setItem('sortval2',rem)
+
+            $.ajax({
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'filterrs' %}",
+                data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+             
+                success: function (data) {
+                    let x = data.all_data
+                    // console.log(x)
+                    $('.bigdiv').empty()
+                    output = ""
+                    if (x != undefined){
+                    for (var i in x){
+                        let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        month:'short',
+                                        day:'2-digit',
+                                        year:'numeric',
+                                        hour: 'numeric',
+                                        minute:'numeric',
+                                        second:'numeric',
+                                        hour12:false
+                                    })
+
+                    let d = x[i].contacted_DateTime
+
+                    d = new Date(d);
+                    d = dtFormat.format(d)
+                        output +=  (` <a href="/cms/${x[i].id}" style="text-decoration:none;" class="column detaildiv">
+                        <div class="twotable d-flex flex-wrap" >
+                            <div class="col-lg-6" style="height: 15%;" >
+                            <table style="padding-left: 8%">
+                            <tr>
+                                <td class="heading" style="padding: 6px 0px;">Borrower Name</td>
+                                <td class="heading" style="padding: 6px 0px;">:</td>
+                                <td class="borowername" style="padding: 6px 1px;">${x[i].borrowor_name}</td>
+                            </tr>
+                            <tr>
+                                <td class="heading" style="padding: 6px 0px;">Loan ID</td>
+                                <td class="heading" style="padding: 6px 0px;">:</td>
+                                <td class="loanidamt">${x[i].bank_loan_accountno}</td>
+                            </tr>
+                            <tr>
+                                <td class="heading" style="padding: 6px 0px;">Loan Amount</td>
+                                <td class="heading" style="padding: 6px 1px;">:</td>
+                                <td style="padding-left: 6%" class="loanidamt">${x[i].TOS}</td>
+                            </tr>
+                            </table>
+                        </div>
+                        <div class="col-lg-5" style="height: 15%;">
+                            <table>
+                            <tr>
+                                <td class="heading" style="padding: 6px 0px;">Contacted Datetime</td>
+                                <td class="heading"  style="padding: 6px 0px;">:</td>
+                                <td class="loanidamt" style="padding: 6px 1px;">${d}</td>
+                            </tr>
+                            <tr>
+                                <td class="heading" style="padding: 6px 0px;">Call Name</td>
+                                <td class="heading"   style="padding: 6px 0px;">:</td>
+                                <td class="borowername" style="padding: 6px 1px;">${x[i].callername}</td>
+                            </tr>
+                            <tr>
+                                <td class="heading" style="padding: 6px 0px;">Sub Disposition</td>
+                                <td class="heading" style="padding: 6px 0px;">:</td>
+                                <td class="call" style="padding: 6px 1px;">${x[i].sub_dispossitions}</td>
+                                <td></td>
+                            </tr>
+                            </table>
+                        
+                        </div>
+                        </div>
+                        </a>`)
+
+                }
+            }
+            $('.bigdiv').html(output)
+                }
+            })
+    }
+
+    // $.ajax({
+    //         type: 'GET',
+    //         url: "{% url 'filterrs' %}",
+    //         // data: mydata,
+    //         success: function (data) {
+    //             let x = data.all_data
+    //             output = ""
+    //             if (x != undefined){
+    //                for (var i in x){
+    //                 let dtFormat = new Intl.DateTimeFormat('en-US',{
+    //                                     month:'short',
+    //                                     day:'2-digit',
+    //                                     year:'numeric',
+    //                                     hour: 'numeric',
+    //                                     minute:'numeric',
+    //                                     second:'numeric',
+    //                                     hour12:false
+    //                                 })
+
+    //                 let d = x[i].contacted_DateTime
+    //                 d = new Date(d);
+    //                 d = dtFormat.format(d)
+    //                 output +=    (` <a href="/cms/${x[i].id}" style="text-decoration:none;" class="column detaildiv">
+    //                 <div class="twotable d-flex flex-wrap" >
+    //                     <div class="col-lg-5" style="height: 15%;" >
+    //                     <table style="padding-left: 8%">
+    //                     <tr>
+    //                         <td class="heading" style="padding: 6px 0px;">Borrower Name</td>
+    //                         <td class="heading" style="padding: 6px 0px;">:</td>
+    //                         <td class="borowername" style="padding: 6px 1px;">${x[i].borrowor_name}</td>
+    //                     </tr>
+    //                     <tr>
+    //                         <td class="heading" style="padding: 6px 0px;">Loan ID</td>
+    //                         <td class="heading" style="padding: 6px 0px;">:</td>
+    //                         <td class="loanidamt">${x[i].bank_loan_accountno}</td>
+    //                     </tr>
+    //                     <tr>
+    //                         <td class="heading" style="padding: 6px 0px;">Loan Amount</td>
+    //                         <td class="heading" style="padding: 6px 1px;">:</td>
+    //                         <td style="padding-left: 6%" class="loanidamt">${x[i].TOS}</td>
+    //                     </tr>
+    //                     </table>
+    //                 </div>
+    //                 <div class="col-lg-6" style="height: 15%;">
+    //                     <table>
+    //                     <tr>
+    //                         <td class="heading" style="padding: 6px 0px;">Contacted Date Time</td>
+    //                         <td class="heading" style="padding: 6px 0px;">:</td>
+    //                         <td class="loanidamt" style="padding: 6px 1px;">${d}</td>
+    //                     </tr>
+    //                     <tr>
+    //                         <td class="heading" style="padding: 6px 0px;">Call Name</td>
+    //                         <td class="heading" style="padding: 6px 0px;">:</td>
+    //                         <td class="borowername" style="padding: 6px 1px;">${x[i].callername}</td>
+    //                     </tr>
+    //                     <tr>
+    //                         <td class="heading" style="padding: 6px 0px;">Sub Disposition</td>
+    //                         <td class="heading" style="padding: 6px 0px;">:</td>
+    //                         <td class="call" style="padding: 6px 1px;">${x[i].sub_dispossitions}</td>
+    //                         <td></td>
+    //                     </tr>
+    //                     </table>
+                    
+    //                 </div>
+    //                 </div>
+    //                 </a>`)
+
+    //         }
+    //     }
+    //     $('.bigdiv2').html(output)
+    //         }
+    //     })
+
+        $('input[name=remcb]').click(function(){
+            dataSubmit()
+        })
+
+        $('.rtodate').change(function(){
+            dataSubmit()
+        })
+    $(document).ready(function(){
+            dataSubmit()
+        })
+
+        
+    })
+</script>

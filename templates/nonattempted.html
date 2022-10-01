@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<!-- <body> -->
+    {% include "style.html" %}
+
+<style>
+.select2-container--default .select2-selection--single {
+    background-color: white !important;
+}
+.tb{
+  background: #FFFF;
+}
+.agntbox{
+    display: flex;
+    font-size: 12px;
+    margin-left: 120px;
+    padding-top: 12px;
+}
+.designme{
+    margin-top: 4px;
+    font-weight: 500;
+    font-style: "Roboto";
+    font-size: 13px;
+    margin-right: 12px;
+}
+
+.select2-container--default .select2-selection--single {
+    border: none !important;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #197AA4 transparent transparent transparent !important;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #197AA4 transparent !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    right: 15px !important;
+}
+
+</style>
+
+<link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+    <div class="row">
+        <div class="dash">Non-Attempted</div>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="agntbox">
+            <span class="designme">Select Agent Name</span>
+            <div style="margin-left: 10px; width: 275px;">
+                <select class="nonattemptedagn" name="agent" >
+                  <option value="">Agent Name</option>
+                  <option value="all">All</option>
+                  {% for i in u %}
+                  <option value="{{i.username}}">{{i.username}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+          </div>
+        
+          </form>
+         <div class="table-responsive table-div"  style="margin-left: 102px;margin-top: 12px;min-height: 502px;overflow-y: auto;">
+         <table class="table flex-wrap" style=" width: 100%;
+         text-align: center;
+         margin-bottom: 0px;">
+             
+           <thead>
+              <tr style="background-color: #047BD5;font-size: 13px" >
+                <th style="padding: 18px 0px;font-size: 13px">Lead ID</th>
+                <th style="padding: 18px 0px;font-size: 13px">Borrower Name</th>
+                <th style="padding: 18px 0px;font-size: 13px">Phone Number</th>
+                <th style="padding: 18px 0px;font-size: 13px">Loan Number</th>
+                <th style="padding: 18px 0px;font-size: 13px">Caller ID</th>
+            </tr>
+           </thead>
+            <tbody class="tb">
+              {% for i in data %}
+              <tr class='clickable-row dashhover' data-href='{% url  "cms" i.id %}' style="cursor: pointer;">
+                  <td style="font-size: 12px;">{{i.id}}</td>
+                  <td style="font-size: 12px;">{{i.borrowor_name}}</td>
+                  <td style="font-size: 12px;">{{i.mobile_number}}</td>
+                  <td style="font-size: 12px;">{{i.bank_loan_accountno}}</td>
+                 <td style="font-size: 12px;text-transform: uppercase;">{{i.callername}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            
+         </table>
+         </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+  function agn(){
+    var data=new FormData()
+    data.append("agent",$("select[name=agent]").val())
+            
+          $.ajax({
+    method: "POST",
+    headers: {
+              "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+          },
+    url: "{% url 'nonattempted'  %}",
+    data: data,
+    datatype:'json',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+      console.log(data.data)
+      let v=data.data
+      output=''
+      $(".tb").empty()
+      // if (v != undefined ){
+      for(var i in v){
+        console.log("tbody",`${v[i].id}`)
+        $(".tb").append(`  <tr class='clickable-row dashhover' data-href='/cms/${v[i].id}' style="cursor: pointer;">
+                  <td style="font-size: 12px;">${v[i].id}</td>
+                  <td style="font-size: 12px;">${v[i].borrowor_name}</td>
+                  <td style="font-size: 12px;">${v[i].mobile_number}</td>
+                  <td style="font-size: 12px;">${v[i].bank_loan_accountno}}</td>
+                 <td style="font-size: 12px;text-transform: uppercase;">${v[i].callername}</td>
+              </tr>`)
+      
+      }
+    
+    },
+  
+        });
+      }
+    $(document).ready(function () {
+        $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+    $("select[name=agent]").change(function(){
+      console.log("change",$("select[name=agent]").val())
+         agn()
+            
+            })
+
+    })
+    </script>
+   
+   {% endblock content %}

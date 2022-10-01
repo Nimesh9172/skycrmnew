@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include "style.html" %}
+<style>
+  
+  .otslink{
+        color:#047BD5;
+    background-color: #FFFF;
+    /* border-radius: 10px; */
+    display: inline-block;
+    text-decoration: none;
+    height: 32px;
+    border: 3px solid #047BD5;
+    width: 118px;
+    border-radius: 10px;
+    margin-top: 12px;
+    margin-left: 10px;
+    padding-top: 2px;
+    padding-left: 10px;
+    font-size: 14px;
+    font-family: 'Roboto';
+       }
+
+.dataTables_wrapper {
+    margin-left: 1px;
+    text-align: center;
+}
+  .otslink:hover{
+   color: white;
+   background-color: #047BD5;
+}
+  .table>:not(:last-child)>:last-child>* {
+    border-bottom-color: darkgrey;
+}
+</style>
+    <div class="container-fluid">
+        <div class="row" >
+            <div class="dash">
+               Dashboard  
+            
+           
+            </div>
+            <div>
+            <div style="position: relative;
+              float: right;
+              width: 50%;"  >
+                <img  src="{% static 'Images/Vector.png'%}" class="searchicon" style="position: absolute;top: 20px;
+                left: 34px;" alt="" >
+                <input type="search" class="dashsearch"  placeholder="Search" style="width: 69%;">
+                <a href="{% url 'dashtl' %}" class="otslink">TeamOverall </a>
+              </div> 
+            <div class="cardBox flex-wrap">
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/ptp status icon 2.svg' %}" style="padding-top: 25%; "/>
+                    </div>
+                    <p class="cardcontent">PTP Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/pay icon.svg' %}" style="padding-top: 18%; "/>
+                    </div>
+                    
+                    <p class="cardcontent">Paid Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"  style="padding-top: 3%; "/>
+                    </div>
+                    <!-- <img class="d" src="{% static 'Images/Rectangle 93.png'%}"  height="99px" alt=""> -->
+                    <p class="cardcontent">PTP Status Comparison</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/paid status icon.svg' %}" style="padding-top: 12%; "/>
+                    </div>
+                    <!-- <img class="d" src="{% static 'Images/Rectangle 95.png'%}"  height="99px" alt=""> -->
+                    <p class="cardcontent">Paid Status Comparison</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/folder.svg' %}" style="padding-top: 3%;"/>      
+                    </div>
+                    <p class="cardcontent">Disposition Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/warning.svg' %}" style="padding-top: 25%; "/>
+                    </div>
+                    <!-- <img class="d" src="{% static 'Images/Rectangle 96.png'%}"  height="99px" alt=""> -->
+                    <p class="cardcontent">Not Contacted</p>
+                </div>
+            </div>
+            
+  
+            <div class="table-responsive table-div"style="text-align:center;margin-left: 81px;border-radius: 10px;height: 364px;width: 93%;">
+                        <table id="example" class="table otstable"  style="width:100%;">
+                          <thead>
+                            <tr class="importantth" style="background-color: #047BD5;">
+                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Borrowor Name
+                              </th>
+                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Account Number
+                              </th>
+                              <th class="th-sm"  style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">TOS
+                              </th>
+                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">OTS
+                              </th>
+
+                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">OTS %
+                              </th>
+                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Suggest OTS
+                              </th>
+                              
+                               <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Status
+                              </th>
+                              
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for i in data %}
+                            
+                            <tr  class='clickable-row dashhover' data-href='{% url  "tlcms" i.info_id %}' style="cursor: pointer;">
+                              <td style="font-size: 13px;">{{i.borrower_name}}</td>
+                              <td style="font-size: 13px;">{{i.loan_id}}</td>
+                              <td style="font-size: 13px;">{{i.tos}}</td>
+                              <td style="font-size: 13px;">{{i.ots_amt}}</td>
+                              <td style="font-size: 13px;">{{i.otspercentage}} </td>
+                              <td style="font-size: 13px;">{{i.suggest}} </td>
+                               <td {%if i.tlstat == 'Accepted'  %} style="color: #1CD833;font-size: 13px; font-weight: bold;" {%elif i.tlstat == 'Declined'  %} style="color: red;font-size: 13px;font-weight: bold;"{%endif%}>{%if i.tlstat == 'Accepted' or  i.tlstat == 'Declined' %}{{i.tlstat}}{%else%}{% endif %}</td>
+                              
+                              
+                              
+                            </tr>
+                            {% endfor %}
+                            
+                          </tbody>
+                          <tfoot>
+                
+                          </tfoot>
+                        </table>
+                       
+                      </div>
+                      </div>
+                    </div>
+                    </div>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+    })
+    </script>
+                    {% endblock content %}

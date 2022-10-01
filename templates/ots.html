@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+<body>
+    {% block content %}
+  
+  {% include "style.html" %}
+     <style>
+      tbody, td, tfoot, th, thead, tr{
+        padding: 5px 0 !important;
+      }
+      .ots-filter{
+        width: 120px;
+      }
+
+      .select2-container .select2-selection--single{
+        height: 33px;
+      }
+
+      .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 35px;
+      }
+      .select2-container--default .select2-selection--single{
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+        border: none;
+      }
+      .select2-container--default .select2-selection--single .select2-selection__arrow{
+        top: 4px;
+      }
+      .sortby-div >.select2-container--default .select2-selection--single .select2-selection__rendered{
+        padding-left: 38px; 
+      }
+    </style>
+
+    <div class="row">
+      <div class="dash" >One Time Settlement(OTS)</div>
+      
+      <div class="row" >
+        <div class="cal">
+          <div class="column gx-5 ">
+			<span>From</span>
+            <form action="">
+              {% csrf_token %}
+              <div class= "cal-con">
+                <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" alt="">
+              <input class="form-control fromdate cal1 " type="datetime-local" placeholder="selecte date time" >
+              </div>
+          </form>
+           
+          </div>
+          <div class="column">
+            <div class="flex-wrape ">
+              <span>To</span>
+
+              <form action="">
+                <div class= "cal-con">
+                  <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
+                 <input class="form-control otodate cal2" type="datetime-local" placeholder="selecte date time" >
+                </div>
+              </form>
+              
+            </div>
+          </div>
+          <div class="column d-flex gap-2 align-items-end justify-content-end flex-wrap " style="width:30%">
+          
+            <div class="ots-filter sortby-div">
+              <img src="{% static 'Images/filt.png' %}" class="sort-icon" alt="">
+              <select class="sortbysel sortotsbtn" name="selectval"> select
+                <option value="">Sort By</option>
+                <option value="all">All</option>
+                <option value="Largest to Smallest">Largest To Smallest</option>
+                <option value="Oldest to Newest">Oldest To Newest</option>
+              </select>
+            </div>
+            <div class="ots-filter">
+              <select class="filtersel selectotss rselect" id="selectval" name="selectval"> select
+                <option value="">OTS Status</option>
+                <option value="all">All</option>
+                <option value="Accepted">Accept</option>
+                <option value="Declined">Declined</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+       
+      </div>
+        <div class="otsdetails ">
+          
+          
+        </div>
+  </div>
+
+
+
+
+
+              <!-- <div class="mx-3" style="width: fit-content;"> -->
+            <!-- <form action="">
+                <select class="selectots" name="selectval" id="selectval"> select
+                    <option value="">Select</option>
+                    <option value="all">All</option>
+                    <option value="Accepted">Accept</option>
+                    <option value="Declined">Declined</option>
+                </select>   
+            </form> -->
+              <!-- </div> -->
+           <!-- </div>
+           <div class="otsdetails">
+
+    
+            <div class="otsinside">
+        
+                
+            
+           </div> -->
+      
+    
+           
+               
+                     
+       
+        
+
+      <!-- </div>
+  </div> -->
+
+  <script>
+    config={
+  enableTime: true,
+  dateFormat: "d-m-Y ",
+  altInput: true,
+  altFormat: "F j, Y",
+  
+}
+  flatpickr("input[type=datetime-local]",config);
+
+
+  $(document).ready(function(){
+    // var b=$('.tlstat').val()
+    // console.log("tstatussssssssss",b)
+    // $(".tlstat").css({"color":"pink"})
+
+    let sortots=sessionStorage.getItem("selval")
+    console.log(sortots)
+  $(".selectotss ").val(sortots)
+
+  let sortby=sessionStorage.getItem("sortval")
+  $(".sortbysel ").val(sortby)
+
+
+      $("#form-post").change(function(){
+          $(this).closest("form").submit();
+      })
+    
+
+  $('.sortotsshow').click(function() {
+      $('.sorthide').toggle('slow');        
+  });
+  
+  $('.c1').click(function(){
+        $('.cal1').click()
+      })
+
+      $('.c2').click(function(){
+        $('.cal2').click()
+      })
+      if($('.tlstat').val()=="null"){
+            console.log("works")
+                                    console.log($('.tlstat').val())
+                                    $('.tlstat').css({'color':'red'})
+        }
+  });
+
+
+</script>
+
+    {% include 'otsajax.html' %}
+  
+    {% endblock content %}
+
+</body>

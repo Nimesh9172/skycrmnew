@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+{% load static %}
+<body>
+    {% block content %}
+    <div class="row">
+        {% for i in info %}
+        <div class="main">
+            <div class="title">
+                Customer Information </div>
+            <div class="content">
+                <div class="image">
+                    <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Borrowor Name</span>
+                    <div class="data">
+                    <span >{{i.borrowor_name}}</span>
+                    </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/team 1.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Client Name</span>
+                    <div class="data">
+                    <span >{{i.client_name}}</span>
+                    </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/address 1.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Residential Address</span>
+                    <div class="data">
+                    <span >{{i.resedential_address}}</span>
+                    </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/email 1.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Email-ID</span>
+                    <div class="data">
+                    <span >{{i.email_id}}</span>
+                    </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/phone 1.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Mobile Number</span>
+                    <div class="data">
+                    <span >{{i.mobile_number}}</span>
+                    </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/trash-bin 1.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Product</span>
+                    <div class="data">
+                    <span >{{i.product}}</span>
+                    </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/trash-bin 2.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Sub Product</span>
+                    <div class="data">
+                    <span >{{i.sub_product}}</span>
+                    </div>
+                </div>
+        
+             <div class="additional" {% if flag %} style="display:block"; {% else %} style="display: none;" {% endif %}>
+                Additionnal Details
+                <div class="emailshow"  {% if em %} style="display:block"; {% else %} style="display: none;" {% endif %}>
+                    <span class="additionalheading">Email-Id</span>
+                    <div class="additionaldetails" id="email-field">
+                      {% for i in a %}
+                      {{i.email}}
+                      {% endfor %}
+                        
+                           
+                   </div>
+               </div> 
+                <div class="contactshow" {% if con %}style="display: block;" {% else %} style="display: none;" {% endif %}>
+                    <span class="additionalheading">Contact-Number</span>
+                    <div class="additionaldetails" id="contact-field">
+                        {% for i in a %}
+                        {{i.contactnum}}
+                        {% endfor %}
+                       </div>
+               </div>
+               <div class="addressshow"  {% if add %}style="display: block;" {% else %} style="display: none;" {% endif %}>
+                <span class="additionalheading">Address</span>
+                <div class="additionaldetails"  id="address-field">
+                    {% for i in a %}
+                    {{i.address}}  {{i.state}}  {{i.city}}  {{i.landmark}}  {{i.pincode}}
+                    {% endfor %}
+                </div>
+                </div>
+             </div>
+                 
+            </div>
+        </div>
+        <div class="main">
+                <div class="title1">
+                    Process</div>
+                    <div class="content1">
+                            <div class="image">
+                            <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+                            <span id="info">Loan  ID</span>
+                                <div class="data">
+                                <span >{{i.loan_id}}</span>
+                                </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Agreement No. Or Loan No.</span>
+                                    <div class="data">
+                                    <span >{{i.agreement_loan_number}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Disbursed Amount</span>
+                                    <div class="data">
+                                    <span >{{i.disbursed_amount}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/dis.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Disbursement Date</span>
+                                    <div class="data">
+                                    <span >{{i.disbursement_date}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Total Paid Amount</span>
+                                    <div class="data">
+                                    <span >{{i.total_paid_amount}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">EMI Amount</span>
+                                    <div class="data">
+                                    <span >{{i.emi_amount}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Tenure</span>
+                                    <div class="data">
+                                    <span >{{i.tenure}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/dis.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Last Paid Date</span>
+                                    <div class="data">
+                                    <span >{{i.last_paid_date}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Last Paid Amount</span>
+                                    <div class="data">
+                                    <span >{{i.last_paid_amount}}</span>
+                                    </div>
+                            </div>
+                            <div class="image">
+                                <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                                <span id="info">Loan Amount</span>
+                                    <div class="data">
+                                    <span >98776</span>
+                                    </div>
+                            </div>
+                    </div>
+        </div>
+        <div class=" main">
+            <div class="title2">
+                Process Additional Information </div>
+            <div class="content2">
+                <div class="image">
+                    <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Total Due Amount</span>
+                        <div class="data">
+                        <span >{{i.total_due_amount}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Principal Outstanding</span>
+                        <div class="data">
+                        <span >{{i.principal_outstanding}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Ponal Charges</span>
+                        <div class="data">
+                        <span >{{i.ponal_charges}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">DPD</span>
+                        <div class="data">
+                        <span >{{i.dpd}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/trash-bin 1.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Bucket</span>
+                        <div class="data">
+                        <span >{{i.bucket}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/trash-bin 4.png'%}" height="26px" width="26px" alt="">
+                    <span id="info">No. Of Emi’s Pending </span>
+                        <div class="data">
+                        <span >{{i.no_of_emi_pending}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Bounce And Overdue Charges</span>
+                        <div class="data">
+                        <span >{{i.bounced_overdue_charges}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/trash-bin 4.png'%}" height="26px" width="26px" alt="">
+                    <span id="info">Bounce Reason</span>
+                        <div class="data">
+                        <span >{{i.bounced_reason}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/trash-bin 4.png'%}" height="26px" width="26px" alt="">
+                    <span id="info">Minimum Due </span>
+                        <div class="data">
+                        <span >{{i.minimum_due}}</span>
+                        </div>
+                </div>
+                <div class="image">
+                    <img src="{% static 'Images/dis.png'%}" height="24px" width="24px" alt="">
+                    <span id="info">Payment Due Date</span>
+                        <div class="data">
+                        <span >{{i.payment_due_date}}</span>
+                        </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="main">
+            <div class="title3">
+                Customer History </div>
+                    <div class="content3">
+                        <div class="image">
+                            <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+                            <span id="info">Agent username</span>
+                                <div class="data">
+                                <span >{{i.agent_username}}</span>
+                                </div>
+                        </div>
+                        <div class="image">
+                            <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px" alt="">
+                            <span id="info">Sub-Disposition</span>
+                                <div class="data">
+                                <span >{{i.sub_dispossitions}}</span>
+                                </div>
+                        </div>
+                        <div class="image">
+                            <img src="{% static 'Images/pencil 1.png'%}" height="24px" width="24px" alt="">
+                            <span id="info">Remark</span>
+                                <div class="data">
+                                <span >{{i.remark}}</span>
+                                </div>
+                        </div>
+                        <div class="image">
+                            <img src="{% static 'Images/dis.png'%}" height="24px" width="24px" alt="">
+                            <span id="info">Contacted Date & Time</span>
+                                <div class="data">
+                                <span >{{i.contacted_DateTime}}</span><span class="history">see call history</span><button class="downbtn"><img src="{% static 'Images/Down Button.png'%}" height="15px" width="15px" alt=""></button>
+                                </div>
+                        </div>
+                        
+                        </div>
+        </div>
+       
+<div class="parent">
+    <div class="Agent">
+        <div class="title4">
+            Agent Action </div>
+            <div class="content4">
+            </div>
+            <div class="agentact">{{i.mobile_number}}</div>
+            <div class="icondiv " >
+                <div class="callcontact" style="background-color: rgb(65, 207, 65); color:white;"><i class="fa-solid fa-phone"></i></div>
+                <div class="contact1"><i class="fa-solid fa-phone"></i></div>
+            <div class="whatcontact"  style="background-color: rgb(73, 226, 73); color:white;"><i class="fa-brands fa-whatsapp"></i></div>
+            <div class="msgcontact"  style="background-color: rgb(233, 146, 58); color:white;"><i class="bi bi-chat-left-dots-fill" style=" font-size: 16px;"></i></div>
+        </div>
+    </div>
+
+<div class="Agnttag">
+    <div class="angtagtitle">
+        FE Tagging </div>
+        <div class="content4">
+            <div class="image">
+            <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+            <span id="info">Add Details</span><select class="agentselect" name="agenttag" id="sndfeselectbox">
+                <form action="" method="post">
+                                <option class="agentselect" value="selectval" style="display:none;">--Select---</option>
+                                <option class="agentselect" value="Reschedule">Reschedule Call</option>
+                                <option class="agentselect" value="assign">Assign to FE</option>
+                    </select>
+                    <div id="feschedule" style="display: none;">
+                    <input class="dissub" style="padding-left: 2%;"  type="date" name="otsdate" placeholder="Date">
+                    <input class="dissub" type="tel" name="otsamt" placeholder="Amount">
+                </div>
+                <div id="sendagent" style="display: none;">
+                    <select class="dissub" name="" id="">
+                        <option value="">Assign to FE</option>
+                        <option value="">Priyanka</option>
+                        <option value="">Akash</option>
+                        <option value="">Nimesh</option>
+                        <option value="">Nausheen</option>
+                        <option value="">kshitij</option>
+                        <option value="">Ajay</option>
+                    </select>
+                </div> 
+                    <div class="remark">
+                        <input type="text" class="rm" placeholder="Remark"><i class="bi bi-mic-fill" style="float: right;"></i>
+
+                    </div>
+                    <input type="submit">
+             </form> 
+        </div>
+   </div>
+    
+</div>
+</div>
+{% endfor %}   
+</div>
+
+<script>
+     $(document).ready(function(){
+        $('#sndfeselectbox').change(function(){
+                            if ($('#sndfeselectbox').val()=='Reschedule'){
+                                $('#feschedule').css({display:'block'})
+                                $('#sendagent').css({display:'none'})
+                            }
+                            });
+                            $('#sndfeselectbox').change(function(){
+                            if ($('#sndfeselectbox').val()=='assign'){
+                                $('#feschedule').css({display:'none'})
+                                $('#sendagent').css({display:'block'})
+                            }
+                            });
+     })
+</script>
+{% endblock content %}
+</body>

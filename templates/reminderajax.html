@@ -1,0 +1,135 @@
+<script>
+    $(document).ready(function(){
+
+    // -----------Reminder filteration start-------
+
+    function dataSubmit(btnval) {
+        var data = new FormData();
+
+            rem = []
+            
+            $("input[name=remcb]:checkbox:checked").each(function() {
+                rem.push($(this).val());
+            })
+            // console.log(rem)
+            data.append('remfilter',rem);
+            data.append('tdate',$('.todate').val())
+            data.append('fdate',$('.fdate').val())
+            data.append('sortby',$('.sortbysel').val())
+
+            sessionStorage.setItem('remfilter',rem)
+            sessionStorage.setItem('sort',$('.sortbysel').val())
+            
+            
+
+            $.ajax({
+                method: 'POST',
+                headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'filterrm' %}",
+                data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+             
+                success: function (data) {
+                    let x = data.all_data
+                    // console.log(x)
+                    $('.bigdiv').empty()
+                    output = ""
+                    if (x != undefined){
+                    for (var i in x){
+
+                        let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        month:'short',
+                                        day:'2-digit',
+                                        year:'numeric',
+                                        hour: 'numeric',
+                                        minute:'numeric',
+                                        second:'numeric',
+                                        hour12:false
+                                    })
+
+                        let d = x[i].callbacktime
+                        d = new Date(d);
+                        d = dtFormat.format(d)
+
+                        output +=    (` <a href="/cms/${x[i].id}" style="text-decoration:none;"  class=" detaildiv">
+                    <div class="twotable d-flex flex-wrap justify-content-center" >
+                        <div class="col-lg-6" style="height: 15%;" >
+                        <table style="padding-left: 8%">
+                        <tr>
+                            <td class="heading" style="padding: 6px 0px;">Borrower Name</td>
+                            <td class="heading" style="padding: 6px 0px;">:</td>
+                            <td class="borowername" style="padding: 6px 1px;">${x[i].borrowor_name}</td>
+                        </tr>
+                        <tr>
+                            <td class="heading" style="padding: 6px 0px;">Loan ID</td>
+                            <td class="heading" style="padding: 6px 0px;">:</td>
+                            <td class="loanidamt">${x[i].bank_loan_accountno}</td>
+                        </tr>
+                        <tr>
+                            <td class="heading" style="padding: 6px 0px;">Loan Amount</td>
+                            <td class="heading" style="padding: 6px 1px;">:</td>
+                            <td style="padding-left: 6%" class="loanidamt">${x[i].TOS}</td>
+                        </tr>
+                        </table>
+                    </div>
+                    <div class="col-lg-5" style="height: 15%;">
+                        <table>
+                        <tr>
+                            <td class="heading" style="padding: 6px 0px;">Reminder set for</td>
+                            <td class="heading"  style="padding: 6px 0px;">:</td>
+                            <td class="loanidamt" style="padding: 6px 1px;">${d}</td>
+                        </tr>
+                        <tr>
+                            <td class="heading" style="padding: 6px 0px;">Call Name</td>
+                            <td class="heading"   style="padding: 6px 0px;">:</td>
+                            <td class="borowername" style="padding: 6px 1px;">${x[i].callername}</td>
+                        </tr>
+                        <tr>
+                            <td class="heading" style="padding: 6px 0px;">Sub Disposition</td>
+                            <td class="heading"   style="padding: 6px 0px;">:</td>
+                            <td class="call" style="padding: 6px 1px;">${x[i].sub_dispossitions}</td>
+                            <td></td>
+                        </tr>
+                        </table>
+                    
+                    </div>
+                    </div>
+                    </a>`)
+
+                        
+
+                }
+            }
+            $('.bigdiv').html(output)
+                }
+            })
+    }
+
+
+        $('.todate').change(function(){
+            dataSubmit()
+        })
+
+        $('input[name=remcb]').click(function(){
+            dataSubmit()
+        })
+        
+        $('.sortbysel').change(function(){
+            dataSubmit()
+        })
+
+        $(document).ready(function(){
+            dataSubmit()
+        })
+
+    // -----------Reminder filteration end-------
+    
+    
+       
+    })
+
+</script>

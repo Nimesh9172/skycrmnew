@@ -1,0 +1,370 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% include "style.html" %}
+    <style>
+  .clicked{
+ background: #121B55;
+  }
+
+  
+
+.select2-container--default .select2-selection--single {
+    background:#047BD5;
+    border: none!important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: white;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #FFFF transparent transparent transparent !important;
+}
+th{
+  background-color: #047BD5 !important;
+  padding: 10px !important;
+}
+
+
+
+    </style>
+    <div class="container-fluid">
+        {% csrf_token %}
+        <div class="row" >
+            <div class="dash">
+               Team Overall Report  
+               <div style="float: right">
+                <img src="{% static 'Images/user.png' %}" class="show" style=" height: 41px; margin-right: 10px;" alt="">
+
+                 
+                          
+                </div>
+              </div>
+              <div>
+              <div style="position: relative;
+              float: right;
+              width: 35%;"  >
+                <img  src="{% static 'Images/Vector.png'%}" style="position: absolute;top: 20px;
+                left: 34px;" class="searchicon" alt="" >
+                <input type="search" class="dashsearch"  placeholder="Search" >
+               
+              </div>
+            </div>
+
+            <div class="cardBox flex-wrap">
+               <a href="/ptp" class="linkme">
+                <div class="dashcard">
+                  <div class="imgcard ptp clicked" style="padding-top: 18px;" >
+                  <img src="{% static 'Images/ptp status icon 2.svg' %}"/></div>
+                  <p class="cardcontent">Lead PTP</p>
+              </div>
+               </a>
+                <a href="/ptpcount" class="linkme">
+                  <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 6%;" id="paid">
+                      <img src="{% static 'Images/pay icon.svg' %}"/>
+                    </div>
+                    
+                    <p class="cardcontent">PTP Count </p>
+                </div>
+                </a>
+                <a href="/paidcount" class="linkme">
+                  <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 3%; " id="ptps">
+                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"/>
+                    </div>
+                    
+                    <p class="cardcontent">Paid Status</p>
+                </div>
+                </a>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 4%; " id="ptpsc">
+                      <img src="{% static 'Images/paid status icon.svg' %}"/>
+                    </div>
+                    <!-- <img class="d" src="{% static 'Images/Rectangle 95.png'%}"  height="99px" alt=""> -->
+                    <p class="cardcontent">Paid Status Comparison</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 3%;" id="dispostatus">
+                      <img src="{% static 'Images/folder.svg' %}"/>      
+                    </div>
+                    <p class="cardcontent">Disposition Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 14px;" id="notattempt">
+                      <img src="{% static 'Images/warning.svg' %}"/>
+                    </div>
+                  
+                    <p class="cardcontent">Not Attempted</p>
+                </div>
+            </div>
+
+                
+        
+            <div class="table-responsive table-div" style="height: 374px;width: 92%;">
+              <table id="example" class="table"  style=" width: 140%; margin-bottom: 0;">
+                <thead style="background-color: #047BD5;position: sticky;top: 0;" class="tableheadings">
+                  <tr >
+                    <th >
+                      <div style="width: 100px;">
+                        <select class="campaignq agn" name="ptpagent">
+                          <option value="">Agent Name</option>
+                        {% for i in u %}
+                          <option value="{{i.username}}">{{i.username}}</option>
+                          {% endfor %}
+                        </select>
+                       </div>
+                    </th>
+                    <th >LAN
+                    </th>
+                    <th>
+                      <div style="width: 100px;">
+                        <select class="campaignq agn" name="bankname">
+                          <option value="">Bank</option>
+                          <option value="all">ALL</option>
+                        {% for items in bnk %}
+                          <option value="{{items}}">{{items}}</option>
+                          {% endfor %}
+                        </select>
+                       </div>
+                    </th>
+                    <th >TOS
+                    </th>
+                    <th>Status
+                    </th>
+                    <th >Amount
+                    </th>
+                    <th >Date
+                  </th>
+                  <th >Type
+                  </th>
+                  <th>Next Status
+                  </th>
+                  <th >Next Date
+                  </th>
+                  <th >Next Status
+                  </th>
+                  <th>Next Date
+                  </th>
+                  <th>Next Status
+                  </th>
+                  <th>Next Date
+                  </th>
+                  <th >Next Status
+                  </th>
+                  <th >Next Date
+                  </th>
+                  </tr>
+                  </thead>
+                  <!-- <tbody>
+
+                  </tbody> -->
+                <tbody class="tablebody">
+                </tbody>
+              
+                <tfoot>
+      
+                </tfoot>
+              </table>
+            </div>
+            </div>
+          <!-- </div> -->
+
+    
+    
+    </div>
+    
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js" integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+ 
+      <script>
+        // table design starts
+         function ptp(){
+            var data=new FormData()
+            data.append("ptpagent",$("select[name=ptpagent]").val())
+            data.append("bankname",$("select[name=bankname]").val())
+            data.append("statusn",$("select[name=statusn]").val())
+            $.ajax({
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'ptpajax' %}",
+                data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                  let x = data.b
+                  console.log("s",x)
+                  output=""
+                  $('.tablebody').html()
+
+                  for (i=0;i<x.length;i++){
+                    for (j=0;j<x[i].length;j++){
+                      console.log(j)
+                      if (j ==  0){
+                        let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        month:'short',
+                                        day:'2-digit',
+                                        year:'numeric',
+                                       
+                                    })
+
+                        let d = x[i][j].callbacktime
+                        d = new Date(d);
+                        d = dtFormat.format(d)
+
+                        output += (`
+                      <tr class="dashhover">
+                 
+                      <td>${x[i][j].caller_name}</td>  
+                     
+                      <td>${x[i][j].bank_loan_accountno}</td>
+                      <td>${x[i][j].bankname}</td>    
+                      <td>${x[i][j].TOS}</td>  
+                      <td class="subdispo">${x[i][j].sub_dispossitions}</td>  
+                      <td>${x[i][j].amount}</td>  
+                      <td>${d}</td>  
+                      <td class='modes'>${x[i][j].mode}</td>  
+
+                  `)
+                      }
+                      else{
+                        let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        month:'short',
+                                        day:'2-digit',
+                                        year:'numeric',
+                                       
+                                    })
+
+                        let d = x[i][j].callbacktime
+                        d = new Date(d);
+                        d = dtFormat.format(d)
+                        output += (`
+                        
+       
+                        <td class='sub'>${x[i][j].sub_dispossitions}</td>  
+                        <td>${d}</td>  
+                        `)
+                      }
+
+                    }
+                  }
+                  $('.tablebody').html(output)
+                  $(".modes").each(function(){
+                    
+                    if($(this).html()=="undefined"){
+                    $(this).html(" ")
+                    }
+                  })
+                  $(".sub").each(function(){
+                    console.log("this",$(this).html())
+                    if(($(this).html()!= "Paid" ) && ($(this).html()!= "Promise To Pay")){
+                      $(this).html("BPTP")  
+                    }else if($(this).html()== "Promise To Pay"){
+                      $(this).html("PTP")  
+                    }
+
+                  })
+
+                  $(".subdispo").each(function(){
+                    if($(this).html()== "Promise To Pay"){
+                      $(this).html("PTP")
+                    }
+                  })
+
+                }
+                
+            })
+        }
+            $(document).ready(function () {
+              ptp()
+              
+                $("select[name=ptpagent]").change(function(){
+                console.log("change",$("select[name=ptpagent]").val())
+                ptp()
+            })
+
+            $("select[name=bankname]").change(function(){
+                console.log("change",$("select[name=bankname]").val())
+                ptp()
+            })
+
+            $("select[name=statusn]").change(function(){
+              console.log("status",$("select[name=statusn]").val())
+              ptp()
+            })
+              
+
+          
+            $('.dashsearch').keyup(function() {
+                search(this.value);
+            });
+          
+        
+
+
+
+$('.show').click(function() {
+    $('.logdiv').toggle('slow');  
+    console.log("hiii")      
+});
+
+$(".ptp").click(function(){
+  console.log("ptp")
+  $(".ptp").addClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+})
+  });
+  $("#paid").click(function(){
+  $("#paid").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#ptps").click(function(){
+  $("#ptps").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#ptpsc").click(function(){
+  $("#ptpsc").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#dispostatus").click(function(){
+  $("#dispostatus").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#notattempt").click(function(){
+  $("#notattempt").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+})
+
+
+
+      </script>
+
+{% endblock content %}

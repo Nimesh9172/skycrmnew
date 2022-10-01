@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include "style.html" %}
+    <style>
+    
+    .otslink{
+        color:#047BD5;
+    /* background-color: white; */
+    /* border-radius: 10px; */
+    display: inline-block;
+    text-decoration: none;
+    height: 32px;
+    border: 2px solid #047BD5;
+    width: 118px;
+    border-radius: 10px;
+    margin-top: 12px;
+    margin-left: 10px;
+    padding-top: 2px;
+    padding-left: 10px;
+    font-size: 14px;
+    font-family: 'Roboto';
+       }
+
+.dataTables_wrapper {
+    margin-left: 1px;
+    text-align: center;
+}
+  .otslink:hover{
+   color: white;
+   background-color: #047BD5;
+}
+    </style>
+    <div class="container-fluid">
+        <div class="row" >
+            <div class="dash"> 
+                PTP Count
+               </div>
+            <div >
+              <div style="position: relative;
+              float: right;
+              width: 50%;"  >
+                <img  src="{% static 'Images/Vector.png'%}" class="searchicon" style="position: absolute;top: 20px;
+                left: 34px;" alt="" >
+                <input type="search" class="dashsearch"  placeholder="Search" style="width: 69%;">
+                <a href="{% url 'dashtlots' %}" class="otslink">OTS Request</a>
+              </div> 
+           
+            <div class="cardBox flex-wrap">
+              <a href="/ptp" class="linkme">
+                <div class="dashcard">
+                  <div class="imgcard ptp" style="padding-top: 18px;" >
+                  <img src="{% static 'Images/ptp status icon 2.svg' %}"/></div>
+                  <p class="cardcontent">Lead PTP</p>
+              </div>
+              </a>
+              <a href="/ptpcount" class="linkme">
+                <div class="dashcard">
+                    <div class="imgcard" style="background:#121B55;">
+                      <img src="{% static 'Images/pay icon.svg' %}" style="padding-top: 18%; "/>
+                    </div>
+                    <p class="cardcontent">PTP Status</p>
+                </div>
+              </a>
+              <a href="/paidcount" class="linkme">
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"  style="padding-top: 3%; "/>
+                    </div>
+                    
+                    <p class="cardcontent">Paid status</p>
+                </div>
+            </a>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/paid status icon.svg' %}"  style="padding-top: 12%; "/>
+                    </div>
+           
+                    <p class="cardcontent">Paid Status Comparison</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard">
+                      <img src="{% static 'Images/folder.svg' %}" style="padding-top: 3%;"/>      
+                    </div>
+                    <p class="cardcontent">Disposition Status</p>
+                </div>
+                <div class="dashcard" id="clickplz">
+                    <div class="imgcard" >
+                      <img src="{% static 'Images/warning.svg' %}" style="padding-top: 25%; "/>
+                    </div>
+                    
+                    <p class="cardcontent">Not Attempted</p>
+                </div>
+            </div>
+            <div class="infotable" style=" margin-left: 65px;">
+                <div class="dashboardtable" >
+            
+               
+                </div>
+                <div class="table-responsive table-div " style="text-align:center;
+                  margin-left: 12px;
+                  border-radius: 10px;height: 374px;width: 99%;">
+                <table id="example" class="table  "  style="width:100%;">
+                 <thead style="position: sticky;top: 0;color: #FFFF;
+                 font-size: 12px;
+                 height: 55px;">
+                      <tr style="background-color: #047BD5;">
+                        <td>Agent Name
+                        </td>
+                        <td >Today's PTP
+                        </td>
+                        <td>Week's PTP
+                        </td>
+                        <td>Month's PTP
+                        </td>
+                        <td>Overall Amount(TOS)
+                        </td>
+                        <td >Overall Amount(PTP)
+                        </td>
+                        <td >PTP % on TOS
+                        </td>
+                       
+                      </tr>
+                    </thead>
+                    <tbody style="font-size: 12px;">
+                      {% for i,j in d.items %}
+                      <tr>
+                        <td>{{i}}</td>
+                        <td>{{j.td}}</td>
+                        <td>{{j.tw}}</td>
+                        <td>{{j.tm}}</td>
+                        <td>{% if j.tos == None %}0{% else %}{{j.tos}}{% endif %}</td>
+                        <td>{% if j.ptp == None %}0{% else %}{{j.ptp}}{% endif %}</td>
+                        <td>{{j.per}}%</td>
+                      
+                      </tr>
+                  {% endfor %}
+                      
+                    </tbody>
+                    <tfoot>
+          
+                    </tfoot>
+                  </table>
+            </div>
+            </div>
+            
+        </div>
+    
+    </div>
+  </section>
+ 
+      <script>
+        // table design starts
+         
+            $(document).ready(function () {
+               var table =  $('#example').DataTable({
+                  "aLengthMenu":[100]
+                  
+                });
+
+                var search = $.fn.dataTable.util.throttle(
+                function(val) {
+                    table.search(val).draw();
+                },
+                400  // Search delay in ms
+            );
+
+            $('.dashsearch').keyup(function() {
+                search(this.value);
+            });
+           
+          $("#clickplz").mouseover(function(){
+            alert("done")
+          })
+      
+        })       
+// table design end
+$(document).ready(function(){
+    $(".sidebar").mouseover(function(){
+      $(".sidebar").removeClass("close")
+    })
+    $(".sidebar").mouseout(function(){
+      $(".sidebar").addClass("close")
+    })
+
+  
+  })
+        
+  $(window).on("beforeunload", function(e) {
+      
+    });
+
+      </script>
+
+{% endblock content %}
+  </body>

@@ -1,0 +1,2265 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %} {% include "style.html" %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- CDN link used below is compatible with this example -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"
+  />
+  <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+  <style>
+    .form-control:disabled, .form-control[readonly] {
+    border: none;
+    background-color:#E8E8E8;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+}
+    .btn-light {
+      background-color: #e8e8e8;
+    }
+    .btn {
+      font-size: 13px;
+    }
+    .bootstrap-select .dropdown-menu.inner {
+      font-family: "Roboto";
+      font-size: 9px;
+    }
+    .dropdown-item {
+      font-weight: 600;
+    }
+    .dropdown-item:hover {
+      background-color: #197aa4;
+      color: white;
+    }
+    .dropdwon-menu .show {
+      left: 67px;
+    }
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+      position: absolute;
+      left: -9999px;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label {
+      position: relative;
+      padding-left: 17px;
+      cursor: pointer;
+      line-height: 20px;
+      display: inline-block;
+      color: #666;
+      font-size: 11px;
+    }
+    [type="radio"]:checked + label:before,
+    [type="radio"]:not(:checked) + label:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #197aa4;
+      border-radius: 100%;
+      background: #fff;
+    }
+    [type="radio"]:checked + label:after,
+    [type="radio"]:not(:checked) + label:after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #197aa4;
+      position: absolute;
+      top: 7px;
+      left: 2px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+    [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    [type="radio"]:checked + label:after {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    .chequenable{
+        width: 178px;
+        height: 25px;
+        font-family: "Roboto";
+        background: #F0F0F0;
+        padding: 0px 60px 0px 8px;
+        background: #F0F0F0;
+        font-size: 9px;
+        border: 1px solid #D2D2D2;
+        border-radius: 5px;
+
+    }
+    .emiseldiv{
+      width: 103px;
+      margin-right: 3px;
+    }
+    .error{
+      color:red;
+      font-size: 10px;
+    }
+      .form-control:disabled, .form-control[readonly] {
+    border: none;
+    background-color: #E8E8E8;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    height: 22px;
+    font-size: 12px;
+}
+.historyarrow{
+  margin-left: 15px !important;
+  cursor:pointer;
+}
+  </style>
+<div>
+    <div class="row" style="margin-left: 31px">
+    {% for i in info %}
+    <div class="main">
+      <div class="title">Customer Information</div>
+      <div class="content">
+        <div class="image">
+          <img
+            src="{% static 'Images/Ringing.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Mobile Number</span>
+          <div class="data">
+            <span>{{i.mobile_number}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/team 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Borrowor Name</span>
+          <div class="data">
+            <span>{{i.borrowor_name}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/address 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Address</span>
+          <div class="data">
+            <span>{{i.address}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/address 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">State</span>
+          <div class="data">
+            <span>{{i.state}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/address 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Pincode</span>
+          <div class="data">
+            <span>{{i.pincode}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/dis.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Date Of Birth</span>
+          <div class="data">
+            <span>{{i.dateofbirth}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/email 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Email ID</span>
+          <div class="data">
+            <span>{{i.email_id}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/phone 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Phone Number</span>
+          <div class="data">
+            <span>{{i.phone_number}}</span>
+          </div>
+        </div>
+        <div class="additional" {%if flag %} style="display: block"; {%else%} style="display: none"{%endif%}>
+          Additionnal Details
+          <div class="emailshow"{% if em %} style="display: block";{%else%} style="display: none"{% endif %}>
+            <span class="additionalheading">Email-Id</span>
+            <div class="additionaldetails" id="email-field">
+              {% for i in a %}
+              <span class="d-block">{{i.email}}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="contactshow"{% if con %}style="display: block;"{% else%} style="display: none"{%endif%}>
+            <span class="additionalheading">Contact-Number</span>
+            <div class="additionaldetails" id="contact-field">
+              {% for i in a %}
+              <span class="d-block">{{i.contactnum}}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="addressshow" {% if add %}style="display: block;"{%else%} style="display: none"{%endif%}>
+            <span class="additionalheading">Address</span>
+            <div class="additionaldetails" id="address-field">
+              {% for i in a %}
+                <span class="d-block">{{i.address}} {{i.state}} {{i.city}} {{i.landmark}} {{i.pincode}}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="main">
+      <div class="title title2">Process</div>
+      <div class="content">
+        <div class="image">
+          <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt=""/>
+          <span id="info">Bank Name</span>
+          <div class="data">
+            <span>{{i.bankname}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/user.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Trust Name</span>
+          <div class="data">
+            <span>{{i.trustname}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">System LAN</span>
+          <div class="data">
+            <span>{{i.systemlan}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/dis.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Bank Loan A/c(loan ID)</span>
+          <div class="data">
+            <span>{{i.bank_loan_accountno}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Branch Name</span>
+          <div class="data">
+            <span>{{i.branchname}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/address 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">State</span>
+          <div class="data">
+            <span>{{i.bankstate}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px"alt=""/>
+          <span id="info">Nature of Facility</span>
+          <div class="data">
+            <span>{{i.nature_of_facility}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Sanction Amount</span>
+          <div class="data">
+            <span>{{i.sanctionamount}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Loan Sanction Date</span>
+          <div class="data">
+            <span>{{i.loan_sanction_date}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/dis.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">NPA DATE</span>
+          <div class="data">
+            <span>{{i.NPA_Date}}</span>
+          </div>
+        </div>
+        <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Interest Rate(%p.a)</span>
+            <div class="data">
+              <span>{{i.interest_rate}}</span>
+            </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/rupee.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Account status</span>
+        <div class="data">
+          <span>{{i.account_status}}</span>
+        </div>
+        </div>
+        <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Security Value</span>
+            <div class="data">
+              <span>{{i.security_value}}</span>
+            </div>
+            </div>
+            <div class="image">
+              <img
+                src="{% static 'Images/rupee.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Document Custody</span>
+              <div class="data">
+                <span>{{i.security_value}}</span>
+              </div>
+              </div>
+              <div class="image">
+                <img
+                  src="{% static 'Images/rupee.png'%}"
+                  height="24px"
+                  width="24px"
+                  alt=""
+                />
+                <span id="info">Security Flag</span>
+                <div class="data">
+                  <span>{{i.security_flag}}</span>
+                </div>
+                </div>
+            <div class="image">
+              <img
+                src="{% static 'Images/rupee.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Current Allocation</span>
+              <div class="data">
+                <span>{{i.current_allocation}}</span>
+              </div>
+              </div>
+              <div class="image">
+                <img
+                  src="{% static 'Images/dis.png'%}"
+                  height="24px"
+                  width="24px"
+                  alt=""
+                />
+                <span id="info">Current Allocation Date</span>
+                <div class="data">
+                  <span>{{i.security_value}}</span>
+                </div>
+                </div>
+                <div class="image">
+                  <img
+                    src="{% static 'Images/user.png'%}"
+                    height="24px"
+                    width="24px"
+                    alt=""
+                  />
+                  <span id="info">team Leader</span>
+                  <div class="data">
+                    <span>{{i.team_ledear}}</span>
+                  </div>
+                  </div>
+                  <div class="image">
+                    <img
+                      src="{% static 'Images/user.png'%}"
+                      height="24px"
+                      width="24px"
+                      alt=""
+                    />
+                    <span id="info">Zone Name</span>
+                    <div class="data">
+                      <span>{{i.zone_name}}</span>
+                    </div>
+                    </div>
+                    <div class="image">
+                      <img
+                        src="{% static 'Images/email 1.png'%}"
+                        height="24px"
+                        width="24px"
+                        alt=""
+                      />
+                      <span id="info">Branch Emal ID</span>
+                      <div class="data">
+                        <span>{{i.branch_email_id}}</span>
+                      </div>
+                      </div>
+                      <div class="image">
+                        <img
+                          src="{% static 'Images/Ringing.png'%}"
+                          height="24px"
+                          width="24px"
+                          alt=""
+                        />
+                        <span id="info">Branch Contact Details</span>
+                        <div class="data">
+                          <span>{{i.branch_contact_details}}</span>
+                        </div>
+                        </div>
+                      </div>  
+                       
+                         
+                            
+    </div>
+    <div class="main">
+      <div class="title title3">Process Additional Information</div>
+      <div class="content">
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Current Principal Outstanding</span>
+          <div class="data">
+            <span>{{i.current_principal_outstanding}}</span>
+          </div>
+          </div>
+          <div class="image">
+          <img
+          src="{% static 'Images/rupee.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Total Collected Amount</span>
+                          <div class="data">
+                            <span>{{i.total_collected_amount}}</span>
+                          </div>
+                         </div>
+                         
+                          <div class="image">
+                            <img
+                              src="{% static 'Images/rupee.png'%}"
+                              height="24px"
+                              width="24px"
+                              alt=""
+                            />
+                            <span id="info">Balance POS Amount</span>
+                            <div class="data">
+                              <span>{{i.balance_POS_amount}}</span>
+                            </div>
+                            </div>
+                            <div class="image">
+                              <img
+                                src="{% static 'Images/rupee.png'%}"
+                                height="24px"
+                                width="24px"
+                                alt=""
+                              />
+                              <span id="info">TOS</span>
+                              <div class="data">
+                                <span>{{i.TOS}}</span>
+                              </div>
+                              </div>
+                              <div class="image">
+                                <img
+                                  src="{% static 'Images/dis.png'%}"
+                                  height="24px"
+                                  width="24px"
+                                  alt=""
+                                />
+                                <span id="info">TOS as on Date</span>
+                                <div class="data">
+                                  <span>{{i.TOS_as_on_Date}}</span>
+                                </div>
+                                </div>
+                                 <div class="image">
+                            
+                    
+                              
+</div>
+    </div>
+    </div>
+
+    <div class="parent">
+     
+      <div class="history" style="background-color: #FFFFFF;">
+        <div class="title title3">Customer History</div>
+        <div class="image">
+          <img
+            src="{% static 'Images/user.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Agent username</span>
+          <div class="data">
+            <span>{{i.agent_username}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Sub-Disposition</span>
+          <div class="data">
+            <span>{{i.sub_dispossitions}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/pencil 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Remark</span>
+          <div class="data">
+            <span>{{i.remark}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/dis.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Contacted Date & Time</span>
+          <div class="data">
+            <span>{{i.contacted_DateTime}}</span
+            >
+              <div class="historytitle">See Call History<i class="fa-solid fa-arrow-right historyarrow" id="showcall"  style="color:  #047BD5;" ></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callhistory" style="display: none;padding-left: 6px;">
+        <div class="main-data-wrapper">
+        {% for a in pers %}
+          <div class="list-wrapper">
+            <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 15px;cursor:pointer" id="back"></i>
+            <span style="font-size: 11px; margin-left:5px;margin-right:3px">{{a.contacted_DateTime}}</span
+              >
+            <i class="fa-solid fa-arrow-right historyarrow" style="color:  #047BD5;" ></i>
+           <div class="historycontent" style="margin-top: 5px;">
+            <div id="info" style="margin-top: 0px;">Agent Name</div>
+            <div class="data" style="margin-top: 0px;margin-left: 7px;">
+              
+              <div><i class="bi bi-telephone-forward-fill" style="font-size: 12px;color:  #047BD5; margin-right: 9px;"></i>{{a.callername}}</div>
+            </div>
+            <div id="info" style="margin-top: 2px;">Sub dispostion</div>
+            <div class="data" style="margin-top: 2px;margin-left: 3px;">
+              <div>{{a.sub_dispossitions}}</div>
+            </div>
+    
+            <div id="info" style="margin-top: 1px;">Remark</div>
+            <div class=" historyremark">
+              {{a.remark}}hvdjwhebdiuewduewnwnoeiwni ndwjnwo ejnjkwe ndjwnoij 
+            </div>
+            </div>
+    
+            </div>
+            {% endfor %}
+          </div>
+        <div id="pagination-container"></div>
+      </div>
+
+
+       <div class="mortgage">
+        <div class="title title3">Mortgage Details</div>
+        <div class="image">
+          <img
+            src="{% static 'Images/user.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Mortgage Type</span>
+          <div class="data">
+            <span>{{i.agent_username}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/detail.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Category</span>
+          <div class="data">
+            <span>{{i.sub_dispossitions}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/pencil 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Details</span>
+          <div class="data">
+            <span>{{i.remark}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/pencil 1.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Details 2</span>
+          <div class="data">
+            <span>{{i.remark}}</span>
+          </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/dis.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Value</span>
+          <div class="data">
+            <span>{{i.contacted_DateTime}}</span
+            >
+            </div>
+
+       </div>
+    </div>
+    </div>
+ 
+
+
+    <div class="parent">
+      <div class="Agent">
+        <div class="title title4">Agent Action</div>
+        <div class="callmsg text-center py-2  " style="display: none;font-size:11px">The Call is Placed Successfully</div>
+         <div class="d-flex justify-content-center">
+          <input
+            type="tel"
+            id="callname"
+            style="
+              margin-top: 8px;
+              border-radius: 10px;
+              padding-left: 21px;
+              width: 174px;
+            "
+            value={{p}}
+            disabled
+          />
+        </div>
+        
+        <div class="icondiv">
+          <a href="#" style="text-decoration: none;">
+          <div
+            class="callcontact"
+            style="background-color: rgb(65, 207, 65); color: white"
+          >
+            <i class="fa-solid fa-phone"></i>
+          </div>
+        </a>
+          <div class="contact1"><i class="fa-solid fa-phone"></i></div>
+          <div
+            class="whatcontact"
+            style="background-color: rgb(73, 226, 73); color: white"
+          >
+            <i class="fa-brands fa-whatsapp"></i>
+          </div>
+          <div
+            class="msgcontact"
+            style="background-color: rgb(233, 146, 58); color: white"
+          >
+            <i class="bi bi-chat-left-dots-fill" style="font-size: 16px"></i>
+          </div>
+        </div>
+      </div>
+      <div class="Agnttag">
+        <div class="title angtagtitle">Agent Tagging</div>
+        <div class="content">
+          <div class="image">
+            <div class="add-details-sel d-flex mb-2 justify-content-between">
+              <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+              <span id="info" style="margin-left: 5px;font-size: 12px;
+              font-weight: 500;">Add Details</span>
+              <div class="select-details-div">
+                  <select class="add-details" name="agenttag" id="selectBox">
+                      <option value="" style="display:none;">Select</option>
+                      <option value="email">Email</option>
+                      <option value="contactnum">Contact Number</option>
+                      <option value="address">Address</option>
+                  </select>
+              </div>
+           </div>
+            <form action="" id="post-form" method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="additional_id" value="{{i.id}}">
+              <div id="emaildiv" class="dis mb-1" style="display: none">
+                <input
+                  class="emailbox"
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="Enter Email-id"
+                />
+                <input
+                  style="margin-left: 4%"
+                  class="addbtn add-email"
+                  type="submit"
+                  value="Add +"
+                />
+              </div>
+
+              <div class="mb-2" id="contactbox" style="display: none">
+                <div class="d-flex align-items-center gap-2">
+                  <input class="contactsubdiv1" type="tel" id="contactnum"name="contactnum" placeholder="Contact no.">
+                  <div class="main-relation-div">
+                      <select class="relationsel" id="relation" name="relation">
+                          <option value="">Relation</option>
+                          <option value="">Own</option>
+                          <option value="">Father</option>
+                          <option value="">Mother</option>
+                          <option value="">Daughter</option>
+                          <option value="">Son</option>
+                          <option value="">Wife</option>
+                      </select>
+                  </div>
+                  <button class="addbtn add-contact" type="submit">Add <i class="bi bi-plus" style="font-size: 16px;"></i></button>
+                </div>
+              </div>
+              <div class="Addis" id="Addressdiv" style="display: none">
+                <textarea name="address-txt" class="addressbar" cols="29" rows="4" placeholder="Address"></textarea>
+                <!-- <div class="moreaddress"> -->
+                <input class="dissub" style="padding-left: 2%;" id="state" type="text" name="state" placeholder="State">
+                <input class="dissub" style="padding-left: 2%;" id="city" type="text" name="city" placeholder="City">
+                <input class="dissub" style="padding-left: 2%;" id="landmark" type="text" name="landmark" placeholder="LandMark">
+                <input class="dissub" style="padding-left: 2%;" id="pincode" type="tel" name="pincode" placeholder="Pincode">
+                <div class="d-flex justify-content-center my-2">
+                    <button class="addbtn add-address" type="submit">Add <i class="bi bi-plus" style="font-size: 16px;"></i></button>
+                </div>
+              </div>
+            </form>
+            <form action="" method="post" id="disform">
+              {% csrf_token %}
+              <input type="hidden"  name='dialnum3'  value="">
+
+              <div class="gap-1 d-flex">
+                <div class="main-disposition-box">
+                  <select class="dispositionsel" name="dispositionvalue" id="disposition" required>
+                      <option value="">Disposition</option>
+                      <option value="contacted">Contacted</option>
+                      <option value="non-contacted">Non-Contacted</option>
+                  </select>
+                  <span class="error" id="disposerror"></span>
+               </div>
+              
+                <div class="sub-disposition-box">
+                  <select class="subdispositionsel"  name="subdispositionvalue" placeholder="Subdisposition" id="sub_disposition" required>
+                      <option value="">Subdisposition</option>
+                  </select>
+                  <span class="error" id="subdisposerror"></span>
+
+                </div>
+              </div>
+
+              <div class="paiddiv" style="display: none">
+               <span id="info">Enter Amount : </span><input type="tel" autocomplete="off" class="paidamtin" name="paidamt" onkeypress="return isNumber(event)" required>
+                  <p style="margin-bottom:0px" class="radioval">
+                    <input
+                      type="radio"
+                      id="test1"
+                      name="radio-group"
+                      value="cash"
+                   />
+                    <label for="test1">Cash</label>
+                  </p>
+                  <p style="margin-bottom:0px" class="radioval">
+                    <input
+                      type="radio"
+                      id="test2"
+                      value="cheque"
+                      name="radio-group"
+                    />
+                    <label for="test2">Cheque</label>
+                  </p>
+                  <input type="tel" id="cheque" class="chequenable" style="display: none;" name="trans1" placeholder="Enter Cheque No.">
+                  <p style="margin-bottom:0px" class="radioval">
+                    <input
+                      type="radio"
+                      id="test3"
+                      name="radio-group"
+                      value="online payment"
+                    />
+                    <label for="test3">Online Payment</label>
+                    <input type="tel" id="onlinepay" class="chequenable" style="display: none;" name="trans2"  placeholder="Enter Transaction ID">
+                  </p>
+
+           
+              </div>
+             
+              <div class="Addis" id="ptpdiv" style="display: none;margin-top:11px;">
+        		<div class="d-flex">
+                  <input class="ptpdate"  type="date"
+                    placeholder="Select Date Time" name="ptpdate"/>
+
+                  <input type="tel" class="otsamtint" placeholder="PTP Amount" name="ptpamt" autocomplete="off" required>
+                </div>
+              
+                
+              </div>
+              <div class="dis">
+                <span  class="dissub contdiv" style="display: none;">
+                  Contacted
+              </span>
+              <div class=" cashdiv" style="display: none;">
+              <select class="selectpicker" name="cashtype" id="Mode1" >
+                  <option value="">Cash</option>
+                  <option value="fieldexecutive">Field Executive</option>
+                  <option value="branch">Branch</option>
+               </select>
+              </div>
+              </div>
+              <input
+                type="text"
+                placeholder="Field Executive"
+                name="field_branch"
+                class="dissub"
+                id="fieldex"
+                style="display: none; border: none"
+              />
+
+              <input
+                type="text"
+                placeholder="Branch"
+                class="dissub"
+                name="field_branch"
+                id="branchex"
+                style="display: none"
+              />
+
+              <div id="call" class="callcheck" style="display: none">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
+                            <input
+                                type="radio"
+                                id="calltest1"
+                                name="checks[]"
+                                value="15min"
+                            />
+                            <label for="calltest1">15 Min</label>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p style="margin-bottom:7px;margin-top: 7px;"class="radioval">
+                            <input
+                                type="radio"
+                                id="calltest2"
+                                value="30min"
+                                name="checks[]"
+                            />
+                         <label for="calltest2">30 Min</label>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
+                            <input
+                                type="radio"
+                                id="calltest3"
+                                name="checks[]"
+                                value="45min"
+                            />
+                            <label for="calltest3">45 Min</label>
+                            </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
+                            <input
+                              type="radio"
+                              id="calltest4"
+                              name="checks[]"
+                              value="1hr"
+                            />
+                        <label for="calltest4">60 Min</label>
+                        </p>
+                   </div>
+              </div>
+              </div>
+             
+              <div class="schedule" style="display: none; margin-top: 12px;padding-left: 21px;">
+                <!-- <form action="" method="post">
+                                            {% csrf_token %} -->
+                <input
+                  id="schedulecall"
+                  class="form-control"
+                  type="datetime-local"
+                  placeholder="selecte date time"
+                  name="scheduledate"
+                   />
+          
+               
+              </div>
+
+              <!-- call schedule  settings end -->
+
+              <!-- OTS request  settings starts -->
+
+              <div class="otsreq" style="display: none">
+   
+                <!-- <div class=""> -->
+                  
+                <input
+                  type="tel"
+                  placeholder="TOS %"
+                  name="tospercent"
+                  class="dissub percaltos"
+                  
+                  style="width:100px;
+                  margin-left:0px"
+                 
+                />
+                <input
+                  type="tel"
+                  placeholder="TOS Amount"
+                  name="otsamt"
+                  class="otsamtint" 
+                  readonly
+                  style="width:93px;margin-left:0px"
+                  autocomplete="off"
+                />
+                <input
+                  type="tel"
+                  placeholder="POS %"
+                  readonly
+                  class="dissub percalpos"
+                  style="width:100px;
+                  "
+                 
+                />
+                <input
+                  type="tel"
+                  placeholder="POS Amount"
+                  name="posamt"
+                  class="otsamtint" 
+                  readonly
+                  style="width:93px;margin-left:0px"
+                  autocomplete="off"
+                />
+                <!-- <span class="spanots">OTS</span> -->
+                
+                </div>
+              
+              <!-- <textarea name="otsremark" id="otsremark" class="rm"cols="30" rows="7"></textarea><i class="bi bi-mic-fill" style="float: right;"></i>
+                    
+                                                    
+                                        <input id="otsbtn" class="subbtn" type="submit"> -->
+              <!-- </form> -->
+
+              <!-- OTS request  settings ends -->
+              <!-- settelement  settings starts -->
+              <div id="settle" style="display: none;justify-content: end;">
+                <!-- <form action="" method="post">
+                                      {%  csrf_token %} -->
+                <div class="emiseldiv">
+                  <select class="emisel" id="settle" name="settle">
+                    <option class="agentselect" value="">
+                      Select EMI
+                    </option>
+                    <option value="EMI1">EMI1</option>
+                    <option value="EMI2">EMI2</option>
+                    <option value="EMI3">EMI3</option>
+                    <option value="EMI4">EMI4</option>
+                  </select>
+                </div>
+              </div>
+
+                <!-- settelement  settings ends -->
+                <!-- EMI4 div starts -->
+                <span class="emiin" style="display: none"></span>
+               
+            
+              <div class="emidiv" id="emid1" style="display: none;margin-top: 11px;">
+                <input type="date" placeholder="select" id="emical1" name="emidate1" class="emidate">
+                <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled>
+              </div>
+                <div id="emid2"  style="display:none">
+                <input type="date" placeholder="select" id="emical2" name="emidate2" class="emidate" >
+                <input type="tel" name="emiamt2"  class="emidate"placeholder="Enter Amount" disabled>
+                </div>
+                <div id="emid3"  style="display:none">
+                <input type="date" placeholder="select" id="emical3" name="emidate3"  class="emidate" >
+                <input type="tel" name="emiamt3"  class="emidate"placeholder="Enter Amount" disabled>
+                </div>
+                <div id="emid4"  style="display:none">
+                <input type="date" id="emical4" placeholder="select" name="emidate4" class="emidate" >
+                <input type="tel" name="emiamt4"   class="emidate"placeholder="Enter Amount" disabled>
+              </div>
+              
+            <div class="sendFE" style="display: none;">
+            <textarea name="saddress" class="addressin" id="remark" class="rm"cols="29" rows="7" placeholder="Complete Address" ></textarea>   
+            
+            <input class="dissub" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area">
+              
+            <input class="dissub" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark">
+
+            <input class="dissub" style="padding-left: 2%;"  type="text" name="spincode" placeholder="Pincode"><br>
+
+            <hr style="margin-right: 10px;"/>
+
+            <div class="d-flex justify-content-around align-items-center">
+                <p class="m-0 sendfetext">Date & Time</p>
+                <input class="dissub" style="padding-left: 2%;"  type="date" name="sdate" placeholder="Date">
+            </div>
+
+            <div class="d-flex justify-content-around align-items-center mt-2">
+                <p class="m-0 sendfetext">Payment</p>
+                <div class="main-femode-div">
+                    <select class="femode" name="femode" id="">
+                        <option value=""  style="display:none;">Mode of Payment</option>
+                        <option value="cash">Cash</option>
+                        <option value="cheque">Cheque</option>
+                    </select>
+                </div>
+            </div>                                       
+            
+        </div>
+              <div class="remark" style="position: relative">
+                <i
+                  class="bi bi-mic-fill"
+                  style="
+                    position: absolute;
+                    z-index: 1;
+                    right: 10px;
+                    margin-top: 10px;
+                  "
+                ></i>
+                <textarea
+                  name="remark"
+                  id="remark"
+                  class="rm"
+                  cols="29"
+                  rows="7"
+                  required
+                  style="position: relative"
+                ></textarea>
+                <span class="error" id="rem-error"></span>
+              </div>
+              <input class="subbtn" type="submit" />
+            </form>
+            <!-- send FE to Collect end-->
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <script src="{% static 'vendor/js/select2.min.js' %}"></script>
+  <script src="{% static 'js/select2custom.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+      //Pagination start
+      var items = $(".main-data-wrapper .list-wrapper");
+      var numItems = items.length;
+      var perPage = 1;
+
+      items.slice(perPage).hide();
+
+      $('#pagination-container').pagination({
+          items: numItems,
+          itemsOnPage: perPage,
+          prevText: "&laquo;",
+          nextText: "&raquo;",
+          onPageClick: function (pageNumber) {
+              var showFrom = perPage * (pageNumber - 1);
+              var showTo = showFrom + perPage;
+              items.hide().slice(showFrom, showTo).show();
+          }
+      });
+      //Pagination end 
+
+
+
+     $("#showcall").click(function(){
+      console.log("click")
+        $(".history").css({"display":"none"})
+        $(".callhistory").css({"display":"block"})
+     })
+     $("#back").click(function(){
+      console.log("click")
+        $(".history").css({"display":"block"})
+        $(".callhistory").css({"display":"none"})
+     })
+      $('#callname').keyup(function (){
+        a =  $('input[name=dialnum3]').val($("#callname").val())
+        console.log($('input[name=dialnum3]').val())
+      })
+
+        TOS = `{% for i in info %} {{i.TOS}} {%  endfor %}`
+        POS = `{% for i in info %} {{i.balance_POS_amount}} {%  endfor %}`
+        console.log(TOS)
+        $(".percaltos").on('input', function() {
+          $(this).val(function(i, v) {
+          return v.replace('%','') + '%';  });
+        });
+        
+        $('.percaltos').keyup(function (){
+            b = $('.percaltos').val()
+            b = b.replace('%','')     
+                console.log(b)
+                percentage=(b/100)*TOS
+                percentage=Math.round(percentage)
+                console.log(percentage)
+
+                // $('.percaltos').val(`${percentage}%`)
+                $('input[name=otsamt]').val(percentage)
+                console.log( $('input[name=otsamt]').val())
+                
+              
+                console.log("pos",POS)
+                percentage=(percentage/POS)*100
+                percentage=Math.round(percentage)
+                console.log(percentage)
+                $(".percalpos").val(`${percentage}%`)
+               c= $('.percalpos').val()
+              c = c.replace('%','')     
+                console.log(c)
+                percentage=(c/100)*POS
+                percentage=Math.round(percentage)
+                console.log(percentage)
+
+                // $('.percaltos').val(`${percentage}%`)
+                $('input[name=posamt]').val(percentage)
+                console.log( $('input[name=posamt]').val())
+     
+        })
+        $('.percalpos').keyup(function (){
+          $(".percaltos").append('.percaltos').val()
+        })
+        $('.percalpos').keyup(function (){
+            b = $('.percalpos').val()
+                console.log(b)
+                percentage=(b/100)*TOS
+                percentage=Math.round(percentage)
+                console.log(percentage)
+
+                $('input[name=otsamt]').html(`${percentage}%`)
+                $('input[name=otsamt]').val(percentage)
+                console.log( $('input[name=otsamt]').val())
+     
+        })
+      
+      
+     
+      $('#disform').validate({ // initialize the plugin
+        rules: {
+          dispositionvalue : {
+                required: true,
+            },
+            subdispositionvalue: {
+                required: true,
+            },
+            remark:{
+              required:true
+            }
+        },errorPlacement: function(error,element){
+          if (element.attr("name")=='dispositionvalue'){
+            error.appendTo('#disposerror')
+          }if (element.attr("name")=='subdispositionvalue'){
+            error.appendTo('#subdisposerror')
+          }
+          if (element.attr("name")=='remark'){
+            error.appendTo('#rem-error')
+          }
+        }   
+     });   
+
+   
+
+        $(".callcontact").click(function(){
+          console.log('click')
+          $.ajax({
+            type:"post",
+            url:'{% url "call" %}',
+            data:{
+              dialnum3:$('input[name=dialnum3]').val(),
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function(data){
+              console.log("done")
+              // alert("Call Connected Successfully!!")
+              $(".callmsg").css({'display':'block'})
+              $("#callname").css({"display":"none"})
+            }
+          })
+        })
+        $(".contact1").click(function(){
+          console.log('click')
+          $.ajax({
+            type:"post",
+            url:'{% url "disconnect" %}',
+            data:{
+              // dialnum3:$('input[name=dialnum3]').val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function(data){
+              console.log("oo ho")
+              // alert("Call Disconnected!!")
+              $(".callmsg").css({"display":"none"})
+              $("#callname").css({"display":"block"})
+            }
+          })
+        })
+
+         $(".subbtn").click(function(){
+          // console.log($('select[name=subdispositionvalue]').val())
+          if ($('#disform').valid()===true){
+            $.ajax({
+            type:"post",
+            url:'{% url "dispose" %}',
+            data:{
+              // dialnum3:$('input[name=dialnum3]').val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+               dispos:$('select[name=subdispositionvalue]').val(),
+               checks:$('input[name="checks[]"]:checked').val(),
+               schedule:$('input[name=scheduledate]').val(),
+            },
+            success: function(data){
+              console.log("disposed")
+              // alert(" Disposed")
+              window.close();
+            }
+          })
+          }
+        })
+
+
+      $(document).on("submit", "#post-form", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          type: "POST",
+          url: "{% url 'additional'  %}",
+          data: {
+            email: $("#email").val(),
+            contactnum: $("#contactnum").val(),
+            address: $(".addressbar").val(),
+            state: $("#state").val(),
+            city: $("#city").val(),
+            landmark: $("#landmark").val(),
+            pincode: $("#pincode").val(),
+            additional:$("input[name='additional_id']").val(),
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+          },
+          success: function () {
+            $("#email").val("");
+            $("#contactnum").val("");
+            $("#address").val("");
+            $("#state").val("");
+            $("#ciy").val("");
+            $("#landmark").val("");
+            $("#pincode").val("");
+            $(".addressbar").val("");
+          
+          },
+        });
+      });
+      
+
+      $("#selectBox").change(function () {
+        if ($("#selectBox").val() == "contactnum") {
+          $("#contactbox").css({ display: "block" });
+          $("#Addressdiv").css({ display: "none" });
+          $("#emaildiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+        }
+      });
+      $("#disposition").change(function () {
+        if ($("#disposition").val() == "contacted") {
+          $(".contdiv").css({ display: "none" });
+          // $('#disposition').val("")
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ diplay: "none" });
+        }
+      });
+      $("#selectBox").change(function () {
+        if ($("#selectBox").val() == "email") {
+          $("#emaildiv").css({ display: "block" });
+          $("#contactbox").css({ display: "none" });
+          $("#Addressdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+        }
+      });
+
+      $("#selectBox").change(function () {
+        if ($("#selectBox").val() == "address") {
+          console.log('address')
+          $("#Addressdiv").css({ display: "block" });
+          $("#emaildiv").css({ display: "none" });
+          $("#contactbox").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+        }
+      });
+
+      $(".add-contact").click(function () {
+        console.log("click");
+        var conval = $("#contactnum").val();
+        console.log(conval);
+        $(".additional").css({ display: "block" });
+        $(".contactshow").css({ display: "block" });
+        $("#contact-field").append(
+          `<span style="display:block;">${conval}</span>`
+        );
+        // $('#usercontact').val('')
+        $(".sendFE").css({ display: "none" });
+        $("#schedulecall").css({ display: "none" });
+      });
+
+      $(".add-email").click(function () {
+        console.log("click");
+        var emailval = $("#email").val();
+        console.log(emailval);
+        $(".additional").css({ display: "block" });
+        $(".emailshow").css({ display: "block" });
+        $("#email-field").append(
+          `<span style="display:block;">${emailval}</span>`
+        );
+        $(".sendFE").css({ display: "none" });
+        $("#schedulecall").css({ display: "none" });
+      });
+
+
+      $(".add-address").click(function () {
+        console.log("click");
+        var addval = $(".addressbar").val();
+        console.log(addval);
+        var stateval = $("#state").val();
+        console.log(stateval);
+        var cityval = $("#city").val();
+        console.log(cityval);
+        var landval = $("#landmark").val();
+        console.log(landval);
+        var pinval = $("#pincode").val();
+        console.log(pinval);
+        $(".additional").css({ display: "block" });
+        $(".addressshow").css({ display: "block" });
+        $("#address-field").append(
+          `<span style="display:block margin-right:19px;">${addval}   ${stateval} ${cityval}     ${landval}    ${pinval}</span>`
+        );
+        // $('#useradd').val('');
+        // $('#userstate').val('');
+        // $('#userciy').val('');
+        // $('#userland').val('');
+        // $('#userpincode').val('');
+        $(".sendFE").css({ display: "none" });
+        $(".online").css({ display: "none" });
+        $(".paiddiv").css({ display: "none" });
+        $(".cashdiv").css({ display: "none" });
+        $(".sendFE").css({ display: "none" });
+        $("#branchex").css({ display: "none" });
+        $(".contdiv").css({ display: "none" });
+        $("#schedulecall").css({ display: "none" });
+      });
+
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Paid") {
+          $(".paiddiv").css({ display: "block" });
+          $(".contdiv").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $("#disposition").val("contacted");
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".settel").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".cashdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+        }
+      });
+
+    
+
+
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Promise To Pay") {
+          $("#ptpdiv").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $("#mainbtn").css({ display: "block" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Call Back") {
+          $(".callcheck").css({ display: "block" });
+          $(".remark").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Schedule Call") {
+          $(".schedule").css({ display: "block" });
+          $(".remark").css({ display: "block" });
+          $("#disposition").val("contacted");
+          $(".otsreq").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+
+          $(".settelement").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "OTS Request") {
+          $(".otsreq").css({ display: "block" });
+          $("input[name=otsamt]").val("")
+          $("input[name=posamt]").val("")
+          $(".percaltos").val("")
+          $(".percalpos").val("")
+          // $('.otsspan').css({display:'block'})
+          $(".remark").css({ display: "block" });
+          // $('#otsremark').css({display:'block'})
+          // $('#otsbtn').css({display:'block'})
+          $("#schedulecall").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $("#mainbtn").css({ display: "none" });
+          $("#shedulebtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+        }
+      });
+
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Settlement") {
+          $("#settle").css({ display: "block" });
+          $(".remark").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $("#disposition").val("contacted");
+          $(".otsreq").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $("#mainbtn").css({ display: "none" });
+        }
+      });
+      $("select[name=settle]").change(function () {
+            $('#emical1').val("");
+            $('#emical2').val("");
+            $('#emical3').val("");
+            $('#emical4').val("");
+
+        if ($("select[name=settle]").val() == "EMI1") {
+          $("#emid1").css({ display: "block" });
+          $("#emid4").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $("#disposition").val("contacted");
+          $(".otsreq").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+        }
+      
+      });
+      $("select[name=settle]").change(function () {
+        if ($("select[name=settle]").val() == "EMI2") {
+          $("#emid2").css({ display: "block" });
+          $("#emid4").css({ display: "none" });
+          
+          $("#emid3").css({ display: "none" });
+          $("#emid1").css({ display: "block" });
+          $("#disposition").val("contacted");
+          $(".otsreq").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+        }
+      
+       });
+      $("select[name=settle]").change(function () {
+        if ($("select[name=settle]").val() == "EMI3") {
+          $("#emid3").css({ display: "block" });
+          $("#emid4").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $("#emid2").css({ display: "block" });
+          $("#emid1").css({ display: "block" });
+          $("#emi1").css({ display: "none" });
+          $("#disposition").val("contacted");
+          $(".otsreq").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+        }
+      
+      });
+      $("select[name=settle]").change(function () {
+           
+        if ($("select[name=settle]").val() == "EMI4") {
+          $("#emid4").css({ display: "block" });
+          $("#emid3").css({ display: "block" });
+          $("#emid2").css({ display: "block" });
+          $("#emid1").css({ display: "block" });
+          $(".schedule").css({ display: "none" });
+         $("#disposition").val("contacted");
+          $(".otsreq").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+        }
+      
+      });
+      $('#emical1').change(function (){
+        var a = $(".emidate").val()
+         console.log(a)
+         var newDate  = moment(a, "YYYY-MM-DD").add(1, 'months').format("YYYY-MM-DD");
+         var newDate2 = moment(a, "YYYY-MM-DD").add(2, 'months').format("YYYY-MM-DD");
+         var newDate3 = moment(a, "YYYY-MM-DD").add(3, 'months').format("YYYY-MM-DD");
+  
+ 
+        console.log($('.emisel').val())
+        if ($('.emisel').val() == 'EMI2'){
+          $('#emical2').val(newDate);
+        }
+        if ($('.emisel').val() == 'EMI3'){
+          $('#emical2').val(newDate);
+          $('#emical3').val(newDate2);
+        }
+        if ($('.emisel').val() == 'EMI4'){
+            $('#emical2').val(newDate);
+            $('#emical3').val(newDate2);
+            $('#emical4').val(newDate3);
+        }
+         console.log(newDate)
+        $("input[name=emiamt1]").removeAttr("disabled");
+        $("input[name=emiamt2]").removeAttr("disabled");
+        $("input[name=emiamt3]").removeAttr("disabled");
+        $("input[name=emiamt4]").removeAttr("disabled");
+
+      });
+    
+      
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Send FE To Collect") {
+          $(".sendFE").css({ display: "block" });
+          $("#disposition").val("contacted");
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".settelement").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $(".emidiv").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Broken Promise") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Refused To Pay") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Busy") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Ringing No Response") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Switch OFF") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+       $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Not Reachable") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Call Waiting") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Wrong Contact") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      
+       $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Not Reachable") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      
+       $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Call Waiting") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Language Not Communicable") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+      });
+      $("#sub_disposition").change(function () {
+        if ($("#sub_disposition").val() == "Not Available") {
+          $("#call").css({ display: "none" });
+          $(".remark").css({ display: "block" });
+          $(".online").css({ display: "none" });
+          $("#ptpdiv").css({ display: "none" });
+          $(".online").css({ display: "none" });
+          $(".paiddiv").css({ display: "none" });
+          $(".cashdiv").css({ display: "none" });
+          $("#branchex").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          $(".contdiv").css({ display: "none" });
+          $(".sendFE").css({ display: "none" });
+          // $('#disposition').val('contacted')
+          $(".settelement").css({ display: "none" });
+          $("#schedulecall").css({ display: "none" });
+          $("#settle").css({ display: "none" });
+          $("#emid1").css({ display: "none" });
+          $("#emid4").css({ display: "none" });
+          $("#emid2").css({ display: "none" });
+          $("#emid3").css({ display: "none" });
+          $("#mainbtn").css({ display: "none" });
+          $(".schedule").css({ display: "none" });
+          $(".otsinfo").css({ display: "none" });
+          $(".otsspan").css({ display: "none" });
+          $(".otsreq").css({ display: "none" });
+          $("#otsremark").css({ display: "none" });
+          $("#otsbtn").css({ display: "none" });
+        }
+        $(".radioval").click(function(){
+        var val = $("input[type='radio']:checked").val();
+        if(val==="cheque"){
+            $("#cheque").css({ display: "block" });
+            $("#onlinepay").css({ display: "none" });
+        }
+        else if(val==="online payment"){
+            $("#onlinepay").css({ display: "block" });
+            $("#cheque").css({ display: "none" });
+        }
+        else if(val==="cash"){
+            $("#onlinepay").css({ display: "none" });
+            $("#cheque").css({ display: "none" });
+        }
+    });
+      });
+
+      $(document).ready(function () {
+        //   $("#disposition").change(function() {
+        //     var val = $(this).val();
+        //     if (val == "contacted") {
+        //         $("#sub_disposition").html(' <option  value="none" disabled selected hidden>Subdisposition</option><option value="Paid">Paid</option><option value="Promise To Pay">PTP</option><option value="Call Back">Call Back</option><option value="Schedule Call">Schedule Call</option><option value="OTS Request">OTS Request</option><option value="Settlement">Settelement</option><option value="Send FE To Collect">Send Fe To Collect</option><option value="Broken Promise">Broken Promise To Pay</option><option value="Refused To Pay">Refused To Pay</option>');
+        //     } else if (val == "non-contacted") {
+        //         $("#sub_disposition").html("<option value='none'disabled selected hidden>Subdisposition</option><option value='Busy'>Busy </option><option value='No-recall'>No-recall</option><option value='ringingnoreponse'>Ringing No Response</option><option value='Call Waiting'>Call Waiting</option> <option value='switchoff'>Switched Off</option> <option value='Not Reachable'>Not Reachable</option><option value='wrongcontact'>Wrong Contact Number</option><option value='Not Available'>Not Available But resides Here</option><option value='language'>Language Not Communiable</option>");
+        //     }
+        //   });
+        $("#disposition").change(function () {
+          var conval = $("#disposition").val();
+          console.log(conval);
+
+          if (conval == "contacted") {
+            $("#sub_disposition").selectpicker("refresh");
+            $("#sub_disposition option").remove();
+            $("#sub_disposition").append(
+            
+              `<option  value="none" disabled selected hidden>Subdisposition</option>\
+              {% for i in contacted %}<option value="{{i}}">{{i}}</option>{% endfor %}`
+            );
+            $("#sub_disposition").selectpicker("refresh");
+          } else if (conval == "non-contacted") {
+            $("#sub_disposition").selectpicker("refresh");
+            $("#sub_disposition option").remove();
+            $("#sub_disposition ").append(
+              `<option  value="none" disabled selected hidden>Subdisposition</option>\
+              {% for i in noncontacted %}<option value="{{i}}">{{i}}</option>{% endfor %}`
+            );
+            $("#sub_disposition").selectpicker("refresh");
+          }
+        });
+      });
+
+      // the selector will match all input controls of type :checkbox
+      // and attach a click event handler
+      $("input:checkbox").on("click", function () {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+          // the name of the box is retrieved using the .attr() method
+          // as it is assumed and expected to be immutable
+          var group = "input:checkbox[name='" + $box.attr("name") + "']";
+          // the checked state of the group/box on the other hand will change
+          // and the current value is retrieved using .prop() method
+          $(group).prop("checked", false);
+          $box.prop("checked", true);
+        } else {
+          $box.prop("checked", false);
+        }
+      });
+    });
+
+    config = {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+      altInput: true,
+      altFormat: "F j, Y (h:i K)",
+    };
+    flatpickr("input[type=datetime-local]", config);
+    $("select[name=mode]").change(function () {
+      console.log($("select[name=mode]").val());
+    });
+
+    $('select[name=dispositionvalue]').change(function(){
+      if ($("select[name=dispositionvalue]").val()!= ""){
+        $("#disposerror").css({'display':'none'})
+      }else{
+        $("#disposerror").css({'display':'block'})
+      }
+     })
+     $('select[name=subdispositionvalue]').change(function(){
+      if ($("select[name=subdispositionvalue]").val()!= ""){
+        $("#subdisposerror").css({'display':'none'})
+      }else{
+        $("#subdisposerror").css({'display':'block'})
+      }
+     })
+
+
+  </script>
+
+  {% endblock content %}

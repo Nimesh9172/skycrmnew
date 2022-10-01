@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% include "style.html" %}
+    <style>
+  .clicked{
+ background: #121B55;
+  }
+
+    
+    </style>
+    <div class="container-fluid">
+        <div class="row" >
+            <div class="dash">
+               Team Overall Report  
+               <div style="float: right">
+                <img src="{% static 'Images/user.png' %}" class="show" style=" height: 41px; margin-right: 10px;" alt="">
+
+                 
+                          
+                </div>
+              </div>
+              <div>
+              <div style="position: relative;
+              float: right;
+              width: 35%;"  >
+                <img  src="{% static 'Images/Vector.png'%}" style="position: absolute;top: 20px;
+                left: 34px;" class="searchicon" alt="" >
+                <input type="search" class="dashsearch"  placeholder="Search" >
+               
+              </div>
+            </div>
+
+            <div class="cardBox flex-wrap">
+                <div class="dashcard">
+                    <div class="imgcard ptp" style="padding-top: 18px;" >
+                    <img src="{% static 'Images/ptp status icon 2.svg' %}"/></div>
+                    <p class="cardcontent">PTP Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 6%;" id="paid">
+                      <img src="{% static 'Images/pay icon.svg' %}"/>
+                    </div>
+                    
+                    <p class="cardcontent">Paid Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 3%; " id="ptps">
+                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"/>
+                    </div>
+                    
+                    <p class="cardcontent">PTP Status Comparison</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 4%; " id="ptpsc">
+                      <img src="{% static 'Images/paid status icon.svg' %}"/>
+                    </div>
+                    <!-- <img class="d" src="{% static 'Images/Rectangle 95.png'%}"  height="99px" alt=""> -->
+                    <p class="cardcontent">Paid Status Comparison</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 3%;" id="dispostatus">
+                      <img src="{% static 'Images/folder.svg' %}"/>      
+                    </div>
+                    <p class="cardcontent">Disposition Status</p>
+                </div>
+                <div class="dashcard">
+                    <div class="imgcard" style="padding-top: 14px;" id="notattempt">
+                      <img src="{% static 'Images/warning.svg' %}"/>
+                    </div>
+                   
+                    <p class="cardcontent">Not Attempted</p>
+                </div>
+            </div>
+           
+                
+                <div class="table-responsive table-div">
+                <table id="example" class="table"  style=" width: 100%; margin-bottom: 0;">
+                  <thead style="background-color: #047BD5;" class="tableheadings">
+                    <tr class="importantth">
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Agent Name
+                      </th>
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Allocation(%)
+                      </th>
+                      <th class="th-sm"  style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Collectable(%)
+                      </th>
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Target(%)
+                      </th>
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Paid(%)
+                      </th>
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Collection Projections(%)
+                      </th>
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Achieved(%)
+                    </th>
+                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Efficiency(%)
+                    </th>
+                    </tr>
+                    </thead>
+                  <tbody class="tablebody">
+                   
+                    <tr class="dashhover">
+                    <td>bdihder</td>
+                    <td>bdihder</td>
+                    <td>bdihder</td>
+                    <td>bdihder</td>
+                    <td>bdihder</td>
+                    <td>bdihder</td>
+                    <td>bdihder</td>
+                    <td>bdihder</td> 
+                      </tr>
+                      <tr class="dashhover">
+                        <td>bdihder</td>
+                        <td>bdihder</td>
+                        <td>bdihder</td>
+                        <td>bdihder</td>
+                        <td>bdihder</td>
+                        <td>bdihder</td>
+                        <td>bdihder</td>
+                        <td>bdihder</td> 
+                          </tr>
+                          <tr class="dashhover">
+                            <td>bdihder</td>
+                            <td>bdihder</td>
+                            <td>bdihder</td>
+                            <td>bdihder</td>
+                            <td>bdihder</td>
+                            <td>bdihder</td>
+                            <td>bdihder</td>
+                            <td>bdihder</td> 
+                              </tr>
+                              <tr class="dashhover">
+                                <td>bdihder</td>
+                                <td>bdihder</td>
+                                <td>bdihder</td>
+                                <td>bdihder</td>
+                                <td>bdihder</td>
+                                <td>bdihder</td>
+                                <td>bdihder</td>
+                                <td>bdihder</td> 
+                                  </tr>
+                                  <tr class="dashhover">
+                                    <td>bdihder</td>
+                                    <td>bdihder</td>
+                                    <td>bdihder</td>
+                                    <td>bdihder</td>
+                                    <td>bdihder</td>
+                                    <td>bdihder</td>
+                                    <td>bdihder</td>
+                                    <td>bdihder</td> 
+                                      </tr>
+             
+                    
+                  </tbody>
+                  <tfoot>
+        
+                  </tfoot>
+                </table>
+              </div>
+              
+            </div>
+     
+     
+    </div>
+
+ 
+      <script>
+        // table design starts
+         
+            $(document).ready(function () {
+               var table =  $('#example').DataTable({
+                  "aLengthMenu":[100]
+                });
+                var search = $.fn.dataTable.util.throttle(
+                function(val) {
+                    table.search(val).draw();
+                },
+                400  // Search delay in ms
+            );
+
+            $('.dashsearch').keyup(function() {
+                search(this.value);
+            });
+           
+        
+
+
+
+$('.show').click(function() {
+    $('.logdiv').toggle('slow');  
+    console.log("hiii")      
+});
+
+$(".ptp").click(function(){
+  console.log("ptp")
+  $(".ptp").addClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+})
+  });
+  $("#paid").click(function(){
+  $("#paid").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#ptps").click(function(){
+  $("#ptps").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#ptpsc").click(function(){
+  $("#ptpsc").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#dispostatus").click(function(){
+  $("#dispostatus").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+  $("#notattempt").removeClass("clicked")
+});
+$("#notattempt").click(function(){
+  $("#notattempt").addClass("clicked")
+  $("#ptp").removeClass("clicked")
+  $("#ptps").removeClass("clicked")
+  $("#ptpsc").removeClass("clicked")
+  $("#dispostatus").removeClass("clicked")
+  $("#paid").removeClass("clicked")
+})
+
+
+
+
+
+      </script>
+
+{% endblock content %}

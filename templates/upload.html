@@ -1,0 +1,483 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+  {% block content %}
+
+{% include "style.html" %}
+  <style>
+  .error{
+      color:red;
+      font-size: 10px;
+    }
+
+.box {
+  position: relative;
+  background: #ffffff;
+  width: 100%;
+}
+
+.box-header {
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
+  border-bottom: 1px solid #f4f4f4;
+  margin-bottom: 10px;
+}
+
+.dropzone-wrapper {
+  border: 2px dashed #91b0b3;
+  color: #92b0b3;
+  position: relative;
+  height: 65px;
+  margin-top: 20px;
+  background: #FFFFFF;
+}
+
+.dropzone-desc {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  width: 100%;
+  top: 0px;
+  font-size: 16px;
+}
+
+.dropzone,
+.dropzone:focus {
+  /* position: absolute; */
+  outline: none !important;
+  width: 100%;
+  height: 59px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.dropzone-wrapper:hover,
+.dropzone-wrapper.dragover {
+  background: #ecf0f5;
+}
+
+.downloadbtn{
+  text-decoration: none;
+  text-align: center;
+}
+.downloadbtn:hover{
+  color: white;
+}
+.uploaddiv{
+  width: 90%;
+  height: 274px;
+
+
+background: #FFFF;
+box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+border-radius: 10px;
+}
+
+.select2-container .select2-selection--single {
+    height: 31px !important;
+
+}
+.select2-container--default .select2-selection--single {
+    border: none !important;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+}
+
+  .select2-container--default .select2-selection--single {
+    border: none !important ;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #197AA4 transparent transparent transparent !important;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #197AA4 transparent !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    right: 15px !important;
+}
+@media screen and (max-width: 512px) {
+  .uploaddiv{
+    width: 74%;
+    margin-left: 94px;
+    padding-left: 0;
+    height: 60%;
+  }
+  .uploadinput1{
+    width: 80%;
+  }
+  .uploadinput2{
+    width: 80%;
+  }
+  .uploadbtn{
+    width: 43%;
+  }
+  .downloadbtn{
+    width: 43%;
+    margin-left: 12px;
+    margin-bottom: 12px;
+  }
+  .table-div{
+    margin-left: 97px !important;
+    width: 74%;
+  }
+
+
+
+ 
+  .dropzone-desc > p{
+    margin-top: 8px;
+  } 
+}
+
+
+
+
+
+  </style>
+    <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+
+
+<form  action="{% url 'dataupload' %}" method="post"  enctype="multipart/form-data" id="uploadform">
+    {% csrf_token %}
+<div class="row">
+  <div class="dash">Data Upload</div>
+ 
+<div class="alert alert-info alert-dismissible fade show data-up" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+  Data Uploaded Successfully!
+   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="alert alert-warning alert-dismissible fade show data-down" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+  Something Went Wrong!
+   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<div class="alert listidalert alert-warning alert-dismissible fade show" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+  This list id already exists!
+ <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+  <div class="uploaddiv">
+      <div class="row firstrow ">
+        
+          <div class="col-4">
+          <div class="upsdiv">
+            <select name="campion" class="ups">
+              <option value="">Select Campaign</option>
+              
+              {% for i in camp %}
+              <option value="{{i.campaign_id}}">{{i.campaign_name}}</option>
+              {% endfor %}
+            </select>
+            <span class="error" id="campion-error"></span>
+          </div>
+        </div>
+        <div class="col-4">
+          <input type="text" name="listid" placeholder="List ID" class="uploadinput2" autocomplete="off" onkeypress="return isNumber(event)">
+          <span class="error" id="listid-error"></span>
+        </div>
+        <div class="col-4">
+          <input type="text" name="listname" placeholder="List Name" class="uploadinput2" autocomplete="off" >
+          <span class="error" id="listname-error"></span>
+        </div>
+        
+        <div class="uploaddiv2">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <div class="dropzone-wrapper">
+                    <div class="dropzone-desc">
+                      <p class="mt-sm-3 mb-0"><i><img src="{% static 'Images/arrowup.png' %}" alt=""></i>Drag and drop .csv files here or <span class="uploadspan">Choose files </span></p>
+                    </div>
+                    <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="listfile" class="dropzone" required>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between flex-wrap">
+                <span >File name: <span class="filename"></span></span>
+                <span>Maximum size 5MB</span>
+              </div>
+          </div>
+          <span class="error" id="listfile-error"></span>
+
+          <div class="btn-box d-flex justify-content-center flex-wrap">
+            <button type="button" class="uploadbtn" id="load">
+            <i class="fa " id="start"></i><span class="loadht">Upload</span></button>
+            <a href="/media/arcformat.csv" download  class="downloadbtn">Download format</a>
+          </div>
+
+        </div>
+      </div>
+     </div>
+    </form>
+    <div class="row ">
+      <div class="table-div table-responsive uploaddiv p-0" style="margin-left:104px;height: 218px;">
+          <table class="table flex-wrap">
+              <thead style="background: #047BD5;  position: sticky;top: 0;">
+                <tr>
+                  <th style="padding: 18px 0px;">ID</th>
+                  <th style="padding: 18px 0px;">List id</th>
+                  <th style="padding: 18px 0px;">Campaign</th>
+                  <th style="padding: 18px 0px;">List name</th>
+                  <th style="padding: 18px 0px;">File</th>
+                  <th style="padding: 18px 0px;">Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in read %}
+                <tr>
+                   <td style="font-size: 11px;">{{i.id}}</td>
+                   <td style="font-size: 11px;">{{i.listid}}</td>
+                   <td style="font-size: 11px;">{{i.campion}}</td>
+                   <td style="font-size: 11px;">{{i.listname}}</td>
+                   <td style="font-size: 11px;">{{i.file}}</td>
+                   <td style="font-size: 11px;">{{i.count}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+             
+          </table>
+          </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+	  <script type="text/javascript">
+	function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+}
+
+</script>
+
+<script>
+
+  $(document).ready(function(){
+
+    $(".uploadbtn").click(function(e){
+      e.preventDefault()
+      if ($('#uploadform').valid()!=true){
+        console.log("True")
+      }else{
+        console.log("False")
+        var data2 = new FormData();
+      data2.append('campion',$('select[name=campion]').val())
+      data2.append('listname',$('input[name="listname"]').val())
+      data2.append('listid',$('input[name="listid"]').val())
+      data2.append('listfile',$('input[name="listfile"]')[0].files[0])
+        
+      $(".loadht").html("Uploading")
+      $("#start").addClass("fa-spinner fa-spin");
+      $('.uploadinput2').css("filter","blur(3px)");
+      $('.uploadinput1').css("filter","blur(3px)");
+      $(".downloadbtn").css("filter","blur(3pxform-group)");
+      $('.table-div').css("filter","blur(3px)");
+      $('.sidebar').css("filter","blur(3px)");
+      $('.dash').css("filter","blur(3px)");
+      $(".form-group").css("filter","blur(3px)");
+      
+      // data.append('camp',$('select[name=campion]').val())
+
+      $.ajax({
+        method: 'POST',
+        headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+        url: "{% url 'upload' %}",
+        data:data2,
+        processData: false,
+        contentType: false,
+        datatype:'json',
+        success: function (e) {
+          $(".loadht").html("Submit")
+          $("#start").removeClass("fa-spinner fa-spin");
+          $('.uploadinput2').css("filter","blur(0px)");
+          $('.uploadinput1').css("filter","blur(0px)");
+          $(".downloadbtn").css("filter","blur(0px)");
+          $('.table-div').css("filter","blur(0px)");
+          $('.sidebar').css("filter","blur(0px)");
+          $('.dash').css("filter","blur(0px)");
+          $(".form-group").css("filter","blur(0px)");
+
+          $('select[name=campion]').val('')
+          $('input[name="listname"]').val('')
+          $('input[name="listid"]').val('')
+          $('input[name="listfile"]').val('')
+          $('.filename').html('')
+
+
+            console.log("working",e.status)
+            if (e.status==200){
+              $('.data-up').css({'display':'block'})
+              console.log("200")
+              
+            }
+            if (e.status==300){
+              $('.data-down').css({'display':'block'})
+
+              // location.reload()
+              console.log("300")
+            }
+            if (e.status==400){
+              // location.reload()
+              console.log("400")
+              $('.data-down').css({'display':'block'})
+            }
+        }
+     })
+      }
+      
+    })
+
+    $('.uploadspan').click(function(){
+      $('input[name=listfile]').click()
+    })
+
+    $('#uploadform').validate({ // initialize the plugin
+        rules: {
+          campion: {
+                required: true,
+            },
+          listname: {
+                required: true,
+            },
+            listid: {
+                required: true,
+            },
+            listfile:{
+              required:true
+            },
+        },errorPlacement: function(error,element){
+          if (element.attr("name")=='listid'){
+            error.appendTo('#listid-error')
+          }if (element.attr("name")=='listname'){
+            error.appendTo('#listname-error')
+          }if (element.attr("name")=='campion'){
+            error.appendTo('#campion-error')
+          }if (element.attr("name")=='listfile'){
+            error.appendTo('#listfile-error')
+          }
+          
+        },highlight: function(element) {
+            $(element).removeClass("error");
+        }
+     });   
+
+    // $("#load").click(function(){
+    //   console.log("hi")
+    //        if ($('#uploadform').valid()===true){
+            
+            // $(".loadht").html("Uploading")
+            // $("#start").addClass("fa-spinner fa-spin");
+            // $('.uploadinput2').css("filter","blur(3px)");
+            // $('.uploadinput1').css("filter","blur(3px)");
+            // $(".downloadbtn").css("filter","blur(3pxform-group)");
+            // $('.table-div').css("filter","blur(3px)");
+            // $('.sidebar').css("filter","blur(3px)");
+            // $('.dash').css("filter","blur(3px)");
+            // $(".form-group").css("filter","blur(3px)");
+            // console.log("see")
+            // console.log("me")
+    //        }
+    //    })
+
+       $('input[name=listname]').keyup(function(){
+      if ($("input[name=listname]").val().length<6){
+     
+        $("#listname-error").css({'display':'block'})
+        $("#listname-error").html("Minimum 6 Character")
+      }else{
+        $("#listname-error").css({'display':'none'})
+      }
+     })
+
+
+
+    
+
+    $('input[name=listid]').keyup(function(e){
+      
+      $.ajax({
+            type:"get",
+            url:'{% url "listid" %}',
+            success: function(data){
+              let c = data.listid
+              listid = []
+              for (i in c){
+                listid.push(c[i].listid)
+              }
+            }
+          })
+
+          if (listid.includes($('input[name="listid"]').val())){
+                $('.listidalert').css({'display':'block'})
+              }else{
+                $('.listidalert').css({'display':'none'})
+              }  
+    })
+
+
+    function readFile(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          var htmlPreview =
+            '<img width="200" src="' + e.target.result + '" />' +
+            '<p>' + input.files[0].name + '</p>';
+          var wrapperZone = $(input).parent();
+          var previewZone = $(input).parent().parent().find('.preview-zone');
+          var boxZone = $(input).parent().parent().find('.preview-zone').find('.box').find('.box-body');
+
+          wrapperZone.removeClass('dragover');
+          previewZone.removeClass('hidden');
+          boxZone.empty();
+          boxZone.append(htmlPreview);
+        };
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function reset(e) {
+      e.wrap('<form>').closest('form').get(0).reset();
+      e.unwrap();
+    }
+
+
+    $('.dropzone-wrapper').on('dragover', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $(this).addClass('dragover');
+    });
+
+    $('.dropzone-wrapper').on('dragleave', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $(this).removeClass('dragover');
+    });
+
+
+    $('input[name=listfile]').change(function() {
+      var file = $('input[name=listfile]')[0].files[0].name;
+      $('.filename').html(file)
+      // console.log("dsd")
+    });
+
+    if ( window.history.replaceState ) {
+      window.history.replaceState( null, null, window.location.href );
+    }
+
+
+
+    
+  })
+</script>
+
+{% endblock content %}

@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+ <script src="https://cdn.jsdelivr.net/npm/chart.js@3.8.0/dist/chart.min.js"></script>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% include "style.html" %}
+    <style>
+      body{
+        background-color: #F6F8FB;
+      }
+      .logout{
+        background:red;
+        color: white;
+        /* border-radius: 10px; */
+        display: inline-block;
+        text-decoration: none;
+        height: 21px;
+    width: 52px;
+    border-radius: 7px;
+    margin-top: 10px;
+    margin-left: 35px;
+    padding-top: 3px;
+    padding-left: 10px;
+    font-family: 'Poppins';   
+    }
+    .dcardBox {
+    justify-content: start;
+    column-gap: 3vw;
+    margin-top: 10px;
+    display: flex;
+    row-gap: 10px;
+    width: 100%;
+ 
+}
+    .dcardBox .maindashcard {
+    width: 210px;
+    height: 108px;
+    background: white;
+    border-radius: 20px;
+    /* display: flex; */
+    justify-content: space-between;
+    cursor: pointer;
+   
+    text-align: center;
+}
+.mimgcard {
+    width: 210px;
+    height: 27px;
+    padding-top: 9%;
+    background: #047BD5;
+    /* box-shadow: 0px 8px 16px rgb(0 0 0 / 25%); */
+    border-radius: 10px 10px 1px 1px;
+}
+.cardcontent {
+    width: 143px;
+    display: flex;
+    padding-left: 3%;
+    /* justify-content: center; */
+    align-items: center;
+}
+.mainsidediv{
+width: 88%;
+height: 227px;
+margin-top: 12px;
+background: #FFFFFF;
+border: 1px solid #E1E1E1;
+border-radius: 10px;
+}
+.dashcal{
+  box-sizing: border-box;
+  width: 188px;
+    height: 100%;
+margin-top: 15px;
+background: #262525;
+border: 1px solid #E1E1E1;
+border-radius: 10px;
+}
+       .blink_me {
+    animation: blinker 1s linear infinite;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+
+    </style>
+    <div class="container-fluid">
+        <div class="row" >
+            <div class="dash">
+               Dashboard  
+               <!-- <a href="/logout" class="btn btn-primary my-2" style="float:right;">logout</a> -->
+            </div>
+           
+        </div>
+
+        <div class="row" style="margin-left:72px">
+          <div class="col-md-8">
+              <div class="dcardBox flex-wrap">
+              <div class="maindashcard">
+                <div class="mimgcard"></div>
+                <p class="cardcontent"></p>
+            </div>
+           
+              <div class="maindashcard">
+                <div class="mimgcard"></div>
+                <p class="cardcontent"></p>
+            </div>
+           
+              <div class="maindashcard">
+                <div class="mimgcard"></div>
+                <p class="cardcontent"></p>
+            </div>
+        
+
+            
+              <div class="maindashcard">
+                <div class="mimgcard"></div>
+                <p class="cardcontent"></p>
+            </div>
+      
+              <div class="maindashcard">
+                <div class="mimgcard"></div>
+                <p class="cardcontent"></p>
+            </div>
+            
+              <div class="maindashcard">
+                <div class="mimgcard"></div>
+                <p class="cardcontent"></p>
+            </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+              <div class="mainsidediv">
+
+              </div>
+          </div>
+
+        </div>
+        <div class="row"  style="margin-left: 0px;">
+         <div class="col-md-10" >
+        </div>
+         
+        <div class="connect table-responsive" style="margin-left: 83px;margin-top: 16px;" >
+          	<div class="text-center py-4 text-danger blink_me">This Page is Under Development !!!</div>
+        </div>
+          
+        </div>
+        <!-- <footer>
+         <p class="fps">
+            2022&#169;Intellect InfoTrade Pvt. Ltd.
+          </p>
+        <br>
+        </footer> -->
+    </div>
+    </div>
+    <script>
+ // <block:actions:2>
+const actions = [
+  {
+    name: 'Randomize',
+    handler(chart) {
+      chart.data.datasets.forEach(dataset => {
+        dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
+      });
+      chart.update();
+    }
+  },
+];
+// </block:actions>
+
+// <block:setup:1>
+const DATA_COUNT = 7;
+const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
+
+const labels = Utils.months({count: 7});
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: 'Dataset 1',
+      data: Utils.numbers(NUMBER_CFG),
+      borderColor: Utils.CHART_COLORS.red,
+      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+      yAxisID: 'y',
+    },
+    {
+      label: 'Dataset 2',
+      data: Utils.numbers(NUMBER_CFG),
+      borderColor: Utils.CHART_COLORS.blue,
+      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+      yAxisID: 'y1',
+    }
+  ]
+};
+// </block:setup>
+
+// <block:config:0>
+const config = {
+  type: 'line',
+  data: data,
+  options: {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
+    stacked: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Chart.js Line Chart - Multi Axis'
+      }
+    },
+    scales: {
+      y: {
+        type: 'linear',
+        display: true,
+        position: 'left',
+      },
+      y1: {
+        type: 'linear',
+        display: true,
+        position: 'right',
+
+        // grid line settings
+        grid: {
+          drawOnChartArea: false, // only want the grid lines for one axis to show up
+        },
+      },
+    }
+  },
+};
+// </block:config>
+
+module.exports = {
+  actions: actions,
+  config: config,
+};
+      </script>
+  </section>
+ 
+      
+       
+
+{% endblock content %}
+  </body>

@@ -1,0 +1,320 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %} {% include "style.html" %}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- CDN link used below is compatible with this example -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"
+  />
+  <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+  <style>
+    .form-control:disabled, .form-control[readonly] {
+    border: none;
+    background-color:#E8E8E8;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+}
+    .btn-light {
+      background-color: #e8e8e8;
+    }
+    .btn {
+      font-size: 13px;
+    }
+    .bootstrap-select .dropdown-menu.inner {
+      font-family: "Roboto";
+      font-size: 9px;
+    }
+    .dropdown-item {
+      font-weight: 600;
+    }
+    .dropdown-item:hover {
+      background-color: #197aa4;
+      color: white;
+    }
+    .dropdwon-menu .show {
+      left: 67px;
+    }
+    [type="radio"]:checked,
+    [type="radio"]:not(:checked) {
+      position: absolute;
+      left: -9999px;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label {
+      position: relative;
+      padding-left: 17px;
+      cursor: pointer;
+      line-height: 20px;
+      display: inline-block;
+      color: #666;
+      font-size: 11px;
+    }
+    [type="radio"]:checked + label:before,
+    [type="radio"]:not(:checked) + label:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      border: 1px solid #197aa4;
+      border-radius: 100%;
+      background: #fff;
+    }
+    [type="radio"]:checked + label:after,
+    [type="radio"]:not(:checked) + label:after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: #197aa4;
+      position: absolute;
+      top: 7px;
+      left: 2px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+    [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    [type="radio"]:checked + label:after {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    .chequenable{
+        width: 178px;
+        height: 25px;
+        font-family: "Roboto";
+        background: #F0F0F0;
+        padding: 0px 60px 0px 8px;
+        background: #F0F0F0;
+        font-size: 9px;
+        border: 1px solid #D2D2D2;
+        border-radius: 5px;
+
+    }
+    .emiseldiv{
+      width: 103px;
+      margin-right: 3px;
+    }
+    .error{
+      color:red;
+      font-size: 10px;
+    }
+      .form-control:disabled, .form-control[readonly] {
+    border: none;
+    background-color: #E8E8E8;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    height: 22px;
+    font-size: 12px;
+}
+.historyarrow{
+  margin-left: 15px !important;
+  cursor:pointer;
+}
+.select2-container {
+  width: 140% !important;
+}
+.main-disposition-box > .select2-container {
+    width: 150px !important;
+}
+  </style>
+
+<div class="parent" style="margin-left:30px;width: 411px;">
+    <div class="Agent" style="height: 431px;">
+      <div class="title title4">Incoming Call</div>
+       <div class="d-flex" style="padding-left: 43px;padding-top: 22px;">
+        <img src="{% static 'Images/Icon.png'%}"  height="20px" width="20px"  style="margin-right: 10px;" alt="">
+        <span style="">{{p}}</span>
+      </div>
+      <div style="padding-left: 38px;">
+        <div style="width: 598px;">
+      <input type="text" name="name" class="dissub" placeholder="Enter Name"style="margin-bottom:10px;width:100%;max-width: 54% !important"><br>
+    </div>
+    <div style="width: 598px;">
+      <input type="text" name="lan" class="dissub" placeholder="Enter Loan Account Number" style="width:100%;max-width: 54% !important">
+    </div>
+    </div>
+      <div style="margin-top: 17px;margin-left: 38px;">
+      <form action="" method="post" id="disform">
+        {% csrf_token %}
+        <input type="hidden"  name='dialnum3'  value="">
+
+        <div class="gap-1 d-flex" style="margin-top: 10px;">
+          <div class="main-disposition-box">
+            <select class="dispositionsel" name="dispositionvalue" id="disposition" required>
+                <option value="">Disposition</option>
+                <option value="contacted">Contacted</option>
+           
+            </select><br>
+            <span class="error" id="disposerror"></span>
+         </div>
+        
+          <div class="sub-disposition-box">
+            <select class="subdispositionsel"  name="subdispositionvalue" placeholder="Subdisposition" id="sub_disposition" required>
+                <option value="">Subdisposition</option>
+                <option value="Fake Number">Fake Number</option>
+                <option value="Wrong Contact">Wrong Contact Number</option>
+                <option value="Exsisting Customer">Existing Customer</option>
+            </select>
+            <span class="error" id="subdisposerror"></span>
+
+          </div>
+        </div>
+
+       
+        <div class="remark" style="position: relative;margin-top: 9px;width:321px;">
+          <i
+            class="bi bi-mic-fill"
+            style="
+              position: absolute;
+              z-index: 1;
+              right: 10px;
+              margin-top: 10px;
+            "
+          ></i>
+          <textarea
+            name="remark"
+            id="remark"
+            class="rm"
+            placeholder="Remark"
+            cols="29"
+            rows="7"
+            required
+            style="position: relative"
+          ></textarea>
+          <span class="error" id="rem-error"></span>
+        </div>
+        
+        <!-- <div class="contact1"><i class="fa-solid fa-phone"></i></div>
+        -->
+        <div class="icondiv">
+          <a href="#" style="text-decoration: none;">
+          <div
+            class="contact1"
+            style="background-color: red; color: white;transform: rotate(137deg);
+            padding-left: 1%;
+            padding-top: -2%;
+            margin-left: 107%;
+            padding-bottom: 0%;"
+          >
+            <i class="fa-solid fa-phone"></i>
+          </div>
+        </a>
+        <input class="subbtn" type="submit" style="margin-top:0px !important;margin-left: 0px!important;" />
+      </form>
+    </div>
+   
+     
+      
+  </div>
+</div>
+
+<script src="{% static 'vendor/js/select2.min.js' %}"></script>
+<script src="{% static 'js/select2custom.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+
+   
+   
+    $('#disform').validate({ // initialize the plugin
+      rules: {
+        dispositionvalue : {
+              required: true,
+          },
+          subdispositionvalue: {
+              required: true,
+          },
+          remark:{
+            required:true
+          }
+      },errorPlacement: function(error,element){
+        if (element.attr("name")=='dispositionvalue'){
+          error.appendTo('#disposerror')
+        }if (element.attr("name")=='subdispositionvalue'){
+          error.appendTo('#subdisposerror')
+        }
+        if (element.attr("name")=='remark'){
+          error.appendTo('#rem-error')
+        }
+      }   
+   });   
+
+ 
+
+  
+  },
+  
+
+  $('select[name=dispositionvalue]').change(function(){
+    if ($("select[name=dispositionvalue]").val()!= ""){
+      $("#disposerror").css({'display':'none'})
+    }else{
+      $("#disposerror").css({'display':'block'})
+    }
+   }),
+   $('select[name=subdispositionvalue]').change(function(){
+    if ($("select[name=subdispositionvalue]").val()!= ""){
+      $("#subdisposerror").css({'display':'none'})
+    }else{
+      $("#subdisposerror").css({'display':'block'})
+    }
+   }),
+   $(".contact1").click(function(){
+          console.log('click')
+          $.ajax({
+            type:"post",
+            url:'{% url "disconnect" %}',
+            data:{
+              // dialnum3:$('input[name=dialnum3]').val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function(data){
+              console.log("oo ho")
+              // alert("Call Disconnected!!")
+              $(".callmsg").css({"display":"none"})
+              $("#callname").css({"display":"block"})
+            }
+          })
+        }),
+
+   $(".subbtn").click(function(){
+          // console.log($('select[name=subdispositionvalue]').val())
+          if ($('#disform').valid()===true){
+            $.ajax({
+            type:"post",
+            url:'{% url "dispose" %}',
+            data:{
+              // dialnum3:$('input[name=dialnum3]').val(),
+               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+               dispos:$('select[name=subdispositionvalue]').val()
+            },
+            success: function(data){
+              console.log("disposed")
+              alert(" Disposed")
+              window.close();
+            }
+          })
+          }
+        })
+  )
+
+</script>
+
+{% endblock content %}

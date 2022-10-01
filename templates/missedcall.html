@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% load static %}
+<body>
+    {% block content %}
+    <style>
+          .ots-filter{
+      width: 60%;
+      min-width: 120px;
+    }
+
+    .select2-container .select2-selection--single{
+      height: 33px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      line-height: 35px;
+    }
+
+    .select2-container--default .select2-selection--single{
+      border-radius: 8px;
+      background-color: #ffffff;
+      box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+      border: none;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow{
+      top: 4px;
+    }
+
+  .flatpickr-time{
+  display: none;
+  }
+
+/* missed call start */
+
+.main-cards-wrapper{
+  margin-left:109px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 17px;
+}
+
+.card-col-1{
+  gap: 1.3em;
+  display: flex;
+  flex-wrap: wrap;
+  width: min(100%);
+}
+
+.number-card{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: min(100% - 2em,200px);
+  margin: auto;
+  justify-content: space-between;
+}
+.card-col-child{
+  width: min(100%,350px);
+  height: 64px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+  border-radius: 10px;
+  background: #FFFF;
+  
+  position: relative;
+}
+
+.mc-noti{
+  position: absolute;
+  top: 15px;
+  right: -12px;
+  color: red;
+  background: #fff;
+  border-radius: 76px;
+  border: 1px solid red;
+  padding: 1px 11px;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.card-content{ display: grid;}
+
+.mcall-img-wrapper{width: 24px; height: 24px;}
+
+.mcall-img-wrapper img{
+  width: 100%;
+  height: 100%;
+}
+.card-content span:nth-child(1){
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  color: red;
+}
+.card-content span:nth-child(2){
+  color:red;
+  font-family: 'roboto';
+  font-weight: 500;
+  font-size: 9px;
+  text-align: center;
+}
+.card-col-2{
+  width: min(100%,472px);
+}
+/* missed call end */
+
+.card-col-child{
+  cursor: pointer;
+}
+    </style>
+  {% include "style.html" %}
+    <div class="row">
+      <div class="dash">Missed Call</div>
+      <div class="row">
+        <div class="cal">
+          <div class="column gx-5">
+            From
+            <div class= "cal-con" style="width: 90%;">
+              <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" alt="">
+              <form action="">
+                {% csrf_token %}
+                <input class="form-control mfd cal1" style="width: 100%;" type="datetime-local" placeholder="Select Date ">
+              </form>
+            </div>
+          </div>
+          <div class="column">
+            <div class="flex-wrap">
+              To
+              <div class="cal-div">
+                <div class= "cal-con" style="width: 90%;">
+                  <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
+                <form action="">
+                  <input class="form-control mtd cal2" type="datetime-local" placeholder="Select Date" >
+                </form> 
+                </div>
+              </div>              
+            </div>
+          </div>
+        
+        
+      </div>
+  
+      <div class="">
+        <div class="main-cards-wrapper">
+          <div class="card-col-1">
+            <!-- <div class="card-col-child">
+              <div class="number-card">
+                <div class="card-content">
+                  <span >+91 98765434322</span>
+                  <span>22 Oct 2022 10:41</span>
+                </div>
+                <div class="mcall-img-wrapper ">
+                  <img src="{% static 'Images/mcall.png'  %}" alt="">
+                </div>
+              </div>
+              <div class="mc-noti">6</div>
+              
+            </div>
+         -->
+
+          </div>
+        </div>
+      </div>
+
+
+      <script>
+        config={
+          enableTime: true,
+          dateFormat: "d-m-Y ",
+          altInput: true,
+          altFormat: "F j, Y",
+        
+    }
+        flatpickr("input[type=datetime-local]",config);
+function miss(){
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'missedcallajax' %}",
+            // data: mydata,
+            success: function (data) {
+                let x = data.miss
+                console.log(x)
+                output = ""
+                for(var i in x)
+                {let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        day:'2-digit',
+                                        month:'short',
+                                        year:'numeric',
+                                        hour: 'numeric',
+                                        minute:'numeric',
+                                        second:'numeric',
+                                        hour12:false
+                                    })
+
+                    let d = x[i].missdt
+
+                    d = new Date(d);
+                    d = dtFormat.format(d)
+                  $('.card-col-1').append(`
+                  
+                  <div class="card-col-child">
+                    <input type="hidden" class="conornot" value='${x[i].contacted}'>
+                    <input type="hidden" class="username" value="${x[i].username}">
+
+              <div class="number-card">
+                <div class="card-content">
+
+                  <span class="mcallme">${x[i].callnum}</span>
+                  <span class="mcalldt">${d}</span>
+                </div>
+                <div class="mcall-img-wrapper ">
+                  <img src="{% static 'Images/mcall.png'  %}" class="missimg" alt="">
+                </div>
+              </div>
+              <div class="mc-noti">${x[i].callcount}</div>
+              
+            </div>
+          `)
+
+                }
+                $(".card-col-child").each(function(){
+                  // console.log("aagaya",$(this).find('.conornot').val())
+                  if ($(this).find('.conornot').val() == "Yes"){
+                    $(this).css({"background":"#FFF","border":"none"})
+                    $(this).find(".mcallme").css({"color":"black"})
+                    $(this).find(".mcalldt").css({"color":"black"})
+                    $(this).find(".missimg").attr("src","static/Images/callback.svg")
+                  }
+                  
+                })
+            }
+            
+          
+          })
+        }
+        function dataSubmit(btnval) {
+        var data = new FormData();
+        console.log($('.mfd').val(),$('.mtd').val())
+        data.append('sd',$('.mfd').val())
+            data.append('ed',$('.mtd').val())
+           
+            $.ajax({
+                method: 'POST',
+                headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'missedcallajax' %}",
+                data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+             
+                success: function (data) {
+                  let x = data.miss
+                console.log(x)
+                $('.card-col-1').empty()
+                output = ""
+                for(var i in x)
+                // console.log("its",x[i][0],x[i][1],x[i][2])
+                {let dtFormat = new Intl.DateTimeFormat('en-US',{
+                                        day:'2-digit',
+                                        month:'short',
+                                        year:'numeric',
+                                        hour: 'numeric',
+                                        minute:'numeric',
+                                        second:'numeric',
+                                        hour12:false
+                                    })
+
+                    let d = x[i].missdt
+
+                    d = new Date(d);
+                    d = dtFormat.format(d)
+                    
+                  $('.card-col-1').append(`
+                  
+                  <div class="card-col-child">
+                    <input type="hidden" class="conornot" value='${x[i].contacted}'>
+                    <input type="hidden" class="username" value="${x[i].username}">
+
+              <div class="number-card">
+                <div class="card-content">
+
+                  <span class="mcallme">${x[i].callnum}</span>
+                  <span class="mcalldt">${d}</span>
+                </div>
+                <div class="mcall-img-wrapper ">
+                  <img src="{% static 'Images/mcall.png'  %}" class="missimg" alt="">
+                </div>
+              </div>
+              <div class="mc-noti">${x[i].callcount}</div>
+              
+            </div>
+          `)
+
+                }
+                $(".card-col-child").each(function(){
+                  console.log("aagaya",$(this).find('.conornot').val())
+                  if ($(this).find('.conornot').val() == "Yes"){
+                    $(this).css({"background":"#FFF","color":"black"})
+                    $(this).css({"background":"#FFF","border":"none"})
+                    $(this).find(".mcallme").css({"color":"black"})
+                    $(this).find(".mcalldt").css({"color":"black"})
+                    $(this).find(".missimg").attr("src","static/Images/callback.svg")
+                  }
+                  
+                })
+            }
+            
+          
+          })
+        }
+
+        $(document).ready(function () {
+          miss()
+
+        $(document).on('click','.card-col-child',function(){
+          console.log('coming')
+          var user=$(this).find(".username").val()
+          var ph=$(this).find('.mcallme').html()
+          var calldt=$(this).find(".mcalldt").html()
+          var misscallc=$(this).find(".mc-noti").html()
+          
+          console.log(ph,calldt,misscallc,user)
+      
+        var data=new FormData()
+            data.append("ph",ph)
+            data.append("user",user)
+            data.append("misscalldt",calldt)
+            data.append("misscallc",misscallc)
+    
+        
+        $.ajax({
+          method: 'POST',
+    headers: {
+        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+    },
+    url: "{% url 'misscmsajax' %}",
+    data: data,
+    datatype:'json',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+      var id =data.status
+      console.log(id,ph)
+      window.location.href=`/cms/${id}`
+
+      if (id == "none"){
+
+        window.location.href=`/unknown/${ph}`
+      }
+    }
+
+        })
+        })
+
+        $(".mtd").change(function(){
+          console.log("tdate", $(".mtd").val())
+          dataSubmit()
+        })
+      })
+
+      </script>
+      {% endblock content %}

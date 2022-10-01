@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+<body>
+    
+
+{% block content %}
+<div>
+<div class="row">
+    <div class="searchtop">Send Fe To Collect</div>
+    <div class="searchdiv">
+        <input class="searchinput" type="text" placeholder="Borrowor Name">
+        <input class="searchinput"  type="number" placeholder="Phone Number">
+        <input class="searchinput"  type="number" placeholder="Loan Number">
+        <input class="searchbtn"  type="submit" value="Search">
+    </div>
+
+    <table class="table" style="width:95%;margin-left: 2%;margin-top: 2%;margin-right: 2%; text-align: center;">
+       <thead>
+        <tr>
+           <th style="padding: 18px 0px;">Borrowor  Name</th>
+            <th style="padding: 18px 0px;">LAN</th>
+            <th style="padding: 18px 0px;">ContactNumber</th>
+            <th style="padding: 18px 0px;">Payment</th>
+            <th style="padding: 18px 0px;">Location</th>
+             <th style="padding: 18px 0px;">Agen Name</th>
+            <th style="padding: 18px 0px;">View</th>
+        </tr>
+       </thead>
+        <tbody>
+            {% for i in data %}
+            <tr>
+                <td>{{i.client.borrowor_name}}</td>
+                <td>{{i.client.loan_id}}</td>
+                <td>{{i.client.mobile_number}}</td>
+                <td>{{i.amount}}</td>
+                <td>{{i.agentname}}</td>
+                <td>{{i.area}}</td>
+          
+                <td><a href="/sf"><object data="{% static 'Images/user 1.svg' %}"> </object></a></td>
+               
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+</div>
+</div>
+{% endblock content %}
+</body>

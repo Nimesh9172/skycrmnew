@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+<body>
+    {% block content %}
+    {% include "style.html" %}
+    <div class="row">
+        <div class="dash">
+         Non-Attempted</div>
+         <div class="table-responsive table-div"  style=" margin-left: 94px; margin-top: 12px;">
+         <table class="table flex-wrap" style=" width: 100%;
+         text-align: center;
+         margin-bottom: 0px;">
+             
+            <tr style="background-color: #047BD5;" >
+                <th style="padding: 18px 0px;">ID</th>
+                <th style="padding: 18px 0px;">Borrower Name</th>
+                <th style="padding: 18px 0px;">Phone Number</th>
+                <th style="padding: 18px 0px;">Loan Number</th>
+                
+            </tr>
+            {% for i in data %}
+            <tr class='clickable-row dashhover' data-href='{% url  "cms" i.id %}' style="cursor: pointer;">
+                <td style="font-size: 13px;">{{i.id}}</td>
+                <td style="font-size: 13px;">{{i.borrowor_name}}</td>
+                <td style="font-size: 13px;">{{i.mobile_number}}</td>
+                <td style="font-size: 13px;">{{i.bank_loan_accountno}}</td>
+           
+            </tr>
+            {% endfor %}
+            
+         </table>
+         </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+    })
+    </script>
+   
+    {% endblock content %}
+</body>

@@ -1,0 +1,413 @@
+{% extends 'base.html' %}
+{% load static %}
+  
+  {% block content %}
+
+{% include "style.html" %}
+  <style>
+  .error{
+      color:red;
+      font-size: 10px;
+    }
+
+.box {
+  position: relative;
+  background: #ffffff;
+  width: 100%;
+}
+
+.cal-con{
+    width: 49%;
+    min-width: 235px;
+  }
+  
+
+.box-header {
+  color: #444;
+  display: block;
+  padding: 10px;
+  position: relative;
+  border-bottom: 1px solid #f4f4f4;
+  margin-bottom: 10px;
+}
+
+.dropzone-wrapper {
+  border: 2px dashed #91b0b3;
+  color: #92b0b3;
+  position: relative;
+  height: 65px;
+  margin-top: 20px;
+  background: #FFFFFF;
+}
+
+.dropzone-desc {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  width: 100%;
+  top: 0px;
+  font-size: 16px;
+}
+
+.dropzone,
+.dropzone:focus {
+  /* position: absolute; */
+  outline: none !important;
+  width: 100%;
+  height: 59px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.dropzone-wrapper:hover,
+.dropzone-wrapper.dragover {
+  background: #ecf0f5;
+}
+
+.downloadbtn{
+  text-decoration: none;
+  text-align: center;
+}
+.downloadbtn:hover{
+  color: white;
+}
+.uploaddiv{
+  width: 90%;
+height: 294px;
+
+
+background: #F6F5FA;
+box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+border-radius: 10px;
+}
+
+@media screen and (max-width: 512px) {
+  .uploaddiv{
+    width: 74%;
+    margin-left: 94px;
+    padding-left: 0;
+    height: 60%;
+  }
+  .uploadinput1{
+    width: 80%;
+  }
+  .uploadinput2{
+    width: 80%;
+  }
+  .uploadbtn{
+    width: 43%;
+  }
+  .downloadbtn{
+    width: 43%;
+    margin-left: 12px;
+    margin-bottom: 12px;
+  }
+  .table-div{
+    margin-left: 97px !important;
+    width: 74%;
+  }
+
+  
+  /* .btn-box{
+    display: flex  !important;
+    justify-content: start !important;
+    margin-bottom: 16px;
+  }*/
+ 
+  .dropzone-desc > p{
+    margin-top: 8px;
+  } 
+}
+
+.flatpickr-time{
+  display: none;
+}
+.cal-icon{
+  position: absolute;
+  right: 10%;
+  top: 8px;
+  height: 13px;
+}
+.form-control {
+    width: 94%;
+    color: black;
+}
+.exportbtn {
+    background: #047BD5;
+    height: 41px;
+    width: 174px;
+    margin-left: 101px;
+    border-radius: 7px;
+    color: white;
+    margin-top: 10px;
+    font-size: 12px;
+    border: none;
+    border: none;
+}
+.table-div{text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-left: 10px;
+    margin-top: 12px;
+    width: 101%;
+    box-shadow: 0px 0px 10px -4px;
+}
+
+.select2-container .select2-selection--single {
+    height: 31px !important;
+
+}
+
+.select2-container--default .select2-selection--single {
+    border: none !important;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+}
+
+  .select2-container--default .select2-selection--single {
+    border: none !important ;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: #197AA4 transparent transparent transparent !important;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+    border-color: transparent transparent #197AA4 transparent !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    right: 15px !important;
+}
+
+  </style>
+   <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+   <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+ <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+   
+
+
+<form  action="{% url 'sms' %}" method="post"  enctype="multipart/form-data" id="uploadform">
+    {% csrf_token %}
+<form class="row">
+  <div class="dash" style="height: 48px;">SMS Upload</div>
+
+<div class="container-fluid p-0" style="margin-left: 94px;width: 90%;display: {{dsb}};" >
+  <div class="alert alert-{{cl}} alert-dismissible alw" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ msg }}
+  </div>
+</div>  
+
+  {% for message in messages %}
+<div class="container-fluid p-0" style="margin-left: 94px;width: 90%;">
+  <div class="alert {{ message.tags }} alert-dismissible alw" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    {{ message }}
+  </div>
+</div>  
+{% endfor %}
+<div class="alert listidalert alert-warning alert-dismissible fade show" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+  This list id already exists!
+ <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+  <div class="smsdiv">
+   
+      <div class="row firstrow ">
+        <div class="smscenter">
+            <div class="row">
+            <div class="col-6">
+                <input type="file" name="smsfile" class="uploadinput2" style="padding-top: 6px;" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                <span class="error" id="smsfile-error"></span>
+              </div>
+            <div class="col-6">
+              <div class="upsdiv" style="margin-top: 16px;">
+                <select name="smstype" class="smsselect">
+                  <option value="">Select SMS Type</option>
+                  <option value="Payment Acceptance">Payment Acceptance</option>
+                  <option value="Awareness">Awareness</option>
+                  <option value="Payment Confirmation – Agency">Payment Confirmation – Agency</option>
+                  <option value="CIBIL">CIBIL</option>
+                 </select>
+                 <span class="error" id="smstype-error"></span>
+
+              </div>
+            </div>
+            <div class="btn-box d-flex justify-content-center flex-wrap">
+                <button type="submit" class="uploadbtn" id="loading">
+                <i class="fa " id="start"></i><span class="loadht">Upload Data</span></button>
+                <a  download  class="downloadbtn">Download format</a>
+              </div>
+             
+    
+            </div>
+
+        </div>
+        </div>
+   </div> 
+</form>
+</form>
+   <div>
+  <form action="{% url 'exportsms' %}" method="post">
+    {% csrf_token %}
+    <div class="uploaddiv" style="height: auto; padding-bottom: 12px;margin-left: 87px;width: 91%;min-height: 0px;">
+        
+        <div class="row firstrow ">
+            <div class="exheading">Export SMS Data</div>
+            <div class="col-4">
+           <div class="upsdiv" style="margin-top: 14px;">
+            <select name="seltype" class="smsselect">
+              <option value="">Select SMS Type</option>
+                    <option value="Payment Acceptance">Payment Acceptance</option>
+                    <option value="Awareness">Awareness</option>
+                    <option value="Payment Confirmation – Agency">Payment Confirmation – Agency</option>
+                    <option value="CIBIL">CIBIL</option>
+            </select>
+            <span class="error" id="campion-error"></span>
+
+           </div>
+          </div>
+         <div class="col-8">
+          <div class="d-flex flex-wrap" style="margin-top: 13px;" >
+            <div class="cal-con">
+               <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" class="calender" alt="">
+               <input class="form-control cal1 startdate" name="sdate" type="datetime-local" placeholder="Start date">
+             </div>
+         
+             <div  class="cal-con">
+               <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
+               <input class="form-control cal2 enddate" name="edate" type="datetime-local" placeholder="End date">
+             </div>
+             <input type="submit" placeholder="Submit"  value="Export Data" class="exportbtn">
+           
+           </form>
+         </div>
+          </div>  
+          
+        </div>
+       </div>
+      
+      <div class="uploaddiv" style=" height:200px;width: 91%;margin-left:90px ;">
+        <div class="row">
+        <div class="exheading">Uploaded SMS </div>
+        <div class="table-div table-responsive dashhover" style="width: 98%;
+        margin-left: 13px;
+        height: 189px;border-radius: 10px 10px 10px 10px;" >
+            <table class="table flex-wrap">
+                <thead style="background: #047BD5;position: sticky;top: 0px;overflow-y: auto;">
+                  <tr>
+                    <th style="padding: 18px 0px;">ID</th>
+                    <th style="padding: 18px 0px;">SMS Type</th>
+                    <th style="padding: 18px 0px;">File</th>
+                    <th style="padding: 18px 0px;">Entry Date</th>
+                    <th style="padding: 18px 0px;">SMS ID</th>
+                    <th style="padding: 18px 0px;">Count</th>
+                    <th style="padding: 18px 0px;">Sent Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in s %}
+                  <tr>
+                     <td style="font-size: 11px;">{{i.id}}</td>
+                     <td style="font-size: 11px;">{{i.smstype}}</td>
+                     <td style="font-size: 11px;">{{i.file}}</td>
+                     <td style="font-size: 11px;">{{i.entry}}</td>
+                     <td style="font-size: 11px;">{{i.smsid}}</td>
+                     <td style="font-size: 11px;">{{i.count}}</td>
+                     <td style="font-size: 11px;">{{i.sent}}</td>
+
+                  </tr>
+                  {% endfor %}
+                </tbody>
+               
+            </table>
+            </div>  
+        </div> 
+      </div>
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+      <script>
+        config={
+      enableTime: true,
+      dateFormat: "d-m-Y ",
+      altInput: true,
+      altFormat: "F j, Y",
+      
+    }
+      flatpickr("input[type=datetime-local]",config);
+
+
+      $(document).ready(function(){
+        $('#uploadform').validate({ // initialize the plugin
+        rules: {
+          smstype: {
+                required: true,
+            },
+            smsfile: {
+                required: true,
+            },
+            
+        },errorPlacement: function(error,element){
+          if (element.attr("name")=='smstype'){
+            error.appendTo('#smstype-error')
+          }if (element.attr("name")=='smsfile'){
+            error.appendTo('#smsfile-error')
+          }
+        
+        },highlight: function(element) {
+            $(element).removeClass("error");
+        }
+     });   
+       
+
+        $("select[name=smstype]").change(function(){
+            var v=$("select[name=smstype]").val()
+            console.log(v)
+            if ( v == "Payment Acceptance"){
+                console.log("inside")
+                $(".downloadbtn").attr("href","/media/Payment Acceptance.csv")
+            }
+            else if( v == "Awareness"){
+                console.log("inside")
+                $(".downloadbtn").attr("href","/media/Awareness.csv")
+            }
+            else if( v == "Payment Confirmation – Agency"){
+                console.log("inside")
+                $(".downloadbtn").attr("href","/media/Payment Confirmation – Agency.csv")
+            }
+            else if( v == "CIBIL"){
+                console.log("inside")
+                $(".downloadbtn").attr("href","/media/CIBIL.csv")
+            }
+            else{
+                $(".downloadbtn").removeAttr("href")
+            }
+            
+
+        })
+        $("#loading").click(function(){
+      console.log("hi")
+           if ($('#uploadform').valid()===true){
+            
+            $(".loadht").html("Sending SMS")
+            $("#start").addClass("fa-spinner fa-spin");
+            $('.uploadinput2').css("filter","blur(3px)");
+            $('.uploadinput1').css("filter","blur(3px)");
+            $(".downloadbtn").css("filter","blur(3px)");
+            $('.uploaddiv').css("filter","blur(3px)");
+            $('.sidebar').css("filter","blur(3px)");
+            $('.dash').css("filter","blur(3px)");
+            console.log("see")
+            console.log("me")
+           }
+       })
+      })
+    
+</script>       
+      
+        
+
+        {% endblock content %}

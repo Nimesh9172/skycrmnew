@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-wi  dth, initial-scale=1.0">
+    <title>SKYCRM</title>
+    {% load static %}
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100&display=swap" rel="stylesheet">
+<style>
+body{
+    background:url('/static/Images/dsds.jpg');
+    background-size: cover;
+
+}
+
+
+.img1{
+    height:88%;
+    width: 70%;
+    border-radius: 50%;
+    margin-top: 8%;
+}
+.box{
+    box-sizing: border-box;
+    width: 80%;
+    height: 75%;
+    /* margin-left: 20px; */
+    background: linear-gradient(111.68deg, #ffffff 7.59%, #ffffff 102.04%);
+    border: 3px solid #ffffff4b;
+    /* margin-top: 30px; */
+    border-radius: 61px;
+    /* padding-bottom: 18%; */
+    padding-top: 28px;
+    margin-left: 2%;
+    min-height: 467px;
+} 
+h3{
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600px;
+    font-size: 25px;
+    line-height: 144%;
+    margin-left: 30px;
+/* identical to box height, or 58px */
+    color: #1E7EA6;
+}
+
+input{
+    box-sizing: border-box;
+    width:83%;
+    height: 35px;
+    margin-left: 9%;
+    top: 470px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 0px 10px; 
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    border:0;
+}
+
+.fp{
+    /* width: 137px;
+    height: 24px;*/
+    margin-top: 8px;
+    padding-bottom: 0px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 80%;
+    color: #052CF9;  
+}
+
+label{
+    margin-left: 9%;
+    padding: 10px 10px 10px 5px;
+}
+
+.btn{
+    box-sizing: border-box;
+    width: 160px;
+    color: #FFFFFF;
+    background: #4151E9;
+    border: 2px solid #FFFFFF;
+    border-radius: 10px;
+    margin-top: 0px;
+}
+
+.btn:hover{
+    color:white;
+}
+
+.su{
+    font-family: 'Poppins';
+font-style: normal;
+font-weight: 500;
+font-size: 13px;
+line-height: 160%;
+/* identical to box height, or 24px */
+
+margin-top: 1px;
+color: rgba(0, 0, 0, 0.47);
+}
+
+.su span{
+    color:#052CF9 ;
+}  
+  
+#eyechange{
+position: absolute;
+right: 33px;
+top: 11px;
+color:  rgba(0, 0, 0, 0.47);
+font-size: 12px;
+}  
+
+@media screen and (max-width: 990px) {
+    
+    h3{
+        font-size: 25px;
+    }
+    .fp{
+        font-size: 12px;
+    }
+
+    label{
+        font-size: 12px;
+    }
+    .btn{
+    
+        width: 150px;
+        margin-top: 0px;
+    }
+    .main-img{
+        /* position: relative;
+        width: 188%;
+        top: -15px; */
+
+    }
+
+}
+
+.fa:hover {
+    opacity: 0.5;
+    text-decoration: none;
+}
+.alw{
+    width: 85%;
+}
+
+.fps {
+    text-align: center;
+    font-family: 'Poppins';
+    color: white;
+}
+
+.mimg{
+    width: 349px;
+}
+
+.img-div{
+    position: relative;
+    left: -8px;
+    top: -28px;
+}
+
+.skylogo{
+    height:58px;
+}
+
+footer {
+    padding: 2px 0px 0px 0px;
+    background-color: none;
+    margin: 0px;
+}
+
+.ots-filter{
+    width: 83%;
+}
+
+.select2-container .select2-selection--single{
+    height: 33px;
+ }
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 35px;
+}
+
+.select2-container--default .select2-selection--single{
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    border: none;
+ }
+ 
+.select2-container--default .select2-selection--single .select2-selection__arrow{
+    top: 4px;
+}
+
+@media screen and (max-width: 990px) {
+    .skylogo{
+        height: 42px;
+    }
+}
+
+@media screen and (max-width: 764px) {
+    .hide-div{
+        display: none;
+    }
+    .fps {
+      margin-top: 20px;
+    }
+    .box {
+        box-sizing: border-box;
+        width: 100%;
+        height: 75%;
+        /* margin-left: 20px; */
+        background: linear-gradient(111.68deg, #ffffff 7.59%, #ffffff 102.04%);
+        border: 3px solid #ffffff4b;
+        margin-top: 30px;
+        border-radius: 61px;
+        /* padding-bottom: 18%; */
+        padding-top: 28px;
+        margin-left: 0;
+        min-height: 467px;
+    }
+    .alw{
+        width: 100%;
+    }
+}
+
+</style>
+</head>
+<body >
+    <div class="container-fluid">
+        
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-7 text-center hide-div">
+              <div>
+                <div class="img-div">
+                    <img src="{% static 'Images/1.png' %}" style="width: 600px;height: 600px;"  class="mimg" >
+                </div>   
+              </div>    
+            </div>
+
+        <div class="col-md-5 mt-5">
+            {% include 'messages.html' %}
+            <div class="box">
+                <div class="main-img" style="padding: 0px 10%;position: relative;">
+                    <form action="{% url 'login' %}" method="post" class="myform">
+                        {% csrf_token %}
+                        <!-- <div class="text-center">
+                            <img src="{% static 'Images/skylog.png' %}" class="text-center" style="height:58px ;" alt="">
+                        </div> -->
+                        <div class="text-center">
+                            <img src="{% static 'Images/skycrm.png' %}" class="skylogo" alt="">
+                        </div>
+                       
+                        <label for="username">Username</label><br>
+                        <input type="text" name="username" id="uname" autocomplete="off" required><br>
+                        <label for="Passowrd">Password</label><br>
+                        <div style="position: relative;">
+                            <input type="password" name="password" autocomplete="off" id="password" required >
+                        <i class="fa-solid fa-eye" id="eyechange"></i>
+                        </div>
+                        <label for="Campaign">Campaign</label><br>
+                        <div class="ots-filter sortby-div" style="margin-left: 9%;">
+                            <select name="campaign_sel"   class="campaign_sel" id="campsel" required>
+                                <option value="">Select Campaign</option>
+                                <option value="{{i}}">{{i}}</option>
+                               
+                            </select>
+                          </div>
+
+                        <div class="text-end">
+                            <p class="fp">Forget Password?</p>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn">Login</button>
+                        </div>
+                        <div class="text-center mt-2">
+                            <p class="su">Don't have an account ?<a href="" style="text-decoration:none"><span> signup</span></a></p>
+                        </div>
+                </div>
+            
+            </form>
+        
+            </div>
+            </div>
+          <footer>
+
+                  <p class="fps">
+          2022&#169;Intellect InfoTrade Pvt. Ltd.
+        </p>
+
+        <br>
+      </footer>
+        </div>
+    </div>
+
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <script src="{% static 'vendor/js/select2.min.js' %}"></script>
+        <script src="{% static 'js/select2custom.js' %}"></script>
+    <script>
+      
+     
+      
+    // image slider starts here
+    let imgs = [     
+    "/static/Images/1.png",
+    "/static/Images/2.png",
+    "/static/Images/3.png",
+    "/static/Images/4.png",
+    "/static/Images/5.png",
+    "/static/Images/6.png",
+    "/static/Images/7.png",
+    "/static/Images/8.png",
+    "/static/Images/9.png",
+    "/static/Images/10.png",
+    ];
+
+    $(document).ready(function(){
+      
+        $("#eyechange").click(function(){
+        $(this).toggleClass("fa-eye-slash")
+        attr = $(this).prev().attr('type')
+        attr == "password" ? $(this).prev().attr('type','text') :  $(this).prev().attr('type','password') 
+
+    })
+        
+	 $.ajax({
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'userajax' %}",
+                processData: false,
+                contentType: false,
+                datatype:'json',
+                success: function (e) {
+                  console.log("working",e.status)
+                }
+     })
+
+
+    var i = 0;
+    let isrc = imgs[2];
+    $(".mimg").attr("src", imgs[i]);
+    setInterval(function () {
+        i++;
+        if (i > 10) {
+        i = 0;
+        }
+        $('.mimg').attr("src", imgs[i]);
+        // $(".mimg").fadeOut("slow", function () {
+        
+        // });
+    }, 1500);
+  
+    });
+
+    // image slider ends here
+    ls=[]
+    
+    $('#uname').focusout(function(){
+        var data = new FormData();
+            data.append('name',$("#uname").val())
+            console.log($("#uname").val())
+        $.ajax({
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'testworking' %}",
+                data: data,
+                processData: false,
+                contentType: false,
+                datatype:'json',
+                success: function (e) {
+                    ls=[]
+                    console.log(e)
+                    x=e.campaigns
+                //    console.log("SUCCESS",e.campaigns)
+                   for (i in x){
+                    //    console.log(x[i].campaign_name)
+                       if (!ls.includes(x[i].campaign_name) ){
+                        ls.push(x[i].campaign_name)
+                       }
+                    //    console.log("this is",ls)
+                    }
+
+                    $("select[name=campaign_sel]").html(' ')
+    
+                    for (i in ls){ 
+                        console.log("inside iffffffffffffff")
+                        $("select[name=campaign_sel]").append(`<option value="${ls[i]}">${ls[i]}</option>`)
+                        
+                    } 
+                    console.log('myls',ls)
+                  
+                }
+                
+      
+    })
+   
+                
+                
+    })
+
+</script>
+</body>
+</html>

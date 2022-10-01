@@ -1,0 +1,8 @@
+Important Codes performs on specific Functions:
+
+
+how to submit form when checkbox is checkedwhatever 
+
+ onChange="this.form.submit()
+1
+<input onChange="this.form.submit()" ..
