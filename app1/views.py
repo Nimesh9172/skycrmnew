@@ -942,9 +942,9 @@ def cms(request,id):
                 # if i.bank_loan_accountno == 'nan':
                 #     i.bank_loan_accountno = None
                 
-                b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,personalForkey_id=id,list_id=i.list_id_id,campaign=camp)
+                b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,personalForkey_id=id,list_id=i.list_id_id,campaign=camp,additional_number=i.additional_number,additional_address=i.additional_address,additional_emailid=i.additional_emailid)
                 if  emidate1!=None or emidate2!=None or emidate3!=None or emidate4!=None:
-                    b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,emidate1=emidate1,emidate2=emidate2,emidate3=emidate3,emidate4=emidate4,amount1=emiamt1,amount2=emiamt2,amount3=emiamt3,amount4=emiamt4,emi=emino,personalForkey_id=id,list_id=i.list_id_id,campaign=camp)
+                    b = LogData.objects.create(borrowor_name=i.borrowor_name,mobile_number=i.mobile_number,address=i.address,state=i.state,pincode=i.pincode,dateofbirth=i.dateofbirth,email_id=i.email_id,phone_number=i.phone_number,bankname=i.bankname,trustname=i.trustname,systemlan=i.systemlan,bank_loan_accountno=i.bank_loan_accountno,branchname=i.branchname,bankstate=i.bankstate,nature_of_facility=i.nature_of_facility,sanctionamount=i.sanctionamount,loan_sanction_date=i.loan_sanction_date,NPA_Date=i.NPA_Date,interest_rate=i.interest_rate,account_status=i.account_status,security_value=i.security_value,document_custody=i.document_custody,security_flag=i.security_flag,current_allocation=i.current_allocation,current_allocation_date=i.current_allocation_date,team_leader=i.team_leader,zone_name=i.zone_name,branch_mail_id=i.branch_mail_id,branch_contact_details=i.branch_contact_details,total_collected_amount=i.total_collected_amount,balance_POS_amount=i.balance_POS_amount,TOS=i.TOS,TOS_as_on_Date=i.TOS_as_on_Date,next_action_date=i.next_action_date,current_principal_outstanding=i.current_principal_outstanding,payment_date=i.payment_date,agent_username=i.agent_username,city=i.city,disposition=i.disposition,sub_dispossitions=i.sub_dispossitions,mode=i.mode,transactionid_chequeno=i.transactionid_chequeno,cash=i.cash,schedule=i.schedule,field_branch=i.field_branch,datetime=i.datetime,callbacktime=i.callbacktime,amount=i.amount,remark=i.remark,contacted_DateTime=i.contacted_DateTime,created_by=i.created_by,caller_name=i.callername,loanamt=i.loanamt,lastdial=i.lastdial,emidate1=emidate1,emidate2=emidate2,emidate3=emidate3,emidate4=emidate4,amount1=emiamt1,amount2=emiamt2,amount3=emiamt3,amount4=emiamt4,emi=emino,personalForkey_id=id,list_id=i.list_id_id,campaign=camp,additional_number=i.additional_number,additional_address=i.additional_address,additional_emailid=i.additional_emailid)
               
         except Exception as e:
             print(e)
@@ -1360,10 +1360,10 @@ def filterots(request):
                 all_data =otsdata.objects.all()	
 
             if sel != "all" and sel!="":
-               all_data=all_data.filter(tlstat=sel)
+                all_data=all_data.filter(tlstat=sel)
             elif sel == "all":
-               all_data=all_data.all()
-               
+                all_data=all_data.all()
+            
             if fd != "" and td != "":
                 fd = datetime.strptime(fd,'%d-%m-%Y')
                 td = datetime.strptime(td,'%d-%m-%Y')
@@ -1402,7 +1402,7 @@ def dataexport(request):
         sd = request.POST.get('sdate').rstrip()
         ed = request.POST.get('edate').rstrip()
         sel = request.POST.getlist('remcb')
-  
+
         read=LogData.objects
         print(sel)
         if sel!="":
@@ -1410,8 +1410,6 @@ def dataexport(request):
             read=read.filter(sub_dispossitions__in=sel)
             print(read)
     
-
-       
 
         if sd != "" and ed != "":
             sd = datetime.strptime(sd,'%d-%m-%Y')
