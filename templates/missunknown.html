@@ -493,8 +493,9 @@ a {
 }
 .popup__content__title {
   margin-bottom: 10px;
-  font-size: 28px;
+  font-size: 23px;
   font-weight: 100;
+  font-family: "Roboto";
   color: #626262;
 }
 
@@ -655,7 +656,7 @@ a {
         <div class="icondiv">
           
              <div class="hangme">
-              <button class="button button--error bts3" data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button> 
+              <button class="button button--error bts3" type="button"  data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button> 
              <i class="fa-solid fa-phone" style="transform: rotate(136deg);" style="font-size: 22px;"></i>
               Hang up
              </div>
@@ -675,7 +676,7 @@ a {
    
       call Not Connected
     </h1>
-    <p>Please login in dailer</p>
+    <p class="msg"></p>
     <i class="fa-solid fa-phone-xmark"></i>
     <p>
       <button class="button button--error" data-for="js_error-popup">OK</button>
@@ -773,8 +774,11 @@ Array.from(document.querySelectorAll('button[data-for]'))
             success: function(data){
               console.log("done")
               console.log(data.status)
+              var msg = data.msg 
               if (data.status == '300'){
                 $('.bts3').click()
+                $(".msg").empty()
+                $(".msg").append(msg)
                
               }
               else if (data.status == '200'){
