@@ -92,7 +92,6 @@ class personaldetails(models.Model):
     additional_emailid = models.CharField(max_length=100,null=True,blank=True)
 
 
-
 class user_group(models.Model):
     usergroup=models.CharField(max_length=200,null=True,blank=True)
     allowed_campaigns=models.CharField(max_length=200,null=True,blank=True)
