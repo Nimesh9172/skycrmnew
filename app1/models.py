@@ -106,7 +106,6 @@ class Additional(models.Model):
     city=models.CharField(max_length=200,null=True,blank=True)
     landmark=models.CharField(max_length=200,null=True,blank=True)
     pincode=models.CharField(max_length=20,null=True,blank=True)
-    
     user_id = models.IntegerField(null=True,blank=True)
     
 # DATE_INPUT_FORMATS = ['%d-%m-%Y']
