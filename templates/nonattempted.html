@@ -51,7 +51,8 @@
 
 
     <div class="row">
-        <div class="dash">Non-Attempted</div>
+        <div class="dash">
+         Non-Attempted</div>
         <form method="POST">
           {% csrf_token %}
           <div class="agntbox">
@@ -62,13 +63,16 @@
                   <option value="all">All</option>
                   {% for i in u %}
                   <option value="{{i.username}}">{{i.username}}</option>
-                  {% endfor %}
+                   {% endfor %}
                 </select>
-              </div>
+               </div>
           </div>
         
           </form>
-         <div class="table-responsive table-div"  style="margin-left: 102px;margin-top: 12px;min-height: 502px;overflow-y: auto;">
+         <div class="table-responsive table-div"  style="margin-left: 102px;
+         margin-top: 12px;
+         height: 460px;
+         overflow-y: auto;">
          <table class="table flex-wrap" style=" width: 100%;
          text-align: center;
          margin-bottom: 0px;">
