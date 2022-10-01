@@ -426,6 +426,24 @@ a {
   color: #626262;
 }
 
+<<<<<<< HEAD
+=======
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top: 0px;
+    right: -1px;
+    width: 20px;
+}
+
+.schedule .form-control:disabled, .form-control[readonly]{
+  box-shadow: none;
+  width:min(100% - 6px);
+  border: 1px solid #aaa;
+  height: 26px;
+  padding: 8px;
+}
+>>>>>>> d62ee93290e59aa9007349bca2ed60478a0ff946
 /**
  * Popup animations.
  * Based on Sweet Alert: "https://t4t5.github.io/sweetalert/"
@@ -526,6 +544,20 @@ a {
   }
 }
 
+<<<<<<< HEAD
+=======
+.select-details-div > .select2-container--default .select2-selection--single {
+    border-radius: 4px;
+    height: 25px;
+}
+
+.testnumber{
+  height:auto;
+  width:auto;
+  padding: 2px 5px;
+}
+
+>>>>>>> d62ee93290e59aa9007349bca2ed60478a0ff946
 /* popup submit and error ends */
   </style>
   <!-- <div class="container"> -->
@@ -1250,7 +1282,7 @@ a {
             <form action="" id="post-form" method="POST">
               {% csrf_token %}
               <input type="hidden" name="additional_id" value="{{i.id}}">
-              <div id="emaildiv" class="dis mb-1" style="display: none">
+              <div id="emaildiv" class="dis mb-2" style="display: none">
                 <input
                   class="emailbox"
                   id="email"
@@ -1268,8 +1300,8 @@ a {
               </div>
 
               <div class="mb-2" id="contactbox" style="display: none">
-                <div class="d-flex align-items-center gap-2">
-                  <input class="contactsubdiv1 allow-only-number" type="tel"  id="contactnum"name="contactnum" placeholder="Contact no.">
+                <div class="d-flex align-items-center gap-1">
+                  <input class="contactsubdiv1 allow-only-number" type="tel"  id="contactnum"name="contactnum" placeholder="Contact no." style="width: 83px;">
                   <div class="main-relation-div">
                       <select class="relationsel" id="relation">
                      
@@ -1413,7 +1445,7 @@ a {
                 style="display: none"
               />
 
-              <div id="call" class="callcheck" style="display: none">
+              <div id="call" class="callcheck container-fluid px-2" style="display: none">
                 
                 <div class="row">
                     <div class="col-md-6">
@@ -1463,16 +1495,10 @@ a {
               </div>
               </div>
              
-              <div class="schedule" style="display: none; margin-top: 12px;padding-left: 21px;">
+              <div class="schedule" style="display: none; margin-top: 8px;">
                 <!-- <form action="" method="post">
                                             {% csrf_token %} -->
-                <input
-                  id="schedulecall"
-                  class="form-control"
-                  type="datetime-local"
-                  placeholder="selecte date time"
-                  name="scheduledate"
-                   />
+                <input id="schedulecall" class="form-control" type="datetime-local" placeholder="Select Date Time" name="scheduledate" />
           
                
               </div>
@@ -1501,7 +1527,7 @@ a {
                   name="otsamt"
                   class="otsamtint" 
                   readonly
-                  style="width:93px;margin-left:0px"
+                  style="width:99px;margin-left:0px"
                   autocomplete="off"
                 />
                 <input
@@ -1509,7 +1535,7 @@ a {
                   placeholder="POS %"
                   readonly
                   class="dissub percalpos"
-                  style="width:100px;
+                  style="width:100px;margin-left:0;
                   "
                  
                 />
@@ -1519,7 +1545,7 @@ a {
                   name="posamt"
                   class="otsamtint" 
                   readonly
-                  style="width:93px;margin-left:0px"
+                  style="width:99px;margin-left:0px"
                   autocomplete="off"
                 />
                 <!-- <span class="spanots">OTS</span> -->
@@ -1548,7 +1574,7 @@ a {
                 <span class="emiin" style="display: none"></span>
                
             
-              <div class="emidiv" id="emid1" style="display: none;margin-top: 11px;">
+              <div class="emidiv" id="emid1" style="display: none;margin-top: 1px;">
                 <input type="date" placeholder="select" id="emical1" name="emidate1" class="emidate">
                 <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)"  autocomplete="off">
               </div>
@@ -1568,9 +1594,9 @@ a {
             <div class="sendFE" style="display: none;">
             <textarea name="saddress" class="addressin" id="remark" class="rm"cols="29" rows="7" placeholder="Complete Address" ></textarea>   
             
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area" autocomplete="off">
+            <input class="dissub mt-0" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area" autocomplete="off">
               
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark" autocomplete="off">
+            <input class="dissub mt-0" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark" autocomplete="off">
 
             <input class="dissub" style="padding-left: 2%;"  type="text" name="spincode" placeholder="Pincode" autocomplete="off" onkeypress="return isNumber(event)"><br>
 
