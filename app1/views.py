@@ -1474,7 +1474,7 @@ def nonattempted(request):
             agent=request.POST.get("agent")
             print("itssssss",agent)
             if agent == "all" and agent !="":
-                data=personaldetails.objects.filter(attempted=0)
+                data=personaldetails.objects.filter(attempted=0)[:100]
             else:
                 data=personaldetails.objects.filter(attempted=0).filter(callername=agent)
             return JsonResponse({"data":list(data.values())})
