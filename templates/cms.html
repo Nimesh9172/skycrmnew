@@ -252,7 +252,12 @@
   animation-duration:1s;
 }
 
-
+.cal-icon {
+    position: absolute;
+    right: 9%;
+    top: 5px;
+    height: 13px;
+}
 @keyframes grow {
   0% { clip-path: circle(0%  at 50% 9.8em); }
   100% {clip-path: circle(100%  at 50% 9.8em); }
@@ -1477,8 +1482,9 @@ a {
               </div>
              
               <div class="schedule" style="display: none; margin-top: 6px;padding-left: 0px;">
-                <!-- <form action="" method="post">
-                                            {% csrf_token %} -->
+        
+                          <div class= "cal-con">
+                <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">        
                 <input
                   id="schedulecall"
                   class="form-control"
@@ -1487,7 +1493,7 @@ a {
                   name="scheduledate"
                   />
           
-               
+               </div>
               </div>
 
               <!-- call schedule  settings end -->
