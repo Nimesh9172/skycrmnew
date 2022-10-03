@@ -700,7 +700,7 @@ def loginuser(request):
                 elif user is not None and user.user_level== 5:
                     login(request,user)
                     return redirect("qsdash")
-                    
+
                 else:
                      messages.error(request,"Incorrect username or password")
             except Exception as e:
@@ -771,6 +771,16 @@ def cms(request,id):
 
     print(contacted)
     print(noncontacted)
+    pers = LogData.objects.filter(personalForkey_id=id)
+    print(len(pers))
+    if len(pers) == 0:
+        print("inside if")
+        show=False
+    else:
+        print("else")
+        show=True
+    
+    print(show,"status")
     
     try:
         #url = requests.get('http://10.65.94.241/agc/api.php?source=test&user=6666&pass=robust&agent_user=IIT&function=external_dial&value=7972861253&phone_code=1&search=YES&preview=NO&focus=YES')
@@ -957,10 +967,10 @@ def cms(request,id):
         except Exception as e:
             print(e)
 
-    pers = LogData.objects.filter(personalForkey_id=id)
+    
     personaldetails.objects.update(what="")
 
-    return render(request,"cms.html",{"info":info,"a":a,"flag":flag,"em":em,"con":con,"altno":altno,"add":add,"mode":mode,"field":field,'pers':pers,"contacted":contacted,"noncontacted":noncontacted,"what":what})
+    return render(request,"cms.html",{"info":info,"a":a,"show":show,"flag":flag,"em":em,"con":con,"altno":altno,"add":add,"mode":mode,"field":field,'pers':pers,"contacted":contacted,"noncontacted":noncontacted,"what":what})
 
 
 @login_required(login_url="login")
