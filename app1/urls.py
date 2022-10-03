@@ -15,6 +15,7 @@ urlpatterns = [
         path('',views.home,name="home"),
         path('login/', views.loginuser, name='login'),
         path('logout',views.logoutuser,name="logout"),
+        path("qsdash",views.qsdash,name="qsdash"),
         path('dashboard/', views.dashboard, name='dashboard'),
         path('cms/<int:id>/', views.cms, name='cms'),
         path('tlcms/<int:id>/', views.tlcms, name='tlcms'),

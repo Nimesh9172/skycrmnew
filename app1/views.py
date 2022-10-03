@@ -548,6 +548,9 @@ def home(request):
     return redirect('dashboard')
 
 
+def qsdash(request):
+    return render(request,"qsdash.html")
+
 @login_required(login_url='login')
 def teamoverall(request):
     value = notificationCount(request)
@@ -693,6 +696,11 @@ def loginuser(request):
               
                     login(request,user)
                     return redirect('dashtl')
+
+                elif user is not None and user.user_level== 5:
+                    login(request,user)
+                    return redirect("qsdash")
+                    
                 else:
                      messages.error(request,"Incorrect username or password")
             except Exception as e:
