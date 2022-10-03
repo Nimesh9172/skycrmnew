@@ -1867,8 +1867,8 @@ def missedcallajax(request):
     missinfo =cur.fetchall()
     print(missinfo)
     # print("its",type(missinfo),len(missinfo))
-    # today=datetime.now().date()
-    today="2022-09-22"
+    today=datetime.now().date()
+    # today="2022-09-22"
     print(today)
     for i in missinfo:
         if MissedCall.objects.filter(callnum=i[1]).filter(missdt=i[2]).exists() == False:
