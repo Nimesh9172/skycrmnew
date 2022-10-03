@@ -33,7 +33,7 @@
    background-color: #047BD5;
 }
 
-.imgcard{
+/* .imgcard{
   width: 62px;
   height: 58px;  
   background:#047BD5;
@@ -53,7 +53,7 @@
 .dashcard:nth-of-type(6) img{
   padding-top: 0 !important;
   height: 20px !important;
-}
+} */
     </style>
     <div class="container-fluid">
         <div class="row" >
@@ -73,15 +73,15 @@
             <div class="cardBox flex-wrap">
               <a href="/ptp" class="linkme">
                 <div class="dashcard">
-                  <div class="imgcard ptp" style="padding-top: 18px;" >
-                  <img src="{% static 'Images/ptp status icon 2.svg' %}"/></div>
+                  <div class="imgcard ptp" style="padding-top: 3px;" >
+                  <img src="{% static 'Images/ptp status icon 2.svg' %}" height="29px"/></div>
                   <p class="cardcontent">Lead PTP</p>
               </div>
               </a>
               <a href="/ptpcount" class="linkme">
                 <div class="dashcard">
                     <div class="imgcard">
-                      <img src="{% static 'Images/pay icon.svg' %}" style="padding-top: 18%; "/>
+                      <img src="{% static 'Images/pay icon.svg' %}" style="padding-top: 18%;" height="31px"/>
                     </div>
                     <p class="cardcontent">PTP Count Status</p>
                 </div>
@@ -89,7 +89,7 @@
               <a href="/paidcount" class="linkme">
                 <div class="dashcard">
                     <div class="imgcard">
-                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"  style="padding-top: 3%; "/>
+                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"  style="padding-top: 3%;" height="35px"/>
                     </div>
                     
                     <p class="cardcontent">Paid Count Status</p>
@@ -117,10 +117,7 @@
                 </div>
             </div>
             <div class="infotable" style=" margin-left: 65px;">
-                <div class="dashboardtable" >
             
-               
-                </div>
                 <div class="table-responsive table-div" style="text-align:center;margin-left: 12px;border-radius: 10px;height: 414px;width: 99%;">
                 <table id="example" class="table  "  style="width:100%;">
                  <thead>
