@@ -43,6 +43,7 @@ app1/migrations/__pycache__/0010_loginhistory_missedcall_remove_logdata_fe_date_
 app1/migrations/__pycache__/0011_rename_datetime_sendfeto_fe_datetime.cpython-310.pyc
 app1/migrations/__pycache__/0012_sendfeto_contacted_datetime.cpython-310.pyc
 app1/migrations/__pycache__/0013_rename_campaign_loginhistory_event_and_more.cpython-310.pyc
+<<<<<<< HEAD
 app1/__pycache__/__init__.cpython-310.pyc
 app1/__pycache__/admin.cpython-310.pyc
 app1/__pycache__/apps.cpython-310.pyc
@@ -64,3 +65,6 @@ app1/migrations/__pycache__/0010_loginhistory_missedcall_remove_logdata_fe_date_
 app1/migrations/__pycache__/0011_rename_datetime_sendfeto_fe_datetime.cpython-310.pyc
 app1/migrations/__pycache__/0012_sendfeto_contacted_datetime.cpython-310.pyc
 app1/migrations/__pycache__/0013_rename_campaign_loginhistory_event_and_more.cpython-310.pyc
+=======
+app1/__pycache__/views.cpython-310.pyc
+>>>>>>> 72a4fda63fcfee32120a12d5cd64986d5e4ccac4

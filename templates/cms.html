@@ -16,9 +16,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
   <style>
     .form-control:disabled, .form-control[readonly] {
-    border: none;
-    background-color:#E8E8E8;
-    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
+    border: 1px solid #aaa !important;
+    background-color:#F6F5FA !important;
+    height:25px !important;
+    box-shadow: none !important;
+    width: 97%;
+
 }
     .btn-light {
       background-color: #e8e8e8;
@@ -524,6 +527,13 @@ a {
     transform: translateX(-50%) scale(1, 1);
     opacity: 1;
   }
+}
+
+.select-details-div > .select2-container--default .select2-selection--single{
+  border-radius:4px;
+}
+.sub-disposition-box{
+  width:101px !important;
 }
 
 /* popup submit and error ends */
@@ -1250,7 +1260,7 @@ a {
             <form action="" id="post-form" method="POST">
               {% csrf_token %}
               <input type="hidden" name="additional_id" value="{{i.id}}">
-              <div id="emaildiv" class="dis mb-1" style="display: none">
+              <div id="emaildiv" class="dis mb-2" style="display: none">
                 <input
                   class="emailbox"
                   id="email"
@@ -1413,7 +1423,7 @@ a {
                 style="display: none"
               />
 
-              <div id="call" class="callcheck" style="display: none">
+              <div id="call" class="callcheck container" style="display: none">
                 
                 <div class="row">
                     <div class="col-md-6">
@@ -1463,16 +1473,16 @@ a {
               </div>
               </div>
              
-              <div class="schedule" style="display: none; margin-top: 12px;padding-left: 21px;">
+              <div class="schedule" style="display: none; margin-top: 6px;padding-left: 0px;">
                 <!-- <form action="" method="post">
                                             {% csrf_token %} -->
                 <input
                   id="schedulecall"
                   class="form-control"
                   type="datetime-local"
-                  placeholder="selecte date time"
+                  placeholder="Select Date Time"
                   name="scheduledate"
-                   />
+                  />
           
                
               </div>
@@ -1501,7 +1511,7 @@ a {
                   name="otsamt"
                   class="otsamtint" 
                   readonly
-                  style="width:93px;margin-left:0px"
+                  style="width:101px;margin-left:0px"
                   autocomplete="off"
                 />
                 <input
@@ -1509,17 +1519,16 @@ a {
                   placeholder="POS %"
                   readonly
                   class="dissub percalpos"
-                  style="width:100px;
+                  style="width:100px;margin-left: 0;
                   "
-                 
-                />
+                  />
                 <input
                   type="tel"
                   placeholder="POS Amount"
                   name="posamt"
                   class="otsamtint" 
                   readonly
-                  style="width:93px;margin-left:0px"
+                  style="width:101px;margin-left:0px"
                   autocomplete="off"
                 />
                 <!-- <span class="spanots">OTS</span> -->
@@ -1548,7 +1557,7 @@ a {
                 <span class="emiin" style="display: none"></span>
                
             
-              <div class="emidiv" id="emid1" style="display: none;margin-top: 11px;">
+              <div class="emidiv" id="emid1" style="display: none;">
                 <input type="date" placeholder="select" id="emical1" name="emidate1" class="emidate">
                 <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)"  autocomplete="off">
               </div>
@@ -1923,7 +1932,7 @@ Array.from(document.querySelectorAll('button[data-for]'))
 
                     console.log("Asdd")
                     // $('.modal-cl2').click()
-            
+                
                   setTimeout( function() { 
                   
                     $('.modal-cl2').click()
