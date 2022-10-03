@@ -581,6 +581,8 @@ def dashtlots(request):
 
 @login_required(login_url='login')
 def logoutuser(request):
+    dt = datetime.now()
+    LoginHistory.objects.create(username=request.user.username,logdt=dt,event="LOGOUT")   
     logout(request)
     return redirect('login')
 
@@ -615,15 +617,15 @@ def userajax(request):
 def loginuser(request):
     db = dbconnection()
     cur=db.cursor()
-    
+    us=User.objects.all()
+    print("total",us)
     query2 = f"SELECT campaign_id,campaign_name FROM vicidial_campaigns"
     cur.execute(query2)
     camp =  cur.fetchall()
- 
+
     campn=[]
     campid = []
     campname = []
-   
     for i in camp:
         campid.append(i[0])
         campname.append(i[1])
@@ -642,9 +644,7 @@ def loginuser(request):
     for i in b:
         
         if user_group.objects.filter(usergroup=i[0]).exists():
-       
             user_group.objects.filter(usergroup=i[0]).update(allowed_campaigns=i[1])
-           
             
         else:
             usergroup=user_group.objects.create(usergroup=i[0],allowed_campaigns=i[1])
@@ -652,59 +652,38 @@ def loginuser(request):
     
     ug = user_group.objects.filter(usergroup=i[1])
 
-    q= f"select category,status_name from vicidial_campaign_statuses"
-
-    cur.execute(query2)
-    campn =  cur.fetchall()
-
-    cur.execute(q)
-    sub =  cur.fetchall()
-    sub=[]
-    con = []
-    nc = []
-
-    for i in sub:
-        if i[0] == 'contacted':
-            con.append(i[1])
-        else:
-            nc.append(i[1])
     
   
     cur.close()
     db.close()
 	
-    if request.user.is_authenticated:
-        return redirect('dashtl')
-    else:
-        if request.method == 'POST':
+    if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
             campaigns = request.POST.get('campaign_sel')
+            entry=datetime.now()
             print(1,username,2,password,3,campaigns)
             request.session['userid'] = request.user.id
-            # request.session["pwd"]=request.user.password
+        
             try:
-              
                 user = authenticate(request,username=username,password=password,campaign=campaigns)
                 u=User.objects.filter(username=username).update(campaign=campaigns)
                 
                 if user is not None and user.user_level== 1:
                     login(request,user)
                     print('login')
+                    LoginHistory.objects.create(username=username,logdt=entry,event="LOGIN")
                     return redirect('dashboard')
+
                 elif user is not None and user.user_level== 9:
-              
+            
                     login(request,user)
-                    return redirect('dashtl')
-
-                elif user is not None and user.user_level== 5:
-                    login(request,user)
-                    return redirect("qsdash")
-
+                    LoginHistory.objects.create(username=username,logdt=entry,event="LOGIN")
+                    return redirect('dashboard')
                 else:
-                     messages.error(request,"Incorrect username or password")
+                    messages.error(request,"Incorrect username or password")
             except Exception as e:
-                messages.warning(request,"Somethig went wrong")
+                messages.warning(request,"Something went wrong")
                 print('error',e)
 
     return render(request,'login.html',{'campname':campname})
