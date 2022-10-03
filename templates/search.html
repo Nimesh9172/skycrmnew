@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+
 <body>
     
 
@@ -19,7 +20,7 @@
     </div>
 <!-- </form> -->
 <!-- <div class="searchtablediv"> -->
-    <div class="table-responsive table-div" style='margin-left:108px;height: 442px' >
+    <div class="table-responsive table-div" style='margin-left:108px;height: 485px' >
         <table class="table" style="width:100%; text-align: center;margin-bottom: 0px;">
             <thead style="background-color: #047BD5;font-size: 14px; font-family:'Roboto';    background-color: #047BD5;
             font-size: 14px;
@@ -28,11 +29,11 @@
             top: 0;
            ;">
              <tr>
-                 <th style="padding: 18px 0px;">ID</th>
-                 <th style="padding: 18px 0px;">Borrowor  Name</th>
-                 <th style="padding: 18px 0px;">Phone Number</th>
-                 <th style="padding: 18px 0px;">Loan Number</th>
-                 <th style="padding: 18px 0px;">Attachment</th>
+                <th style="padding: 18px 0px;">ID</th>
+                <th style="padding: 18px 0px;">Borrowor  Name</th>
+                <th style="padding: 18px 0px;">Phone Number</th>
+                <th style="padding: 18px 0px;">Loan Number</th>
+                <th style="padding: 18px 0px;">Attachment</th>
              </tr>
             </thead>
             <tbody style="font-size: 12px; font-family:'Roboto';">
@@ -92,7 +93,7 @@
 
                     $('.attempted').each(function(){
                         if ($(this).val() != 0){
-                            $(this).parent().css({'color':'#047BD5','font-size': '13px', 'font-weight': 'bold'})
+                            $(this).parent().css({'color':'#047BD5','font-size': '12px', 'font-weight': 'bold'})
                         }
                     })
                 }

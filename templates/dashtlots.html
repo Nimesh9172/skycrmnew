@@ -94,7 +94,7 @@
             </div>
             
   
-            <div class="table-responsive table-div"style="text-align:center;margin-left: 81px;border-radius: 10px;height: 364px;width: 93%;">
+            <div class="table-responsive table-div"style="text-align:center;margin-left: 81px;border-radius: 10px;height: 414px;width: 93%;">
                         <table id="example" class="table otstable"  style="width:100%;">
                           <thead>
                             <tr class="importantth" style="background-color: #047BD5;">
@@ -112,7 +112,7 @@
                               <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Suggest OTS
                               </th>
                               
-                               <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Status
+                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Status
                               </th>
                               
 
@@ -122,12 +122,12 @@
                             {% for i in data %}
                             
                             <tr  class='clickable-row dashhover' data-href='{% url  "tlcms" i.info_id %}' style="cursor: pointer;">
-                              <td style="font-size: 13px;">{{i.borrower_name}}</td>
-                              <td style="font-size: 13px;">{{i.loan_id}}</td>
-                              <td style="font-size: 13px;">{{i.tos}}</td>
-                              <td style="font-size: 13px;">{{i.ots_amt}}</td>
-                              <td style="font-size: 13px;">{{i.otspercentage}} </td>
-                              <td style="font-size: 13px;">{{i.suggest}} </td>
+                              <td style="font-size: 12px;">{{i.borrower_name}}</td>
+                              <td style="font-size: 12px;">{{i.loan_id}}</td>
+                              <td style="font-size: 12px;">{{i.tos}}</td>
+                              <td style="font-size: 12px;">{{i.ots_amt}}</td>
+                              <td style="font-size: 12px;">{{i.otspercentage}} </td>
+                              <td style="font-size: 12px;">{{i.suggest}} </td>
                                <td {%if i.tlstat == 'Accepted'  %} style="color: #1CD833;font-size: 13px; font-weight: bold;" {%elif i.tlstat == 'Declined'  %} style="color: red;font-size: 13px;font-weight: bold;"{%endif%}>{%if i.tlstat == 'Accepted' or  i.tlstat == 'Declined' %}{{i.tlstat}}{%else%}{% endif %}</td>
                               
                               
