@@ -100,6 +100,10 @@
   border-radius: 10px;
 } */
 
+.active-page{
+  background:#121B55;
+  border-radius: 10px;
+}
 .sidebar .nav-links li:hover ~ .sidebar{
   background: red;
 }
@@ -337,7 +341,7 @@
     </div>
     <ul class="nav-links">
       
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="dashsel">
         <div class="iocn-link">
           <a href="/dashboard">
             <i><img src="{% static 'Images/Vector.svg' %} " style="height: 20px;"/></i>
@@ -359,14 +363,14 @@
 
       <li >
         <div class="iocn-link">
-         <li style="border-radius: 10px;">
-              <a href="/search" class="active">
+         <li style="border-radius: 10px;" class="sa" >
+              <a href="/search">
                 <i class="fa-solid fa-magnifying-glass" style=" color: white;font-size: 20px;"></i>
                 <span class="link_name">Search</span>
               </a>
              
             </li>
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="cmssel">
         <div class="iocn-link">
           <a href="#">
             <i style="position: relative;">
@@ -386,7 +390,7 @@
         </ul>
       </li>
       {% if request.user.user_level == 9 %}
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="otspg">
         <a href="/dashtlots">
           <i><img src="{% static 'Images/deal icon.svg' %}" style="height: 23px;"/></i>
           <span class="link_name">One Time Settlement</span>
@@ -394,7 +398,7 @@
       </li>
     
       {%else%}
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="otspage">
         <a href="/ots">
           <i><img src="{% static 'Images/deal icon.svg' %}" style="height: 23px;"/></i>
           <span class="link_name">One Time Settlement</span>
@@ -402,7 +406,7 @@
       </li>
       {% endif %}
       {% if request.user.user_level == 1 %}
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="non-atmped">
         <a href="{% url 'noncontacted' %}">
           <i><img src="{% static 'Images/noncontacted.png' %}" style="height: 23px;"/></i>
           <span class="link_name">Non-Attempted</span>
@@ -410,7 +414,7 @@
       </li>
       {% endif %}
       {% if request.user.user_level == 9 %}
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="non-atmp">
         <a href="{% url 'nonattempted' %}">
           <i><img src="{% static 'Images/noncontacted.png' %}" style="height: 23px;"/></i>
           <span class="link_name">Non-Attempted</span>
@@ -420,7 +424,7 @@
      
       {% endif %}
           {% if request.user.user_level == 9 %}
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="ctc">
         <a href="/connecttocustomer">
           <i><img src="{% static 'Images/connect.png' %}"  style="height: 23px;" alt=""></i>
           <span class="link_name">Connect To Customer</span>
@@ -429,7 +433,7 @@
           <li><a class="link_name" href="#">Connect To Customer</a></li>
         </ul> -->
       </li>
-      <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;" class="lms">
         <div class="iocn-link">
           <a href="#">
             <i><img src="{% static 'Images/data.png' %}"  style="height: 23px;"alt=""></i>
