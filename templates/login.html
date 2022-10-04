@@ -256,7 +256,7 @@ footer {
         <div class="col-md-5 mt-5">
             {% include 'messages.html' %}
             <div class="box">
-                <div class="main-img" style="padding: 0px 10%;position: relative;">
+                <div class="main-img" style="padding: 20px 10%;position: relative;">
                     <form action="{% url 'login' %}" method="post" class="myform">
                         {% csrf_token %}
                         <!-- <div class="text-center">
@@ -282,15 +282,11 @@ footer {
                             </select>
                           </div>
 
-                        <div class="text-end">
-                            <p class="fp">Forget Password?</p>
-                        </div>
-                        <div class="text-center">
+                       
+                        <div class="text-center" style="margin-top: 26px;">
                             <button class="btn">Login</button>
                         </div>
-                        <div class="text-center mt-2">
-                            <p class="su">Don't have an account ?<a href="" style="text-decoration:none"><span> signup</span></a></p>
-                        </div>
+                       
                 </div>
             
             </form>
