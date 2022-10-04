@@ -88,8 +88,14 @@
 
       .selectedls{
         display: flex;
-    gap: 28px;
-    padding: 16px 120px;
+        gap: 28px;
+        padding: 16px 120px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .selitems{
+        color:#047BD5 ;
+        margin-left: 12px;
       }
 
   @media screen and (max-width: 512px){
@@ -258,11 +264,11 @@
 
           </div>
         </div>
-        <div class="selectedls">
+        <div class="selectedls" style="display: none;">
           You have selected 
-          <div>Campaign<span class="selitems"> IIT Test Campaign</span></div>
-          <div>From<span class="selitems">01-10-2022</span>To <span class="selitems">30-10-2022</span></div>
-          <div>Criteria<span class="selitems">PTP</span></div>
+          <div class="cmpinfo" style="display: none;">Campaign<span class="selitems cmpname">" "</span></div>
+          <div class="ftinfo" style="display: none;">Date From<span class="selitems fd" style="margin-right: 12px;">""</span>  To <span class="selitems td">""</span></div>
+          <div class="chkinfo"style="display: none;">Criteria<span class="selitems chk">""</span></div>
        </div>
 
     
@@ -297,10 +303,17 @@
     
    
       $("#selectval").change(function(){
-       
+ 
         $(this).closest('form').submit();
        
       });
+      $(".exp1").change(function(){
+        console.log("hwvkwc",$(".exp1").val())
+        $(".selectedls").css({"display":"inline-block"})
+        $(".cmpinfo").css({"display":"inline-block"})
+        $(".cmpname").html($(".exp1").val())
+
+      })
       $("#form-post").change(function(){
           $(this).closest("form").submit();
       })
@@ -314,12 +327,21 @@
         rem = []
 
         $("input[name=remcb]:checkbox:checked").each(function() {
-                rem.push($(this).val());
+                rem.push($(this).val()+" , ");
                 console.log(rem)
             })
+            $(".selectedls").css({"display":"inline-block"})
+            $(".chkinfo").css({"display":"inline-block"})
+            $(".chk").html(rem)
       })
 
-
+        $(".enddate").change(function(){
+          console.log($(".startdate").val())
+          $(".selectedls").css({"display":"inline-block"})
+            $(".ftinfo").css({"display":"inline-block"})
+            $(".fd").html($(".startdate").val())
+            $(".td").html($(".enddate").val())
+        })
   // $('#checkboxes').find('input[name=remcb]').each(function(){
   //         if (rsfil.includes($(this).val())){
   //           $(this).attr('checked',true)
