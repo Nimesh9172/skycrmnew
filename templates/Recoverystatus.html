@@ -204,6 +204,10 @@ display: none;
           // $(".cal-icon").on("click", function () {
           //     $('.rtodate').click()
 
+          $('.overselect').click(function(){
+            $('#checkboxes').toggleClass('d-none')
+          })
+            
           let rsfil=sessionStorage.getItem("sortval2")
           rsfil = rsfil.split(',')
           $('#checkboxes').find('input[name=remcb]').each(function(){
