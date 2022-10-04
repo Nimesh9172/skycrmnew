@@ -1896,7 +1896,9 @@ def missedcallajax(request):
         #      m=MissedCall.objects.create(username=i[0],callnum=i[1],missdt=i[2],callcount=i[3],contacted="No")
         #      m.save()
         if request.user.user_level == 9: 
+            print(miss,sd,ed)
             miss=MissedCall.objects.filter(missdt__range=[sd,ed])
+            print("aftre filter",miss)
         else:
             miss=MissedCall.objects.filter(missdt__range=[sd,ed]).filter(username=request.user.username)
             print(miss,type(miss))
