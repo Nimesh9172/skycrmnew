@@ -538,7 +538,12 @@
 
       }
     });
-      
+    $(".iocn-link").click(function(){
+      console.log("clicked",$(this).html())
+  var id=$(this).prev().find(".dashsel").toggle("showMenu")
+  console.log("open",id)
+
+})
     $(".showno").click(function(){
       $('.cmsnotification').css({'display':'none'})
     })
