@@ -38,7 +38,11 @@
                     // console.log(x)
                     $('.bigdiv').empty()
                     output = ""
+                    if (x.length < 1){
+                        return null
+                    }
                     if (x != undefined){
+                        $('.bigdiv').css({'min-height':'auto'})
                     for (var i in x){
 
                         let dtFormat = new Intl.DateTimeFormat('en-US',{
@@ -115,6 +119,7 @@
         })
 
         $('input[name=remcb]').click(function(){
+
             dataSubmit()
         })
         
