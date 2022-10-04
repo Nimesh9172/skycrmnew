@@ -341,7 +341,7 @@
     </div>
     <ul class="nav-links">
       
-      <li style="border-radius: 10px;" class="dashsel">
+      <li style="border-radius: 10px;" class="dashsel arrow2">
         <div class="iocn-link">
           <a href="/dashboard">
             <i><img src="{% static 'Images/Vector.svg' %} " style="height: 20px;"/></i>
@@ -370,16 +370,16 @@
               </a>
              
             </li>
-      <li style="border-radius: 10px;" class="cmssel">
+      <li style="border-radius: 10px;" class="cmssel arrow2">
         <div class="iocn-link">
           <a href="#">
             <i style="position: relative;">
               <img class="cmsimg" src="{% static 'Images/icon.svg' %}" style="height: 22px;"/>
               <span class="cmsnotification"></span>
-           </i>
-           <span class="link_name">Call Management System</span>
+          </i>
+          <span class="link_name">Call Management System</span>
           </a>
-          <i class='fa-solid fa-caret-down arrow showno' style="min-width: 6px; margin-right: 10px;font-size: 14px;"></i>
+          <i class='fa-solid fa-caret-down showno arrow' style="min-width: 6px; margin-right: 10px;font-size: 14px;"></i>
         </div>
         <ul class="sub-menu" style="border-radius: 10px;">
           <li><a class="link_name" href="#">Call Management System</a></li>
@@ -421,7 +421,7 @@
         </a>
       </li>
       {% else %}
-     
+
       {% endif %}
           {% if request.user.user_level == 9 %}
       <li style="border-radius: 10px;" class="ctc">
@@ -433,12 +433,11 @@
           <li><a class="link_name" href="#">Connect To Customer</a></li>
         </ul> -->
       </li>
-      <li style="border-radius: 10px;" class="lms">
+      <li style="border-radius: 10px;" class="lms arrow2">
         <div class="iocn-link">
           <a href="#">
             <i><img src="{% static 'Images/data.png' %}"  style="height: 23px;"alt=""></i>
-            <span class="link_name">Lead Management System</span>
-   
+            <span class="link_name ">Lead Management System</span>
           </a>
           <i class='fa-solid fa-caret-down arrow' style="min-width: 6px;margin-right:10px;font-size: 14px;"></i>
         </div>
@@ -488,21 +487,24 @@
     <script src="{% static 'vendor/js/select2.min.js' %}"></script>
   <script src="{% static 'js/select2custom.js' %}"></script>
   <script>
-    let arrow = document.querySelectorAll(".arrow");
-    for (var i = 0; i < arrow.length; i++) {
-      arrow[i].addEventListener("click", (e)=>{
-    let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
-    arrowParent.classList.toggle("showMenu");
-      });
-    }
+
 
   $(document).ready(function(){
     // dialer enable option start
+    $('.arrow2').click(function(){
+      $(this).toggleClass('showMenu')
+    })
+
     $('.dialerlog').click(function(){
       $('.dialerlog').css({'pointer-events': 'none'})
       $('.dialicon').css({'color': '#D0D0D0'})
       $('.diallinkname').css({'color': '#D0D0D0'})
     })
+
+    $('.overselect').click(function(){
+      $('#checkboxes').toggleClass('d-none')
+    })
+
     $.ajax({
       type:'get',
       url:'{% url "dialstat" %}',
@@ -550,9 +552,6 @@
 
     $(".dailnow").mouseover(function(){
     alert("start")
-    console.log("oo itss")
-    // $(".dialnow").off("click")
-    console.log("offffff")
     })
 
     $.ajax({

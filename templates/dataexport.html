@@ -320,13 +320,10 @@
       // If the target is not the container or a child of the container, then process
       // the click event for outside of the container.
 
-      if ($(event.target).parent().attr('id') != "checkboxes" ){
+      if ($(event.target).parent().attr('id') != "checkboxes" && $(event.target).parent().attr('class') != 'checkbox-wrapper'){
         $('#checkboxes').css({'display':'none'})
       }
-
- 
       if ($(event.target).attr('class') == "overselect" ){
-  
         $('#checkboxes').css({'display':'block'})
       }
 });

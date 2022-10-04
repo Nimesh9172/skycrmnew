@@ -174,16 +174,20 @@ height: 26px;
 }
     flatpickr("input[type=datetime-local]",config);
     $(document).ready(function(){
+
+      $('.overselect').click(function(){
+        $('#checkboxes').toggleClass('d-none')
+      })
+
       $(".cmssel").addClass("active-page")
       $(document).on("click", function (event) {
       // If the target is not the container or a child of the container, then process
       // the click event for outside of the container.
 
-      if ($(event.target).parent().attr('id') != "checkboxes" ){
+      if ($(event.target).parent().attr('id') != "checkboxes" && $(event.target).parent().attr('class') != 'checkbox-wrapper' ){
         $('#checkboxes').css({'display':'none'})
-      }
-
- 
+        console.log($(event.target).parent().attr('class'))
+      } 
       if ($(event.target).attr('class') == "overselect" ){
         console.log("You");
         $('#checkboxes').css({'display':'block'})
@@ -224,13 +228,14 @@ height: 26px;
           $(".hide").hide("slow");
       }
   });
-  $('.c1').click(function(){
-        $('.cal1').click()
-      })
 
-      $('.c2').click(function(){
-        $('.cal2').click()
-      })
+  $('.c1').click(function(){
+    $('.cal1').click()
+  })
+
+  $('.c2').click(function(){
+    $('.cal2').click()
+  })
   
 })
   
