@@ -30,9 +30,13 @@
                     // console.log(x)
                     $('.bigdiv').empty()
                     output = ""
+                    if (x.length < 1){
+                        return 1
+                    }
                     if (x != undefined){
+                        
+                        $('.bigdiv').css({'min-height':'auto'})
                     for (var i in x){
-                    $('.bigdiv').css({'min-height':'auto'})
                         
                         let dtFormat = new Intl.DateTimeFormat('en-US',{
                                         month:'short',
