@@ -1260,6 +1260,7 @@ def filterrm(request):
     all_data=personaldetails.objects.filter(callername=request.user.username).filter(callbacktime__contains=d4).filter(Q(sub_dispossitions='Promise To Pay') | Q(sub_dispossitions='Call Back')| Q(sub_dispossitions='Schedule Call'))
     if request.user.user_level == 9:
         all_data=personaldetails.objects.filter(callbacktime__contains=d4).filter(Q(sub_dispossitions='Promise To Pay') | Q(sub_dispossitions='Call Back')| Q(sub_dispossitions='Schedule Call'))
+        print("99999999999999",all_data)
     if request.method == "POST":
         fd = request.POST.get('fdate').rstrip()
         td = request.POST.get('tdate').rstrip()
@@ -1297,7 +1298,7 @@ def filterrm(request):
         except  Exception as e:
             print(e)
             all_data = personaldetails.objects.all()
-
+    print("all_data",all_data)
     return JsonResponse({'all_data':list(all_data.values())})
 
 def filterrs(request):

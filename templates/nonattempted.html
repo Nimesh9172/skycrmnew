@@ -126,7 +126,7 @@
       // if (v != undefined ){
       for(var i in v){
         console.log("tbody",`${v[i].id}`)
-        $(".tb").append(`  <tr class='clickable-row dashhover' data-href='/cms/${v[i].id}' style="cursor: pointer;">
+        $(".tb").append(`  <tr class='clickable-row dashhover' data-href="/cms/${v[i].id}/" style="cursor: pointer;">
                   <td style="font-size: 12px;">${v[i].id}</td>
                   <td style="font-size: 12px;">${v[i].borrowor_name}</td>
                   <td style="font-size: 12px;">${v[i].mobile_number}</td>
@@ -142,7 +142,7 @@
       }
     $(document).ready(function () {
       $(".non-atmp").addClass("active-page")
-        $(".clickable-row").click(function() {
+        $(document).on('click','.clickable-row',function() {
         window.location = $(this).data("href");
     });
     $("select[name=agent]").change(function(){
