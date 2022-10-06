@@ -680,6 +680,10 @@ def loginuser(request):
                     login(request,user)
                     LoginHistory.objects.create(username=username,logdt=entry,event="LOGIN")
                     return redirect('dashboard')
+                
+                elif user is not None and user.user_level == 5:
+                    login(request,user)
+                    return redirect("qsdash")
                 else:
                     messages.error(request,"Incorrect username or password")
             except Exception as e:
