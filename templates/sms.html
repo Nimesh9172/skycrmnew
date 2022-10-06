@@ -180,11 +180,10 @@ border-radius: 10px;
 }
 
   </style>
-   <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
-   <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
-   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-   
+  <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 <form  action="{% url 'sms' %}" method="post"  enctype="multipart/form-data" id="uploadform">
@@ -209,10 +208,10 @@ border-radius: 10px;
 {% endfor %}
 <div class="alert listidalert alert-warning alert-dismissible fade show" role="alert" style="margin-left: 94px;width: 90%;display: none;">
   This list id already exists!
- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
   <div class="smsdiv">
-   
+  
       <div class="row firstrow ">
         <div class="smscenter">
             <div class="row">
@@ -226,28 +225,28 @@ border-radius: 10px;
                   <option value="">Select SMS Type</option>
                   <option value="Payment Acceptance">Payment Acceptance</option>
                   <option value="Awareness">Awareness</option>
-                  <option value="Payment Confirmation – Agency">Payment Confirmation – Agency</option>
+                  <option value="Payment Confirmation  Agency">Payment Confirmation – Agency</option>
                   <option value="CIBIL">CIBIL</option>
-                 </select>
-                 <span class="error" id="smstype-error"></span>
+                </select>
+                <span class="error" id="smstype-error"></span>
 
               </div>
             </div>
             <div class="btn-box d-flex justify-content-center flex-wrap">
-                <button type="" class="uploadbtn" id="loading" style="pointer-events:none;">
+                <button type="" class="uploadbtn" id="loading" style="cursor:pointer">
                 <i class="fa " id="start"></i><span class="loadht">Upload Data</span></button>
-                <a   class="downloadbtn">Download format</a>
+                <a class="downloadbtn"  download  style="cursor:pointer ;">Download format</a>
               </div>
-             
+            
     
             </div>
 
         </div>
         </div>
-   </div> 
+  </div> 
 </form>
 </form>
-   <div>
+  <div>
   <form action="{% url 'exportsms' %}" method="post">
     {% csrf_token %}
     <div class="uploaddiv" style="height: auto; padding-bottom: 12px;margin-left: 87px;width: 91%;min-height: 0px;">
@@ -255,37 +254,37 @@ border-radius: 10px;
         <div class="row firstrow ">
             <div class="exheading">Export SMS Data</div>
             <div class="col-4">
-           <div class="upsdiv" style="margin-top: 14px;">
+          <div class="upsdiv" style="margin-top: 14px;">
             <select name="seltype" class="smsselect">
               <option value="">Select SMS Type</option>
                     <option value="Payment Acceptance">Payment Acceptance</option>
                     <option value="Awareness">Awareness</option>
-                    <option value="Payment Confirmation – Agency">Payment Confirmation – Agency</option>
+                    <option value="Payment Confirmation  Agency">Payment Confirmation  Agency</option>
                     <option value="CIBIL">CIBIL</option>
             </select>
             <span class="error" id="campion-error"></span>
 
-           </div>
           </div>
-         <div class="col-8">
+          </div>
+        <div class="col-8">
           <div class="d-flex flex-wrap" style="margin-top: 13px;" >
             <div class="cal-con">
-               <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" class="calender" alt="">
-               <input class="form-control cal1 startdate" name="sdate" type="datetime-local" placeholder="Start date">
-             </div>
-         
-             <div  class="cal-con">
-               <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
-               <input class="form-control cal2 enddate" name="edate" type="datetime-local" placeholder="End date">
-             </div>
-             <input type="submit" placeholder="Submit"  value="Export Data" class="exportbtn" style="pointer-events:none;">
-           
-           </form>
-         </div>
+              <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" class="calender" alt="">
+              <input class="form-control cal1 startdate" name="sdate" type="datetime-local" placeholder="Start date">
+            </div>
+        
+            <div  class="cal-con">
+              <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
+              <input class="form-control cal2 enddate" name="edate" type="datetime-local" placeholder="End date">
+            </div>
+            <input type="submit" placeholder="Submit"  value="Export Data" class="exportbtn" >
+          
+          </form>
+        </div>
           </div>  
           
         </div>
-       </div>
+      </div>
       
       <div class="uploaddiv" style=" height:200px;width: 91%;margin-left:90px ;">
         <div class="row">
@@ -308,18 +307,18 @@ border-radius: 10px;
                 <tbody>
                   {% for i in s %}
                   <tr>
-                     <td style="font-size: 11px;">{{i.id}}</td>
-                     <td style="font-size: 11px;">{{i.smstype}}</td>
-                     <td style="font-size: 11px;">{{i.file}}</td>
-                     <td style="font-size: 11px;">{{i.entry}}</td>
-                     <td style="font-size: 11px;">{{i.smsid}}</td>
-                     <td style="font-size: 11px;">{{i.count}}</td>
-                     <td style="font-size: 11px;">{{i.sent}}</td>
+                    <td style="font-size: 11px;">{{i.id}}</td>
+                    <td style="font-size: 11px;">{{i.smstype}}</td>
+                    <td style="font-size: 11px;">{{i.file}}</td>
+                    <td style="font-size: 11px;">{{i.entry}}</td>
+                    <td style="font-size: 11px;">{{i.smsid}}</td>
+                    <td style="font-size: 11px;">{{i.count}}</td>
+                    <td style="font-size: 11px;">{{i.sent}}</td>
 
                   </tr>
                   {% endfor %}
                 </tbody>
-               
+              
             </table>
             </div>  
         </div> 
@@ -360,8 +359,8 @@ border-radius: 10px;
         },highlight: function(element) {
             $(element).removeClass("error");
         }
-     });   
-       
+    });   
+      
 
         $("select[name=smstype]").change(function(){
             var v=$("select[name=smstype]").val()
@@ -374,9 +373,9 @@ border-radius: 10px;
                 console.log("inside")
                 $(".downloadbtn").attr("href","/media/Awareness.csv")
             }
-            else if( v == "Payment Confirmation – Agency"){
+            else if( v == "Payment Confirmation Agency"){
                 console.log("inside")
-                $(".downloadbtn").attr("href","/media/Payment Confirmation – Agency.csv")
+                $(".downloadbtn").attr("href","/media/Payment Confirmation  Agency.csv")
             }
             else if( v == "CIBIL"){
                 console.log("inside")
