@@ -362,12 +362,12 @@
 
       <li >
         <div class="iocn-link">
-         <li style="border-radius: 10px;" class="sa" >
+        <li style="border-radius: 10px;" class="sa" >
               <a href="/search">
                 <i class="fa-solid fa-magnifying-glass" style=" color: white;font-size: 20px;"></i>
                 <span class="link_name">Search</span>
               </a>
-             
+            
             </li>
       <li style="border-radius: 10px;" class="cmssel arrow2">
         <div class="iocn-link">
@@ -375,7 +375,7 @@
             <i style="position: relative;">
               <img class="cmsimg" src="{% static 'Images/icon.svg' %}" style="height: 22px;"/>
               <span class="cmsnotification"></span>
-          </i>
+            </i>
           <span class="link_name">Call Management System</span>
           </a>
           <i class='fa-solid fa-caret-down showno arrow' style="min-width: 6px; margin-right: 10px;font-size: 14px;"></i>
@@ -444,7 +444,6 @@
           <li><a class="link_name" href="#">Lead Management System</a></li>
           <li><a href="/dataupload">Data Upload</a></li>
           <li><a href="/dataexport">Data Export</a></li>
-  
         </ul>
       </li>
           <li style="border-radius: 10px;">
@@ -463,9 +462,8 @@
             <input type="hidden" value="online" class="ustatus">
           </a>
         </li>
- 
-
-      <div class="logoutlinkdiv">
+        
+      <div class="logoutlinkdiv" onclick="clearFilterSessions()">
         <li style="border-radius: 10px;">
           <a href="/logout">
             <i class="fa-solid fa-power-off" style=" color: white;font-size: 20px"></i>
@@ -487,8 +485,13 @@
   <script src="{% static 'js/select2custom.js' %}"></script>
   <script>
 
+  function clearFilterSessions(){
+    console.log("cleared")
+    sessionStorage.clear()
+  }
 
   $(document).ready(function(){
+  
     // dialer enable option start
     $('.arrow2').click(function(){
       $(this).toggleClass('showMenu')

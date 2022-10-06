@@ -1294,7 +1294,7 @@ def filterrm(request):
                     all_data = all_data.order_by('-TOS')    
             if fil != ['']:
                 all_data = all_data.filter(Q(sub_dispossitions__in=fil))
-           
+        
         except  Exception as e:
             print(e)
             all_data = personaldetails.objects.all()
@@ -1563,7 +1563,7 @@ def sms(request):
                      cl = 'info'
                      dsb = "block"
                     
-                elif smsty=="Payment Confirmation – Agency":
+                elif smsty=="Payment Confirmation Agency":
                       print(i[0])
                       print(i[1])
                       print(i[2],i[3],i[4])
@@ -1649,7 +1649,7 @@ def exportsms(request):
             elif seltype =="Awareness":
                 columns=["SMS Type","Phone Number","Account No","Response","Entry Date"]
                 rows = s.values_list("smsty","phone_no","loan_account_no","response","entry")
-            elif seltype =="Payment Confirmation – Agency":
+            elif seltype =="Payment Confirmation  Agency":
                 columns=["SMS Type","Phone Number","Account No","Entry Date","Response"," Date","Amount","Agency Name"]
                 rows = s.values_list("smsty","phone_no","loan_account_no","entry","response","Date","amount","agency_name")
             elif seltype =="CIBIL":
