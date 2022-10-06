@@ -320,6 +320,7 @@ class Score(models.Model):
     getmark9=models.BigIntegerField(null=True,blank=True)
     total=models.BigIntegerField(null=True,blank=True)
     got=models.BigIntegerField(null=True,blank=True)
+    phone=models.CharField(max_length=20,null=True,blank=True)
     performance=models.CharField(max_length=100,null=True,blank=True)
     userForKey=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
 
