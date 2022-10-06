@@ -80,8 +80,12 @@ urlpatterns = [
         path('call',views.dialcal,name="call"),
         path('dispose',views.dispose,name="dispose"),
         path('disconnect',views.disconnectcall,name="disconnect"),
+<<<<<<< HEAD
         path("pausecode",views.pausecode,name="pausecode"),
         path("callsinqueue",views.callsinqueue,name="callsinqueue"),
+=======
+        path('pa',views.pa,name="pa"),
+>>>>>>> 924a672 (a)
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

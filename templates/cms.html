@@ -544,8 +544,82 @@ a {
   background-color: #f6f5fa;
 }
 
+
+
+
 /* popup submit and error ends */
-  </style>
+
+
+.label-container{
+	position:fixed;
+	bottom:48px;
+	right:105px;
+	display:table;
+	visibility: hidden;
+}
+
+.label-text{
+	color:#FFF;
+	background:rgba(51,51,51,0.5);
+	display:table-cell;
+	vertical-align:middle;
+	padding:10px;
+	border-radius:3px;
+}
+
+.label-arrow{
+	display:table-cell;
+	vertical-align:middle;
+	color:#333;
+	opacity:0.5;
+}
+
+.float{
+  position: fixed;
+  width: 55px;
+  height: 55px;
+  bottom: 40px;
+  right: 40px;
+  background-color: #06C;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  /* box-shadow: 2px 2px 3px #999; */
+}
+
+.float:hover{
+  color:#fff
+}
+
+.my-float{
+  font-size: 20px;
+  margin-top: 18px;
+
+}
+
+a.float + div.label-container {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s ease;
+}
+
+a.float:hover + div.label-container{
+  visibility: visible;
+  opacity: 1;
+}
+
+
+</style>
+  <a href="#" class="float" onclick="pa()">
+    <i class="fa fa-envelope my-float"></i>
+    </a>
+    <div class="label-container">
+      <div class="label-text">Feedback</div>
+      <i class="fa fa-play label-arrow"></i>
+    </div>
+
+
+
   <!-- <div class="container"> -->
   <div class="row" style="margin-left: 101px">
     {% for i in info %}
@@ -1745,7 +1819,32 @@ a {
 
 </script>
   <script type="text/javascript">
+
+    // pause and active function start
+
+    function pa(){
+        $.ajax({
+          url:'{% url "pa" %}',
+          type: 'post',
+          data:{
+            csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
+          } ,
+          dataType:'json',
+          success:function(e){
+              if (e.status == 200){
+                console.log(e.res)
+                $('.label-text').html("active")
+              }else if(e.status == 300){
+                $('.label-text').html("pause")
+                
+              }
+          },
+        })
+      }
+      // pause and active function end
+
     $(document).ready(function () {
+
       // $(".subbtn").css({"pointer-events/":"none"})
       const addButtonTrigger = (el) => {
                 console.log("done")

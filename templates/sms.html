@@ -76,8 +76,6 @@
 .uploaddiv{
   width: 90%;
 height: 294px;
-
-
 background: #F6F5FA;
 box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 border-radius: 10px;
@@ -191,12 +189,12 @@ border-radius: 10px;
 <div class="row">
   <div class="dash" style="height: 48px;">SMS Upload</div>
 
-<div class="container-fluid p-0" style="margin-left: 94px;width: 90%;display: {{dsb}};" >
+<!-- <div class="container-fluid p-0" style="margin-left: 94px;width: 90%;display: {{dsb}};" >
   <div class="alert alert-{{cl}} alert-dismissible alw" role="alert">
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     {{ msg }}
   </div>
-</div>  
+</div> -->
 
   {% for message in messages %}
 <div class="container-fluid p-0" style="margin-left: 94px;width: 90%;">
@@ -211,7 +209,6 @@ border-radius: 10px;
 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
   <div class="smsdiv">
-  
       <div class="row firstrow ">
         <div class="smscenter">
             <div class="row">
@@ -229,7 +226,6 @@ border-radius: 10px;
                   <option value="CIBIL">CIBIL</option>
                 </select>
                 <span class="error" id="smstype-error"></span>
-
               </div>
             </div>
             <div class="btn-box d-flex justify-content-center flex-wrap">
@@ -254,15 +250,15 @@ border-radius: 10px;
         <div class="row firstrow ">
             <div class="exheading">Export SMS Data</div>
             <div class="col-4">
-          <div class="upsdiv" style="margin-top: 14px;">
-            <select name="seltype" class="smsselect">
-              <option value="">Select SMS Type</option>
-                    <option value="Payment Acceptance">Payment Acceptance</option>
-                    <option value="Awareness">Awareness</option>
-                    <option value="Payment Confirmation  Agency">Payment Confirmation  Agency</option>
-                    <option value="CIBIL">CIBIL</option>
-            </select>
-            <span class="error" id="campion-error"></span>
+              <div class="upsdiv" style="margin-top: 14px;">
+                <select name="seltype" class="smsselect">
+                  <option value="">Select SMS Type</option>
+                        <option value="Payment Acceptance">Payment Acceptance</option>
+                        <option value="Awareness">Awareness</option>
+                        <option value="Payment Confirmation  Agency">Payment Confirmation  Agency</option>
+                        <option value="CIBIL">CIBIL</option>
+                </select>
+                <span class="error" id="campion-error"></span>
 
           </div>
           </div>
@@ -338,8 +334,8 @@ border-radius: 10px;
     }
       flatpickr("input[type=datetime-local]",config);
 
-
       $(document).ready(function(){
+
         $('#uploadform').validate({ // initialize the plugin
         rules: {
           smstype: {

@@ -387,26 +387,6 @@ def incomingcms(request):
 
 @login_required(login_url='login')
 def test(request):
-    db=dbconnection()
-    cur=db.cursor()
-    p=f'select * from recording_log'
-    cur.execute(p)
-    b=cur.fetchall()
-    stat=[]
-    for i in b:
-        agentstatus=i
-        if agentstatus==('PAUSED',):
-            personaldetails.objects.update(what="oncall")
-        else:
-            personaldetails.objects.update(what="")
-    if request.method=="POST":
-        print("hello")
-        username=request.POST.get("user")
-        password=request.POST.get("pass")
-        print(username,password)
-        cur.execute("select *  from  vicidial_users where user='{username}' and pass='{password}'")
-        r=cur.fetchall()
-        
     return render(request,'test.html',{"api":"api"}) 
 
 
@@ -2243,8 +2223,22 @@ def qualityexport(request):
     return render(request,"qualityexreport.html",{"cmp":cmp,"s":s})
 
 
+def pa(request):
+    if request.method == "POST":
+        url="http://192.168.1.46:1001/agc/api.php?source=test&user=6666&pass=robust&agent_user=6666&function=external_pause&value=RESUME"
+        g_url = requests.get(url)
+        res=g_url.text
+        print(res)
+        
+        if 'agent is not paused' in res:
+            print('notpaused')
+            u="http://192.168.1.46:1001/agc/api.php?source=test&user=6666&pass=robust&agent_user=6666&function=external_pause&value=PAUSE"
+            g_url = requests.get(u)
 
+            return JsonResponse({"status":300,'res':res})
+        elif "ERROR" in res:
+            return JsonResponse({'status':400})
 
-
-
-
+        else:
+            return JsonResponse({"status":200,'res':res})
+        
