@@ -652,7 +652,11 @@ Array.from(document.querySelectorAll('button[data-for]'))
       type:'get',
       url:'{% url "callsinqueue" %}',
       success:function(data){
+        console.log(data.status)
         console.log("queue",data.res,data.count)
+        if(data.status == 300 ){
+          $(".queuecount").html("No Call available since you are not logged in dialer")
+        }
         $(".queuecount").html(data.count)
       }
 

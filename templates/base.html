@@ -496,6 +496,7 @@
       type:'get',
       url:'{% url "callsinqueue" %}',
       success:function(data){
+        console.log(data.status)
         console.log("queue",data.res,data.count)
       
         

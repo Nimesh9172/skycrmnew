@@ -121,6 +121,8 @@ def callsinqueue(request):
     url=f"http://{apilink}/agc/api.php?source=test&user=6666&pass=robust&agent_user={user}&function=calls_in_queue_count&value=DISPLAY"
     g_url=requests.get(url)
     res=g_url.text
+    if "ERROR" in res:
+        return JsonResponse({"status":300,"res":res})
     print(res,"len:",len(res),res[-2:])
     count=res[-2:]
     return JsonResponse({"status":600,"res":res,"count":count})
