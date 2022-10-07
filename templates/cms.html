@@ -1836,7 +1836,9 @@ a.float:hover + div.label-container{
                 $('.label-text').html("active")
               }else if(e.status == 300){
                 $('.label-text').html("pause")
-                
+              }
+              else{
+                $('.label-text').html("Error")
               }
           },
         })
