@@ -188,7 +188,7 @@ border-radius: 10px;
 
 <form  action="{% url 'sms' %}" method="post"  enctype="multipart/form-data" id="uploadform">
     {% csrf_token %}
-<form class="row">
+<div class="row">
   <div class="dash" style="height: 48px;">SMS Upload</div>
 
 <div class="container-fluid p-0" style="margin-left: 94px;width: 90%;display: {{dsb}};" >
@@ -244,7 +244,7 @@ border-radius: 10px;
         </div>
         </div>
   </div> 
-</form>
+</div>
 </form>
   <div>
   <form action="{% url 'exportsms' %}" method="post">

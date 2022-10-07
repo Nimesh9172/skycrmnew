@@ -82,6 +82,36 @@ border-radius: 10px;
     animation: blinker 1s linear infinite;
   }
 
+
+  .navside{
+    height: 44px;
+    width: 88px;
+    border-radius: 50%;
+  }
+
+  .profileimg{
+    height: 44px;
+    width: 59px; 
+    cursor: pointer;
+    position: relative;
+  }
+  .bell{
+    height: 44px;
+    width: 29px;
+    padding-top: 9px;
+    padding-left: 5px;
+  }
+  .details{
+    width: 184px;
+    height: 187px;
+    background: #FFFFFF;
+    border: 1px solid #E1E1E1;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    right: 27px;
+    display: none;
+  }
   @keyframes blinker {
     50% {
       opacity: 0;
@@ -92,9 +122,21 @@ border-radius: 10px;
     </style>
     <div class="container-fluid">
         <div class="row" >
-            <div class="dash">
+            <div class="dash" style="display: flex;justify-content: space-between;">
                Dashboard  
                <!-- <a href="/logout" class="btn btn-primary my-2" style="float:right;">logout</a> -->
+               
+               <div class="navside" style="display: flex;gap: 5px;">
+                <div class="bell">
+                  <img src="{% static 'Images/notificationbell.png' %}"  height="50%" width="50%" alt="">
+                </div>
+                <div class="profileimg" >
+                  <img src="{% static 'Images/circle.png' %}"  class="showpro" height="100%" width="100%"  alt="" >
+                  <div class="details">
+
+                  </div>
+                </div>
+               </div>
             </div>
            
         </div>
@@ -161,93 +203,19 @@ border-radius: 10px;
     </div>
     <script>
  // <block:actions:2>
-const actions = [
-  {
-    name: 'Randomize',
-    handler(chart) {
-      chart.data.datasets.forEach(dataset => {
-        dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
-      });
-      chart.update();
-    }
-  },
-];
-// </block:actions>
 
-// <block:setup:1>
-const DATA_COUNT = 7;
-const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-
-const labels = Utils.months({count: 7});
-const data = {
-  labels: labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: Utils.numbers(NUMBER_CFG),
-      borderColor: Utils.CHART_COLORS.red,
-      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-      yAxisID: 'y',
-    },
-    {
-      label: 'Dataset 2',
-      data: Utils.numbers(NUMBER_CFG),
-      borderColor: Utils.CHART_COLORS.blue,
-      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-      yAxisID: 'y1',
-    }
-  ]
-};
-// </block:setup>
-
-// <block:config:0>
-const config = {
-  type: 'line',
-  data: data,
-  options: {
-    responsive: true,
-    interaction: {
-      mode: 'index',
-      intersect: false,
-    },
-    stacked: false,
-    plugins: {
-      title: {
-        display: true,
-        text: 'Chart.js Line Chart - Multi Axis'
-      }
-    },
-    scales: {
-      y: {
-        type: 'linear',
-        display: true,
-        position: 'left',
-      },
-      y1: {
-        type: 'linear',
-        display: true,
-        position: 'right',
-
-        // grid line settings
-        grid: {
-          drawOnChartArea: false, // only want the grid lines for one axis to show up
-        },
-      },
-    }
-  },
-};
-// </block:config>
-
-module.exports = {
-  actions: actions,
-  config: config,
-};
 
 $(document).ready(function () {
+  console.log("ready")
       $(".dashsel").addClass("active-page")
+
+      $(".showpro").click(function(){
+        console.log("click")
+        $(".details").css({"display":"block"})
+      })
 })
       </script>
-  </section>
+
  
       
        
