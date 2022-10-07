@@ -492,6 +492,16 @@
 
   $(document).ready(function(){
   
+    $.ajax({
+      type:'get',
+      url:'{% url "callsinqueue" %}',
+      success:function(data){
+        console.log("queue",data.res,data.count)
+      
+        
+      }
+
+    })
     // dialer enable option start
     $('.arrow2').click(function(){
       $(this).toggleClass('showMenu')

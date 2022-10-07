@@ -116,7 +116,14 @@ def dialstatus(request):
    
     return JsonResponse({'status':200,'dstatus':status})
     
-
+def callsinqueue(request):
+    user=request.user.username
+    url=f"http://{apilink}/agc/api.php?source=test&user=6666&pass=robust&agent_user={user}&function=calls_in_queue_count&value=DISPLAY"
+    g_url=requests.get(url)
+    res=g_url.text
+    print(res,"len:",len(res),res[-2:])
+    count=res[-2:]
+    return JsonResponse({"status":600,"res":res,"count":count})
 def notificationCount(request):
     today = datetime.today()
     d4 = today.strftime("%Y-%m-%d")
@@ -545,6 +552,7 @@ def  dispose(request):
 
 @login_required(login_url='login')
 def home(request):
+    
     return redirect('dashboard')
 
 
@@ -697,9 +705,29 @@ def loginuser(request):
 @login_required(login_url="login")
 def dashboard(request):
     value = notificationCount(request)
-    data=otsdata.objects.all()
-    
-    return render(request,"dashboard.html",{"data":data})
+    db = dbconnection()
+    cur=db.cursor()
+    query = f"SELECT pause_code,pause_code_name FROM vicidial_pause_codes"
+    cur.execute(query)  
+    r = cur.fetchall()
+    print("rrrr",r)
+    db.close()
+    return render(request,"dashboard.html",{"r":r})
+
+def pausecode(request):
+    if request.method == "POST":
+        pc=request.POST.get("pc")
+        user=request.user.username
+        print("gdikvdkwd",pc)
+        url=f"http://{apilink}/agc/api.php?source=test&user=6666&pass=robust&agent_user={user}&function=pause_code&value={pc}"
+        g_url=requests.get(url)
+        res=g_url.text
+        print(res)
+        if 'ERROR' in res:
+            return JsonResponse({'status':300,"msg":res})
+        elif 'SUCCESS' in res:
+            return JsonResponse({'status':200,"msg":res})
+
   
 @login_required(login_url="login")
 def tlcms(request,id):

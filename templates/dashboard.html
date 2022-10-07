@@ -91,17 +91,18 @@ border-radius: 10px;
 
   .profileimg{
     height: 44px;
-    width: 59px; 
+    width: 49px;
+    padding: 6px;
     cursor: pointer;
     position: relative;
   }
   .bell{
     height: 44px;
     width: 29px;
-    padding-top: 9px;
-    padding-left: 5px;
+   
   }
   .details{
+    padding: 17px;
     width: 184px;
     height: 187px;
     background: #FFFFFF;
@@ -109,14 +110,378 @@ border-radius: 10px;
     border-radius: 10px;
     position: absolute;
     z-index: 1;
-    right: 27px;
+    right: -1px;
+    top: 45px;
     display: none;
   }
+  .details::after{
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-top: 1px solid #E1E1E1;
+    /* border-bottom: 1px solid #E1E1E1; */
+    /* border-right: 1px solid #E1E1E1; */
+    border-left: 1px solid #E1E1E1;
+    left: 84%;
+    top: -6px;
+    background: #fff;
+    content: " ";
+    transform: rotate(45deg);
+
+
+  }
+  .insidepro{
+    height: 59px;
+    width: 59px;
+    margin: auto;
+  }
+.det{
+  color: black;
+  font-size: 12px;
+  font-family: "Roboto";
+}
+.logbtn{
+  width: 82px;
+    height: 28px;
+    border: none;
+    font-size: 11px;
+    background: #FF0000;
+    border-radius: 8px;
+    margin-top: 13px;
+    color: #FFF;
+    margin-left: 33px;
+  }
+
+  .select2-container--default .select2-selection--single {
+    background-color: #FFFF !important;
+}
+.select2-container {
+    width: 58% !important;
+    padding: 0;
+}
   @keyframes blinker {
     50% {
       opacity: 0;
     }
   }
+  
+  
+.button {
+  margin-bottom: 4px;
+  padding: 8px 12px;
+  border: 1px solid #75B9E1;
+  border-radius: 3px;
+  background: #4FA0D0;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  color: #fff;
+}
+.popup {
+  visibility: hidden;
+  transition: visibility 0ms linear 0.3s;
+}
+.popup--visible {
+  visibility: visible;
+  transition: visibility 0ms;
+}
+
+.popup__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.popup--visible .popup__background {
+  opacity: 1;
+}
+.button--success {
+  border: 1px solid #079D43;
+  background: #079D43;
+}
+
+.button--error {
+  border: 1px solid red;
+  background: red;
+}
+.popup__content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10001;
+  min-width: 400px;
+  padding: 25px 50px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-align: center;
+  -webkit-animation: hide-popup 0.3s forwards;
+          animation: hide-popup 0.3s forwards;
+  /**
+   * Popup types.
+   */
+}
+.popup--visible .popup__content {
+  -webkit-animation: show-popup 0.3s forwards;
+          animation: show-popup 0.3s forwards;
+}
+
+.popup {
+  visibility: hidden;
+  transition: visibility 0ms linear 0.3s;
+}
+.popup--visible {
+  visibility: visible;
+  transition: visibility 0ms;
+}
+
+.popup__background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.popup--visible .popup__background {
+  opacity: 1;
+}
+.button--success {
+  border: 1px solid #079D43;
+  background: #079D43;
+}
+
+.button--error {
+  border: 1px solid red;
+  background: red;
+}
+.popup__content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10001;
+  min-width: 400px;
+  padding: 25px 50px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-align: center;
+  -webkit-animation: hide-popup 0.3s forwards;
+          animation: hide-popup 0.3s forwards;
+  /**
+   * Popup types.
+   */
+}
+.popup--visible .popup__content {
+  -webkit-animation: show-popup 0.3s forwards;
+          animation: show-popup 0.3s forwards;
+}
+.popup--icon .popup__content {
+  padding-top: 130px;
+  /**
+   * Animations on opened popups.
+   *
+   * We need to prepend ".popup--visible" with no space to "&" to match the
+   * an opened popup: ".popup--visible.popup--icon".
+   *
+   * Therefore we need the "at-root" function to break out of nesting as well as the
+   * "selector-append" function to append parent selectors without space.
+   *
+   * Details:
+   *  - https://css-tricks.com/the-sass-ampersand/
+   *  - http://sass-lang.com/documentation/Sass/Script/Functions.html#selector_append-instance_method
+   */
+  /**
+   * Different popup icon styles
+   *
+   * E.g. selector for type question: ".popup--icon.-question" to match class="popup--icon -question"
+   *
+   * To have an easier selector in SCSS we use a little workaround and rearrange the selectors:
+   *  ".-question.popup--icon" is also matching class="popup--icon -question"
+   */
+}
+.popup--icon .popup__content:before, .popup--icon .popup__content:after {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  height: 90px;
+  width: 90px;
+}
+.popup--icon .popup__content:before {
+  content: "";
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  transform: translateX(-50%) scale(1, 0);
+  opacity: 0;
+  color: #079D43;
+}
+.popup--icon .popup__content:after {
+  content: "\f00c";
+  line-height: 90px;
+  font-size: 45px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #079D43;
+  transform: translateX(-50%) scale(0);
+  opacity: 0;
+}
+.-error.popup--icon .popup__content:before {
+  border-color: red;
+}
+.-error.popup--icon .popup__content:after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f3dd";
+  font-weight: 900;
+  transform: translateX(-50%) scale(1, 0);
+  color: red;
+}
+.-question.popup--icon .popup__content:before {
+  border-color: red;
+}
+.-question.popup--icon .popup__content:after {
+  content: "\f095";
+  color: red;
+  font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    transform: rotate(136deg);
+    font-size: 43px;
+}
+.popup--visible.popup--icon .popup__content:before {
+  -webkit-animation: show-icon-cirlce 0.3s forwards 0.15s;
+          animation: show-icon-cirlce 0.3s forwards 0.15s;
+}
+.popup--visible.popup--icon .popup__content:after {
+  -webkit-animation: show-icon 0.3s forwards 0.3s;
+          animation: show-icon 0.3s forwards 0.3s;
+}
+.popup__content__title {
+  margin-bottom: 10px;
+  font-size: 28px;
+  font-weight: 100;
+  color: #626262;
+}
+
+/**
+ * Popup animations.
+ * Based on Sweet Alert: "https://t4t5.github.io/sweetalert/"
+ */
+@-webkit-keyframes show-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes show-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0;
+  }
+  45% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@-webkit-keyframes hide-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+}
+@keyframes hide-popup {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+}
+/**
+ * Icon animations.
+ */
+@-webkit-keyframes show-icon {
+  0% {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes show-icon {
+  0% {
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+}
+@-webkit-keyframes show-icon-cirlce {
+  0% {
+    transform: translateX(-50%) scale(1, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1, 1);
+    opacity: 1;
+  }
+}
+@keyframes show-icon-cirlce {
+  0% {
+    transform: translateX(-50%) scale(1, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-50%) scale(1, 1);
+    opacity: 1;
+  }
+}
+
+.select-details-div > .select2-container--default .select2-selection--single{
+  border-radius:4px;
+}
+.sub-disposition-box{
+  width:101px !important;
+}
+.select2-container--default .select2-selection--single{
+  background-color: #f6f5fa;
+}
+
+/* popup submit and error ends */
 
 
     </style>
@@ -124,16 +489,37 @@ border-radius: 10px;
         <div class="row" >
             <div class="dash" style="display: flex;justify-content: space-between;">
                Dashboard  
-               <!-- <a href="/logout" class="btn btn-primary my-2" style="float:right;">logout</a> -->
-               
-               <div class="navside" style="display: flex;gap: 5px;">
+       
+                <div class="blink_me" style="color: red;font-size:12px;"> Calls in queue :<span class="queuecount"></span></div>
+               <div class="navside" style="display: flex;gap: 5px; align-items:baseline;">
                 <div class="bell">
                   <img src="{% static 'Images/notificationbell.png' %}"  height="50%" width="50%" alt="">
                 </div>
                 <div class="profileimg" >
                   <img src="{% static 'Images/circle.png' %}"  class="showpro" height="100%" width="100%"  alt="" >
                   <div class="details">
-
+                    <div class="insidepro">
+                      <img src="{% static 'Images/circle.png' %}" height="100%" width="100%" alt="" >
+                    </div>
+                      <div style="margin-left:33px;">
+                        <span class="det">Name&nbsp;&nbsp;&nbsp;:6666</span>
+                      </div>
+                      <div style="width: 184px;display: flex;align-items: center;color: black;font-size: 12px;margin-left: 16px;">
+                        Break &nbsp;:
+                          {% csrf_token %}
+                        <div style="width:140px;">
+                          <select name="pausecode" id="" class="breaksel">
+                            {% for i in r %}
+                            <option value="{{i.0}}">{{i.1}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                          
+                       </div>
+                      <button class="logbtn" type="button">Submit</button>
+                      <button class="button button--error bts3" data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button>  
+            
+       
                   </div>
                 </div>
                </div>
@@ -201,17 +587,89 @@ border-radius: 10px;
         </footer> -->
     </div>
     </div>
+
+    <!-- popup call not connected error starts -->
+<div class="popup popup--icon -error js_error-popup">
+  <div class="popup__background"></div>
+  <div class="popup__content">
+    <h3 class="popup__content__title">
+   
+     
+    </h1>
+    <p class="command"></p>
+    <i class="fa-solid fa-phone-xmark"></i>
+    <p>
+      <button class="button button--error" data-for="js_error-popup">OK</button>
+    </p>
+  </div>
+</div>
+<!-- popup call not connected error ends -->
+
+
     <script>
  // <block:actions:2>
-
+function pc(){
+  $.ajax({
+            type:"post",
+            url:'{% url "pausecode" %}',
+            data:{
+              pc:$("select[name=pausecode]").val(),
+              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            },
+            success: function(data){
+              console.log("done")
+              console.log(data.status)
+              var msg=data.msg
+              console.log(msg)
+              if (data.status == '300'){
+                $('.bts3').click()
+                $(".command").html(msg)
+                $(".details").css({"display":"none"})                                                                             
+              }
+              else if (data.status == '200'){
+                
+                    console.log("Asdd")
+                    $(".details").css({"display":"none"})
+                   }
+        }        
+      })
+          }
 
 $(document).ready(function () {
-  console.log("ready")
+  const addButtonTrigger = (el) => {
+                console.log("done")
+	el.addEventListener('click', () => {
+		const popupEl = document.querySelector(`.${el.dataset.for}`);
+		popupEl.classList.toggle('popup--visible');
+    console.log("its")
+	});
+};
+
+Array.from(document.querySelectorAll('button[data-for]'))
+           .forEach(addButtonTrigger); 
+
+           $.ajax({
+      type:'get',
+      url:'{% url "callsinqueue" %}',
+      success:function(data){
+        console.log("queue",data.res,data.count)
+        $(".queuecount").html(data.count)
+      }
+
+    })
+
       $(".dashsel").addClass("active-page")
 
       $(".showpro").click(function(){
         console.log("click")
-        $(".details").css({"display":"block"})
+        $(".details").toggle()
+      })
+
+      $("select[name=pausecode]").change(function(){
+        console.log($("select[name=pausecode]").val())
+      })
+      $(".logbtn").click(function(){
+        pc()
       })
 })
       </script>
@@ -220,5 +678,5 @@ $(document).ready(function () {
       
        
 
+</body>
 {% endblock content %}
-  </body>

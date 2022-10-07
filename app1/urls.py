@@ -79,7 +79,9 @@ urlpatterns = [
         # dialapi
         path('call',views.dialcal,name="call"),
         path('dispose',views.dispose,name="dispose"),
-        path('disconnect',views.disconnectcall,name="disconnect")
+        path('disconnect',views.disconnectcall,name="disconnect"),
+        path("pausecode",views.pausecode,name="pausecode"),
+        path("callsinqueue",views.callsinqueue,name="callsinqueue"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

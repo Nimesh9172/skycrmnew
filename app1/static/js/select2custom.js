@@ -62,5 +62,8 @@ $(document).ready(function() {
     $(".smsselect").select2({
         minimumResultsForSearch: -1
     });
+    $(".breaksel").select2({
+        minimumResultsForSearch: -1
+    })
 
 });
