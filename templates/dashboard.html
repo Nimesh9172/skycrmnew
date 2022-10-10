@@ -490,7 +490,7 @@ border-radius: 10px;
             <div class="dash" style="display: flex;justify-content: space-between;">
                Dashboard  
        
-                <div class="blink_me" style="color: red;font-size:12px;"> Calls in queue :<span class="queuecount"></span></div>
+                <div class="" style="color: red;font-size:12px;"> Calls in queue :<span class="queuecount"></span></div>
                <div class="navside" style="display: flex;gap: 5px; align-items:baseline;">
                 <div class="bell">
                   <img src="{% static 'Images/notificationbell.png' %}"  height="50%" width="50%" alt="">
@@ -510,6 +510,7 @@ border-radius: 10px;
                         <div style="width:140px;">
                           <select name="pausecode" id="" class="breaksel">
                             {% for i in r %}
+                            <option value="break">Break</option>
                             <option value="{{i.0}}">{{i.1}}</option>
                             {% endfor %}
                           </select>

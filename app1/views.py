@@ -387,7 +387,6 @@ def incomingcms(request):
 
 
 
-@login_required(login_url='login')
 def test(request):
     return render(request,'test.html',{"api":"api"}) 
 
@@ -1134,8 +1133,8 @@ def upload(request):
         # g_url = requests.get(url)
         # a=f"{listid},{listname}"
         # print(a)
-        # p=f"INSERT INTO asterisk.vicidial_lists(list_id,list_name,campaign_id,active,list_description,list_changedate) VALUES('{listid}','{listname}','{campion}','Y','{campion}','{entry}')"
-        # cur.execute(p)
+        p=f"INSERT INTO asterisk.vicidial_lists(list_id,list_name,campaign_id,active,list_description,list_changedate) VALUES('{listid}','{listname}','{campion}','Y','{campion}','{entry}')"
+        cur.execute(p)
       
         try:
             form = Dataupload(listid=listid,listname=listname,file=file,campion=campion,entry=entry)
@@ -1263,7 +1262,22 @@ def dataupload(request):
     form = DataUploadForm
     context = {'form':form,'read':read,'campname':"campname","camp":camp}
     return render(request,'upload.html',context)
-
+def datastatus(request):
+    if request.method=="POST":
+        an=request.POST.get("an")
+        lstid=request.POST.get("lstid")
+        print(an,lstid)
+        Dataupload.objects.filter(id=lstid).update(status=an)
+        db=dbconnection()
+        cur=db.cursor()
+        if an == "1":
+            an="Y"
+        else:
+            an="N"
+        p=f"update asterisk.vicidial_lists set active='{an}' where list_id = '{lstid}'"
+        cur.execute(p)
+        db.close()
+    return JsonResponse({'status':400})
 
     
 @login_required(login_url="login")
@@ -1433,7 +1447,7 @@ def dataexport(request):
 
         # for i in read:
 
-            print(i.contacted_DateTime)
+            #print(i.contacted_DateTime)
         print("YOUR FINAL REPORT",read)
         
         db.close()
@@ -1486,9 +1500,9 @@ def nonattempted(request):
             agent=request.POST.get("agent")
             print("itssssss",agent)
             if agent == "all" and agent !="":
-                data=personaldetails.objects.filter(attempted=0)[:100]
+                data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:100]
             else:
-                data=personaldetails.objects.filter(attempted=0).filter(callername=agent)
+                data=personaldetails.objects.filter(attempted=0).filter(callername=agent).exclude(list_id__status__contains="0")[:100]
             return JsonResponse({"data":list(data.values())})
 
 
@@ -2239,7 +2253,7 @@ def pa(request):
 
             return JsonResponse({"status":300,'res':res})
         elif "ERROR" in res:
-            return JsonResponse({'status':400})
+            return JsonResponse({'status':400,"res":res})
 
         else:
             return JsonResponse({"status":200,'res':res})

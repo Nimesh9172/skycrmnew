@@ -41,6 +41,7 @@ urlpatterns = [
         path("additional/",views.additional,name='additional'),
         path("dataupload/",views.dataupload,name="dataupload"),
         path('upload',views.upload,name="upload"),
+        path("datastatus/",views.datastatus,name="datastatus"),
         path("dataexport/",views.dataexport,name="dataexport"),
         path("connecttocustomer",views.connect),
         path('sf/<int:id>',views.sendfetagging),

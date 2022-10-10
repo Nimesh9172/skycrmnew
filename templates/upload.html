@@ -69,7 +69,7 @@
 }
 .uploaddiv{
   width: 90%;
-  height: 274px;
+  height: 284px;
 
 
 background: #FFFF;
@@ -224,21 +224,27 @@ border-radius: 10px;
                   <th style="padding: 18px 0px;">List name</th>
                   <th style="padding: 18px 0px;">File</th>
                   <th style="padding: 18px 0px;">Count</th>
+                  <th style="padding: 18px 0px;">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {% for i in read %}
                 <tr>
-                   <td style="font-size: 11px;">{{i.id}}</td>
-                   <td style="font-size: 11px;">{{i.listid}}</td>
-                   <td style="font-size: 11px;">{{i.campion}}</td>
-                   <td style="font-size: 11px;">{{i.listname}}</td>
-                   <td style="font-size: 11px;">{{i.file}}</td>
-                   <td style="font-size: 11px;">{{i.count}}</td>
+                   <td style="font-size: 13px;"  class="listid">{{i.id}}</td>
+                   <td style="font-size: 13px;">{{i.listid}}</td>
+                   <td style="font-size: 13px;">{{i.campion}}</td>
+                   <td style="font-size: 13px;">{{i.listname}}</td>
+                   <td style="font-size: 13px;">{{i.file}}</td>
+                   <td style="font-size: 13px;">{{i.count}}</td>
+                   <td style="font-size: 13px;">
+                    <div class="form-check form-switch" >
+                      <input class="form-check-input" type="checkbox" class="status" {% if i.status == 1 %}checked{% endif %} role="switch" id="flexSwitchCheckDefault" style="margin-left: 29%;" >
+                      <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                    </div>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
-             
           </table>
           </div>
       </div>
@@ -257,7 +263,27 @@ border-radius: 10px;
 </script>
 
 <script>
-
+ function showstatus(an,lstid){
+      console.log("its",an,lstid )
+      var data=new FormData()
+            data.append("an",an)
+            data.append("lstid",lstid)
+            
+            $.ajax({
+                method: 'POST',
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                },
+                url: "{% url 'datastatus' %}",
+                data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data)
+                  }
+    })
+  }
   $(document).ready(function(){
     $(".lms").addClass("active-page")
     $(".uploadbtn").click(function(e){
@@ -331,6 +357,17 @@ border-radius: 10px;
             }
         }
      })
+      }
+      
+    })
+    $("#flexSwitchCheckDefault").click(function(){
+      var lstid=$(this).parent().parent().parent().find(".listid").html()
+      console.log("switch",lstid)
+      if($(this).prop('checked')){
+         showstatus("1",lstid)
+      }else{
+        showstatus("0",lstid)
+
       }
       
     })

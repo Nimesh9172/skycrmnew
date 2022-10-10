@@ -614,7 +614,7 @@ a.float:hover + div.label-container{
     <i class="fa fa-envelope my-float"></i>
     </a>
     <div class="label-container">
-      <div class="label-text">Feedback</div>
+      <div class="label-text">Click here</div>
       <i class="fa fa-play label-arrow"></i>
     </div>
 
@@ -1831,11 +1831,15 @@ a.float:hover + div.label-container{
           } ,
           dataType:'json',
           success:function(e){
+            console.log(e.status,"jdfjge",e.res)
+            $('.label-text').html(e.res)
               if (e.status == 200){
-                console.log(e.res)
+                console.log(e.res,"its")
                 $('.label-text').html("active")
+                $(".float").css({"background":"#00ff00 "})
               }else if(e.status == 300){
                 $('.label-text').html("pause")
+                $(".float").css({"background":"#ffa500 "})
                 
               }
           },
