@@ -184,30 +184,24 @@ border-radius: 10px;
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
-<form  action="{% url 'sms' %}" method="post"  enctype="multipart/form-data" id="uploadform">
+<form  id="uploadform">
     {% csrf_token %}
 <div class="row">
   <div class="dash" style="height: 48px;">SMS Upload</div>
 
-<!-- <div class="container-fluid p-0" style="margin-left: 94px;width: 90%;display: {{dsb}};" >
-  <div class="alert alert-{{cl}} alert-dismissible alw" role="alert">
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    {{ msg }}
-  </div>
-</div> -->
 
-  {% for message in messages %}
+
 <div class="container-fluid p-0" style="margin-left: 94px;width: 90%;">
-  <div class="alert {{ message.tags }} alert-dismissible alw" role="alert">
+  <div class="alert alert-primary alert-dismissible alw" role="alert" style="display: none;">
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    {{ message }}
+    Data uploaded Succesfully
+  </div>
+  <div class="alert alert-warning alert-dismissible alw" role="alert" style="display: none;">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    Something Went Wrong
   </div>
 </div>  
-{% endfor %}
-<div class="alert listidalert alert-warning alert-dismissible fade show" role="alert" style="margin-left: 94px;width: 90%;display: none;">
-  This list id already exists!
-<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+
   <div class="smsdiv">
       <div class="row firstrow ">
         <div class="smscenter">
@@ -229,7 +223,7 @@ border-radius: 10px;
               </div>
             </div>
             <div class="btn-box d-flex justify-content-center flex-wrap">
-                <button type="" class="uploadbtn" id="loading" style="cursor:pointer">
+                <button type="button" class="uploadbtn" id="loading" style="cursor:pointer">
                 <i class="fa " id="start"></i><span class="loadht">Upload Data</span></button>
                 <a class="downloadbtn"  download  style="cursor:pointer ;">Download format</a>
               </div>
@@ -386,7 +380,7 @@ border-radius: 10px;
         $("#loading").click(function(){
       console.log("hi")
            if ($('#uploadform').valid()===true){
-            
+            $(".uploadbtn").css({"pointer-events":"none"})
             $(".loadht").html("Sending SMS")
             $("#start").addClass("fa-spinner fa-spin");
             $('.uploadinput2').css("filter","blur(3px)");
@@ -395,10 +389,45 @@ border-radius: 10px;
             $('.uploaddiv').css("filter","blur(3px)");
             $('.sidebar').css("filter","blur(3px)");
             $('.dash').css("filter","blur(3px)");
-            console.log("see")
-            console.log("me")
+            //ajax call starts
+            console.log("start ajax")
+            let data3 = new FormData()
+            data3.append('smsfile',$('input[name=smsfile]')[0].files[0])
+            data3.append('smstype',$("select[name=smstype]").val())
+            $.ajax({
+            type:"post",
+            url:'{% url "smsajax" %}',
+            headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+        },
+            data:data3,
+            processData: false,
+            contentType: false,
+            datatype:'json',
+            success: function(data){
+              console.log(data.status,data.res)
+              
+            
+              $(".loadht").html("Sending SMS")
+              $("#start").removeClass("fa-spinner fa-spin");
+              $('.uploadinput2').css("filter","blur(0px)");
+              $('.uploadinput1').css("filter","blur(0px)");
+              $(".downloadbtn").css("filter","blur(0px)");
+              $('.uploaddiv').css("filter","blur(0px)");
+              $('.sidebar').css("filter","blur(0px)");
+              $('.dash').css("filter","blur(0px)");
+             
+              (data.res == "Success")? ($('.alert-primary').css({'display':'block'}) ,$('.alert-warning').css({'display':'none'})):($('.alert-primary').css({'display':'none'}) ,$('.alert-warning').css({'display':'block'}))
+              setInterval(function(){
+                location.reload(true);
+              },2000)
+            }
+          })
+          //ajax ends
            }
        })
+
+  
       })
     
 </script>       

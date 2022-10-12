@@ -1512,18 +1512,24 @@ def nonattempted(request):
 
 
 def sms(request):
-    id=0
     smsid = random.randint(1000,9999)
     s=SMSUpload.objects.all()
+   
+    return render(request,"sms.html",{"s":s})
+
+def smsajax(request):
+    smsid = random.randint(1000,9999)
+    id=0
     dsb = "none"
+    print("smsajax")
     if request.method == 'POST':
         smsty=request.POST.get('smstype')
-        file = request.FILES.get('smsfile')
-
+        fil = request.FILES.get('smsfile')
         entry=datetime.now()
+        print(smsty,fil)
         try:
           
-            form = SMSUpload(smstype=smsty,file=file,entry=entry,smsid=smsid)
+            form = SMSUpload(smstype=smsty,file=fil,entry=entry,smsid=smsid,upload_by=request.user.username)
             form.save()
             
 
@@ -1592,10 +1598,7 @@ def sms(request):
                      dsb = "block"
                     
                 elif smsty=="Payment Confirmation Agency":
-                      print(i[0])
-                      print(i[1])
-                      print(i[2],i[3],i[4])
-
+                    
                       try:
                         lpd = str(i[3])
                         lpd = datetime.strptime(lpd,'%Y-%m-%d')
@@ -1637,18 +1640,18 @@ def sms(request):
                       msgs = 'SMS Uploaded Successfully'
                       cl = 'info'
                       dsb = "block"
-
-           
-            
+ 
             st=SMSDetails.objects.filter(created_by_id=id).filter(response="Success").count()
             SMSUpload.objects.filter(id=id).update(sent=st)
             s=SMSUpload.objects.all()
-            return render(request,"sms.html",{"s":s,'cl':cl,'msg':msgs,'dsb':dsb,"st":st})
+            # return render(request,"sms.html",{"s":s,'cl':cl,'msg':msgs,'dsb':dsb})
+            return JsonResponse({'status':200,"res":res})
         except Exception as e:
             print("error msg",e)
-            messages.warning(request,"Something Went Wrong")
-    return render(request,"sms.html",{"s":s,"dsb":dsb})
-
+            return JsonResponse({'status':300})
+            # messages.warning(request,"Something Went Wrong")
+    return JsonResponse({'status':400})
+    # return render(request,"sms.html",{"s":s,"dsb":dsb})
 
 def exportsms(request):
     s=SMSDetails.objects

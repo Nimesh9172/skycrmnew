@@ -66,6 +66,7 @@ urlpatterns = [
 
 	    path('userajax',views.userajax,name="userajax"),
         path('sajax',views.searchajax,name="sajax"),
+        path('smsajax',views.smsajax,name="smsajax"),
         path("ptpajax",views.ptpajax,name="ptpajax"),
         path('misscmsajax',views.misscmsajax,name="misscmsajax"),
         path('missedcallajax',views.missedcallajax,name="missedcallajax"),
