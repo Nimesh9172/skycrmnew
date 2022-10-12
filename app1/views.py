@@ -1531,7 +1531,6 @@ def smsajax(request):
           
             form = SMSUpload(smstype=smsty,file=fil,entry=entry,smsid=smsid,upload_by=request.user.username)
             form.save()
-            
 
             csv_file_path = SMSUpload.objects.filter(smsid=smsid)
             print("smsuploadddddd",csv_file_path)

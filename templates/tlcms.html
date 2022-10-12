@@ -793,12 +793,12 @@ border-radius: 30px;
       console.log("click")
         $(".history").css({"display":"none"})
         $(".callhistory").css({"display":"block"})
-     })
+    })
      $("#back").click(function(){
       console.log("click")
         $(".history").css({"display":"block"})
         $(".callhistory").css({"display":"none"})
-     })
+    })
 
     $("#acc").click(function(){
         $("#acpt").css({display:"block"});
@@ -812,8 +812,6 @@ border-radius: 30px;
         $("input[name='status']").val("Declined")
         console.log( $("input[name='status']").val())
     })
-       
-     
         
         $('.tlotsamt').keyup(function (){
             $(".calpercotsamt").css({ display: "block" });
@@ -824,9 +822,9 @@ border-radius: 30px;
                 console.log(percentage)
 
                 $('.calpercotsamt').html(`${percentage}%`)
-                $('input[name=percentage]').val(percentage)
+                $('input[name=percentage]').val(`${percentage}%`)
                 console.log( $('input[name=percentage]').val())
-     
+    
         })
         a = undefined
     });

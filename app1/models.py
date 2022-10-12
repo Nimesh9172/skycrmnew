@@ -343,4 +343,14 @@ class MissedCall(models.Model):
     sub_dispo=models.CharField(max_length=100,null=True,blank=True)
     remark=models.CharField(max_length=100,null=True,blank=True)
     cont_dt=models.DateTimeField(null=True,blank=True)
-    
+
+class Call_journaling(models.Model):
+    contactnumber = models.CharField(max_length=100,null=True,blank=True)
+    agentextension = models.CharField(max_length=250,null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    calldatetime = models.DateTimeField(null=True,blank=True)
+    callduration = models.CharField(max_length=250,null=True,blank=True)
+
+class callcontacts(models.Model):
+    borrowername = models.CharField(max_length=100,null=True,blank=True)
+    phone = models.CharField(max_length=100,null=True,blank=True)
