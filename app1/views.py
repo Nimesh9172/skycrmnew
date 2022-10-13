@@ -552,43 +552,43 @@ def teamoverall(request):
     sub =  cur.fetchall()
     con = []
     for i in sub:
-        con.append(i)
-    print(con)
+        con.append(i[0])
+    print("con",con)
 
     
 
     return render(request,"teamoverall.html",{"value":value,"con":con})
 
 
-def teamajax(request):
-    s=LogData.objects
-    print("latest",s)
+# def teamajax(request):
+#     s=LogData.objects
+#     print("latest",s)
 
-    print("subdisposition",s)
-    today = datetime.today()
-    d4 = today.strftime("%Y-%m-%d")
-    # s=s.filter(contacted_DateTime__contains=d4)
-    print("jgfirfg",s)
-    db=dbconnection()
-    cur=db.cursor()
-    q= f"select distinct status_name from vicidial_campaign_statuses"
-    cur.execute(q)
-    sub =  cur.fetchall()
-    con=[]
-    ls=[]
-    s=s.values("lastdial").distinct()
-    print("this is" ,s,"ends")
-    for i in s:
-        print(i["lastdial"])
-        c=LogData.objects.filter(lastdial=i["lastdial"]).count()
+#     print("subdisposition",s)
+#     today = datetime.today()
+#     d4 = today.strftime("%Y-%m-%d")
+#     # s=s.filter(contacted_DateTime__contains=d4)
+#     print("jgfirfg",s)
+#     db=dbconnection()
+#     cur=db.cursor()
+#     q= f"select distinct status_name from vicidial_campaign_statuses"
+#     cur.execute(q)
+#     sub =  cur.fetchall()
+#     con=[]
+#     ls=[]
+#     s=s.values("lastdial").distinct()
+#     print("this is" ,s,"ends")
+#     for i in s:
+#         print(i["lastdial"])
+#         c=LogData.objects.filter(lastdial=i["lastdial"]).count()
         
-        ls.append([i["lastdial"],c])
+#         ls.append([i["lastdial"],c])
     
-    print("yyyyyyyyyyyyyyyyyyyyy",ls)
+#     print("yyyyyyyyyyyyyyyyyyyyy",ls)
 
-    return JsonResponse({"con":con})
+#     return JsonResponse({"con":con})
 
-def tbajax(request):
+def tvajax(request):
     s=LogData.objects
     db=dbconnection()
     cur=db.cursor()

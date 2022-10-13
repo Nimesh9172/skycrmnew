@@ -149,21 +149,7 @@
          
             $(document).ready(function () {
               console.log("get ready")
-              $.ajax({
-                method: 'POST',
-                headers: {
-                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-                },
-                url: "{% url 'tbajax' %}",
-                // data: data,
-                datatype:'json',
-                processData: false,
-                contentType: false,
-             
-                success: function (data) {
-                  console.log(data.con)
-                }
-              })
+              
               disstat()
             //    var table =  $('#example').DataTable({
             //       "aLengthMenu":[100]
