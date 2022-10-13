@@ -62,6 +62,7 @@ def sms_pa(phone,dt,loan,amt,res,smsty,entry):
     except Exception as e:
         print(e)
         lpd = None
+        
     url=f"https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=n7OtTfzmtE6uXFjgMNmQ5&senderid=OMARPL&channel=2&DCS=0&flashsms=0&number={phone}&text=We%20are%20in%20receipt%20of%20your%20payment%20amounting%20to%20Rs.%20{amt}%20dated%20{lpd}%20in%20your%20loan%20account%20no.%20{loan}.%20In%20case%20of%20any%20dispute%20with%20respect%20to%20your%20payment%20please%20contact%20toll-free%20number%201800120757575%20or%20email%20us%20at%20customercare@omkaraarc.com%20with%20your%20loan%20account%20%26%20contact%20details.&route=1&DLTtemplateid=1207165778573635216"
     g_url = requests.get(url)
     r=g_url.text

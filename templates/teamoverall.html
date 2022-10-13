@@ -80,7 +80,7 @@
             </div>
            
                 
-                <div class="table-responsive table-div">
+                <div class="table-responsive table-div" style="height: 433px;">
                 <table id="example" class="table"  style=" width: 100%; margin-bottom: 0;">
                   <thead style="background-color: #047BD5;" class="tableheadings">
                     <tr class="importantth">
@@ -111,7 +111,7 @@
                   <tbody class="tablebody">
                    {% for i in con %}
                    <tr>
-                    <td class="{{i}}">{{i}}</td>
+                    <td class="{{i.1}}">{{i.0}}</td>
                     <td class="atm1"></td>
                     <td class="atm2"></td>
                     <td class="atm3"></td>
@@ -152,27 +152,20 @@
             datatype:'json',
             success: function (data) {
               var x=data.stat
-              
-              let count=0
-              for (var i in x){
-                console.log(x[i][0])
-                let myc = x[i][0]
-                // console.log($("table").find(`.${x[i][0]}`).html())
-                // console.log(typeof x[i][0])
-              } 
-            
-             
+              for(var i in x ){
+                
+              }
             }
-            
           })
         }
 
 
          
             $(document).ready(function () {
-             disstat()
-            //  console.log("asdsad",$(".tablebody").find('.Promise To Pay').html())
+              console.log($(".dispo").html())
+              console.log("get ready")
               
+              disstat()
             //    var table =  $('#example').DataTable({
             //       "aLengthMenu":[100]
             //     });

@@ -71,6 +71,7 @@ urlpatterns = [
         path('misscmsajax',views.misscmsajax,name="misscmsajax"),
         path('missedcallajax',views.missedcallajax,name="missedcallajax"),
         path('qsajax',views.qsajax,name='qsajax'),
+        # path("teamajax",views.teamajax,name="teamajax"),
         path('tvajax',views.tvajax,name='tvajax'),
    
 

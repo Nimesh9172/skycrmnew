@@ -546,15 +546,21 @@ def teamoverall(request):
     value = notificationCount(request)
     db=dbconnection()
     cur=db.cursor()
-    q= f"select distinct status_name from vicidial_campaign_statuses where campaign_id='IIT'"
+    q= f"select distinct status_name ,status from vicidial_campaign_statuses where campaign_id='IIT'"
     
     cur.execute(q)
     sub =  cur.fetchall()
     con = []
+    print(sub)
     for i in sub:
         con.append(i[0])
     print("con",con)
+
+    
+
     return render(request,"teamoverall.html",{"value":value,"con":con})
+
+
 
 def tvajax(request):
     s=LogData.objects
@@ -567,15 +573,17 @@ def tvajax(request):
     today = datetime.today()
     d4 = today.strftime("%Y-%m-%d")
     final=[]
- 
+    for i in no:
+          print(i["lastdial"])
+    
     for i in range(len(no)):
         # print(no[i]["lastdial"])
         for j in range(len(sub)):
-        
+            print()
             a = LogData.objects.filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
 
             # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
-            final.append([sub[j][0],a['kos']])
+            final.append([sub[j][0],a['kos']])  
             
     # print("final",final)
     stat=[]
@@ -583,6 +591,8 @@ def tvajax(request):
         if i[1] != 0 :
             print(i)
             stat.append(i)
+        
+    # print(stat)
   
     return JsonResponse({"stat":stat})
 
