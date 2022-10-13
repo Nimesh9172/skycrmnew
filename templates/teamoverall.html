@@ -111,7 +111,7 @@
                   <tbody class="tablebody">
                    {% for i in con %}
                    <tr>
-                    <td class="dispo">{{i}}</td>
+                    <td class="{{i}}">{{i}}</td>
                     <td class="atm1"></td>
                     <td class="atm2"></td>
                     <td class="atm3"></td>
@@ -151,28 +151,28 @@
             contentType: false,
             datatype:'json',
             success: function (data) {
-              // console.log(data.stat)
               var x=data.stat
-              for(var i in x ){
-                console.log($(".dispo").html())
-                console.log(x[i])
-                if(x[i][1] == 1 ){
-                  console.log($(".atm1").prev().html())
-                  $(".atm1").html(1)
-                }
-
-              }
+              
+              let count=0
+              for (var i in x){
+                console.log(x[i][0])
+                let myc = x[i][0]
+                // console.log($("table").find(`.${x[i][0]}`).html())
+                // console.log(typeof x[i][0])
+              } 
+            
+             
             }
+            
           })
         }
 
 
          
             $(document).ready(function () {
-              console.log($(".dispo").html())
-              console.log("get ready")
+             disstat()
+            //  console.log("asdsad",$(".tablebody").find('.Promise To Pay').html())
               
-              disstat()
             //    var table =  $('#example').DataTable({
             //       "aLengthMenu":[100]
             //     });
@@ -185,8 +185,10 @@
 
             $('.dashsearch').keyup(function() {
                 search(this.value);
-            });
-                   
+                
+                
+              });
+              
 
 $('.show').click(function() {
     $('.logdiv').toggle('slow');  
