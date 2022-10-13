@@ -605,7 +605,7 @@ def tbajax(request):
         # print(no[i]["lastdial"])
         for j in range(len(sub)):
             print()
-            a = LogData.objects.filter(lastzldial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
+            a = LogData.objects.filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
 
             print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
 
