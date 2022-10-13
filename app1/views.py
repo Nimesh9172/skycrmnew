@@ -546,7 +546,7 @@ def teamoverall(request):
     value = notificationCount(request)
     db=dbconnection()
     cur=db.cursor()
-    q= f"select distinct status_name from vicidial_campaign_statuses"
+    q= f"select distinct status_name from vicidial_campaign_statuses where campaign_id='IIT'"
     
     cur.execute(q)
     sub =  cur.fetchall()
@@ -560,44 +560,17 @@ def teamoverall(request):
     return render(request,"teamoverall.html",{"value":value,"con":con})
 
 
-# def teamajax(request):
-#     s=LogData.objects
-#     print("latest",s)
-
-#     print("subdisposition",s)
-#     today = datetime.today()
-#     d4 = today.strftime("%Y-%m-%d")
-#     # s=s.filter(contacted_DateTime__contains=d4)
-#     print("jgfirfg",s)
-#     db=dbconnection()
-#     cur=db.cursor()
-#     q= f"select distinct status_name from vicidial_campaign_statuses"
-#     cur.execute(q)
-#     sub =  cur.fetchall()
-#     con=[]
-#     ls=[]
-#     s=s.values("lastdial").distinct()
-#     print("this is" ,s,"ends")
-#     for i in s:
-#         print(i["lastdial"])
-#         c=LogData.objects.filter(lastdial=i["lastdial"]).count()
-        
-#         ls.append([i["lastdial"],c])
-    
-#     print("yyyyyyyyyyyyyyyyyyyyy",ls)
-
-#     return JsonResponse({"con":con})
 
 def tvajax(request):
     s=LogData.objects
     db=dbconnection()
     cur=db.cursor()
-    q= f"select distinct status_name from vicidial_campaign_statuses"
+    q= f"select distinct status_name from vicidial_campaign_statuses where campaign_id='IIT'"
     cur.execute(q)
     sub = cur.fetchall()
     no=s.values("lastdial").distinct()
 
-
+    final=[]
     for i in no:
           print(i["lastdial"])
     
@@ -607,11 +580,17 @@ def tvajax(request):
             print()
             a = LogData.objects.filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
 
-            print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
-
-    # print(sub)
+            # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
+            final.append([sub[j][0],a['kos']])
+            
+    # print("final",final)
+    stat=[]
+    for i in final:
+        if i[1] != 0 :
+            print(i)
+            stat.append(i)
   
-    return JsonResponse({"status":"status"})
+    return JsonResponse({"stat":stat})
 
 @login_required(login_url='login')
 def display(request):

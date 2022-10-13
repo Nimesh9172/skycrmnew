@@ -111,7 +111,17 @@
                   <tbody class="tablebody">
                    {% for i in con %}
                    <tr>
-                    <td>{{i}}</td>
+                    <td class="dispo">{{i}}</td>
+                    <td class="atm1"></td>
+                    <td class="atm2"></td>
+                    <td class="atm3"></td>
+                    <td class="atm4"></td>
+                    <td class="atm5"></td>
+                    <td class="atm6"></td>
+                    <td class="atm7"></td>
+                    <td class="atm8"></td>
+                    <td class="atm9"></td>
+                    <td class="atm10"></td>
                    </tr>
                    {% endfor%}
                   </tbody>
@@ -140,7 +150,18 @@
             processData: false,
             contentType: false,
             datatype:'json',
-            success: function (e) {
+            success: function (data) {
+              // console.log(data.stat)
+              var x=data.stat
+              for(var i in x ){
+                console.log($(".dispo").html())
+                console.log(x[i])
+                if(x[i][1] == 1 ){
+                  console.log($(".atm1").prev().html())
+                  $(".atm1").html(1)
+                }
+
+              }
             }
           })
         }
@@ -148,6 +169,7 @@
 
          
             $(document).ready(function () {
+              console.log($(".dispo").html())
               console.log("get ready")
               
               disstat()
