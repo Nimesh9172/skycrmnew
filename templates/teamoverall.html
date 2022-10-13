@@ -13,6 +13,9 @@
     
     </style>
       {% csrf_token %}
+  
+  </style>
+  {% csrf_token %}
     <div class="container-fluid">
         <div class="row" >
             <div class="dash">
@@ -28,7 +31,7 @@
               float: right;
               width: 35%;"  >
                 <img  src="{% static 'Images/Vector.png'%}" style="position: absolute;top: 20px;
-                left: 34px;" class="searchicon" alt="" >
+                 left: 34px;" class="searchicon" alt="" >
                 <input type="search" class="dashsearch"  placeholder="Search" >
                
               </div>
@@ -112,9 +115,7 @@
                    </tr>
                    {% endfor%}
                   </tbody>
-                  <tfoot>
-        
-                  </tfoot>
+                
                 </table>
               </div>
               
@@ -126,6 +127,25 @@
  
       <script>
         // table design starts
+
+        const disstat = () => {
+          console.log("fun")
+          $.ajax({
+            method:'get',
+            headers: {
+            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            url: "{% url 'tvajax' %}",
+            // data:data2,
+            processData: false,
+            contentType: false,
+            datatype:'json',
+            success: function (e) {
+            }
+          })
+        }
+
+
          
             $(document).ready(function () {
               console.log("get ready")
@@ -144,6 +164,7 @@
                   console.log(data.con)
                 }
               })
+              disstat()
             //    var table =  $('#example').DataTable({
             //       "aLengthMenu":[100]
             //     });
@@ -157,10 +178,7 @@
             $('.dashsearch').keyup(function() {
                 search(this.value);
             });
-           
-        
-
-
+                   
 
 $('.show').click(function() {
     $('.logdiv').toggle('slow');  

@@ -20,6 +20,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db.models import F
 from django.db.models import Count,Sum,Case,When
+from .sms_utils import *
 import xlwt
 import pymysql
 import requests
@@ -537,7 +538,6 @@ def home(request):
     
     return redirect('dashboard')
 
-
 def qsdash(request):
     return render(request,"qsdash.html")
 
@@ -690,12 +690,10 @@ def loginuser(request):
         else:
             campaign.objects.create(campaign_id=i[0],campaign_name=i[1])
 
-        
-          
+              
     p=f'select user_group,allowed_campaigns from vicidial_user_groups'
     cur.execute(p)
     b = cur.fetchall()
-   
    
     for i in b:
         
@@ -708,8 +706,6 @@ def loginuser(request):
     
     ug = user_group.objects.filter(usergroup=i[1])
 
-    
-  
     cur.close()
     db.close()
 	
@@ -1581,8 +1577,9 @@ def nonattempted(request):
 def sms(request):
     smsid = random.randint(1000,9999)
     s=SMSUpload.objects.all()
-   
     return render(request,"sms.html",{"s":s})
+
+
 
 def smsajax(request):
     smsid = random.randint(1000,9999)
@@ -1595,7 +1592,7 @@ def smsajax(request):
         entry=datetime.now()
         print(smsty,fil)
         try:
-          
+            
             form = SMSUpload(smstype=smsty,file=fil,entry=entry,smsid=smsid,upload_by=request.user.username)
             form.save()
 
@@ -1607,111 +1604,40 @@ def smsajax(request):
           
             path = f'{settings.BASE_DIR}{csv_file}'
             df = pd.read_csv(path)
-        
+
             count = len(df.values)
             # print('asd',df.values)
             SMSUpload.objects.filter(id=id).update(count=count)
 
             msgs = ""
             cl = ''
-        
+            # res = "Success"
 
-            for i in df.values:
                 
-                if smsty == "Payment Acceptance":
+            if smsty == "Payment Acceptance":
+                for i in df.values:
+                    sms_pa(i[0],i[3],i[1],i[2],smsty,id,entry)
+
+            elif smsty=="Awareness":
+                for i in df.values:
+                    sms_awr(i[0],i[1],smsty,id,entry)
                     
-                    try:
-                        lpd = str(i[3])
-                        lpd = datetime.strptime(lpd,'%Y-%m-%d')
-                        lpd = lpd.strftime("%Y-%m-%d")
-                       
-                    except Exception as e:
-                        print(e)
-                        lpd = None
-                    url=f"https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=n7OtTfzmtE6uXFjgMNmQ5g&senderid=OMARPL&channel=2&DCS=0&flashsms=0&number={i[0]}&text=We%20are%20in%20receipt%20of%20your%20payment%20amounting%20to%20Rs.%20{i[2]}%20dated%20{lpd}%20in%20your%20loan%20account%20no.%20{i[1]}.%20In%20case%20of%20any%20dispute%20with%20respect%20to%20your%20payment%20please%20contact%20toll-free%20number%201800120757575%20or%20email%20us%20at%20customercare@omkaraarc.com%20with%20your%20loan%20account%20%26%20contact%20details.&route=1&DLTtemplateid=1207165778573635216"
-                    g_url = requests.get(url)
-                    r=g_url.text
+                
+            elif smsty=="Payment Confirmation Agency":
+                for i in df.values:
+                    sms_pca(i[0],i[3],i[1],i[2],i[4],smsty,id,entry) 
+                    
+                
+            elif smsty == "CIBIL":
+                for i in df.values:
+                    sms_cibil(i[0],i[1],i[2],smsty,id,entry)
                    
-                    a=ast.literal_eval(r.replace("null",'None'))
-                    res=a["ErrorMessage"]
-                    print("error",a["ErrorMessage"])
-                    
-                    s=SMSDetails.objects.create(phone_no=i[0],Date=lpd,loan_account_no=i[1],amount=i[2],response=res,smsty=smsty,created_by_id=id,entry=entry)
-                    s.save()
-                    s=SMSUpload.objects.all()
-                    msgs = 'SMS Uploaded Successfully'
-                    cl = 'info'
-                    dsb = "block"
-                elif smsty=="Awareness":
-                     print(i)
-                     print(i[0])
-                     print(i[1])
-                     print("aware")
-                     url=f"https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=n7OtTfzmtE6uXFjgMNmQ5g&senderid=OMARPL&channel=2&DCS=0&flashsms=0&number={i[0]}&text=Your%20loan%20account%20number%20{i[1]}%20with%20Fullerton%20{i[1]}%20has%20been%20transferred%20to%20Omkara%20Assets%20Reconstruction%20Private%20Limited%20as%20of%2001.01.21.%20To%20have%20more%20clarity%20contact%20Omkara%20ARC%20on%201800120757575%20or%20email%20us%20at%20customercare@omkaraarc.com%20with%20your%20loan%20account%20%26%20contact%20details&route=1&DLTtemplateid=1207165778558300648"
-                     g_url = requests.get(url)
-                     r=g_url.text
-                     print("its",type(r))
-                     a=ast.literal_eval(r.replace("null",'None'))
-                     res=a["ErrorMessage"]
-                     print("error",a["ErrorMessage"])
-                    
-                     s=SMSDetails.objects.create(phone_no=i[0],loan_account_no=i[1],response=res,smsty=smsty,created_by_id=id,entry=entry)
-                     s.save()
-                     print("done phon",i[0])
-                     s=SMSUpload.objects.all()
-                     msgs = 'SMS Uploaded Successfully'
-                     cl = 'info'
-                     dsb = "block"
-                    
-                elif smsty=="Payment Confirmation Agency":
-                    
-                      try:
-                        lpd = str(i[3])
-                        lpd = datetime.strptime(lpd,'%Y-%m-%d')
-                        lpd = lpd.strftime("%Y-%m-%d")
-                        print(lpd)
-                      except Exception as e:
-                        print(e)
-                        lpd = None
-                      print("pay")
-                      url=f"https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=n7OtTfzmtE6uXFjgMNmQ5g&senderid=OMARPL&channel=2&DCS=0&flashsms=0&number={i[0]}&text=We are in receipt of your payment amounting to Rs. {i[2]} dated {lpd} in your loan account no {i[1]} by our authorised representative from {i[4]}. In case of any dispute with respect to your payment please contact toll-free number 1800120757575 or email us at customercare@omkaraarc.com with your loan account %26 contact details.&route=1&DLTtemplateid=1207165778580107494"
-                      g_url = requests.get(url)
-                      r=g_url.text
-                      print("its",type(r))
-                      a=ast.literal_eval(r.replace("null",'None'))
-                      res=a["ErrorMessage"]
-                      print("error",a["ErrorMessage"])
-                      
-                      s=SMSDetails.objects.create(phone_no=i[0],Date=lpd,loan_account_no=i[1],amount=i[2],agency_name=i[4],response=res,smsty=smsty,created_by_id=id,entry=entry)
-                      s.save()
-                     
-                      msgs = 'SMS Uploaded Successfully'
-                      cl = 'info'
-                      dsb = "block"
-                      
-                    
-                elif smsty == "CIBIL":
-                      print("cibil")
-                      url=f"https://www.smsgatewayhub.com/api/mt/SendSMS?APIKey=n7OtTfzmtE6uXFjgMNmQ5g&senderid=OMARPL&channel=2&DCS=0&flashsms=0&number={i[0]}&text=Your CIBIL will get impacted because of the non-payment of RS. {i[2]} in your loan account no.{i[1]}. You are requested to make the payment to OMKARA ARC against your respective{i[1]}. In case of any query please call our toll-free number 1800120757575 or email us at customercare@omkaraarc.com with your loan account %26 contact details.&route=1&DLTtemplateid=1207165778565465130"
-                      g_url = requests.get(url)
-                      r=g_url.text
-                      print("its",type(r))
-                      a=ast.literal_eval(r.replace("null",'None'))
-                      res=a["ErrorMessage"]
-                      print("error",a["ErrorMessage"])
-                      
-                      s=SMSDetails.objects.create(phone_no=i[0],loan_account_no=i[1],amount=i[2],response=res,smsty=smsty,created_by_id=id,entry=entry)
-                      s.save()
-                      s=SMSUpload.objects.all()
-                      msgs = 'SMS Uploaded Successfully'
-                      cl = 'info'
-                      dsb = "block"
- 
+                
             st=SMSDetails.objects.filter(created_by_id=id).filter(response="Success").count()
             SMSUpload.objects.filter(id=id).update(sent=st)
             s=SMSUpload.objects.all()
             # return render(request,"sms.html",{"s":s,'cl':cl,'msg':msgs,'dsb':dsb})
-            return JsonResponse({'status':200,"res":res})
+            return JsonResponse({'status':200})
         except Exception as e:
             print("error msg",e)
             return JsonResponse({'status':300})
@@ -1951,7 +1877,6 @@ def paidcount(request):
 
 def missedcall(request):
     return render(request,"missedcall.html")
-
 
 
 def missedcallajax(request):
