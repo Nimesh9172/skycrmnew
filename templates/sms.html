@@ -319,7 +319,7 @@ border-radius: 10px;
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 
       <script>
-        config={
+      config={
       enableTime: true,
       dateFormat: "d-m-Y ",
       altInput: true,
@@ -374,9 +374,8 @@ border-radius: 10px;
             else{
                 $(".downloadbtn").removeAttr("href")
             }
-            
-
         })
+
         $("#loading").click(function(){
       console.log("hi")
            if ($('#uploadform').valid()===true){
@@ -406,7 +405,7 @@ border-radius: 10px;
             datatype:'json',
             success: function(data){
               console.log(data.status,data.res)
-              
+            
             
               $(".loadht").html("Sending SMS")
               $("#start").removeClass("fa-spinner fa-spin");
@@ -416,8 +415,8 @@ border-radius: 10px;
               $('.uploaddiv').css("filter","blur(0px)");
               $('.sidebar').css("filter","blur(0px)");
               $('.dash').css("filter","blur(0px)");
-             
-              (data.res == "Success")? ($('.alert-primary').css({'display':'block'}) ,$('.alert-warning').css({'display':'none'})):($('.alert-primary').css({'display':'none'}) ,$('.alert-warning').css({'display':'block'}))
+              
+              (data.status == 200)? ($('.alert-primary').css({'display':'block'}) ,$('.alert-warning').css({'display':'none'})):($('.alert-primary').css({'display':'none'}) ,$('.alert-warning').css({'display':'block'}))
               setInterval(function(){
                 location.reload(true);
               },2000)
@@ -426,8 +425,6 @@ border-radius: 10px;
           //ajax ends
            }
        })
-
-  
       })
     
 </script>       

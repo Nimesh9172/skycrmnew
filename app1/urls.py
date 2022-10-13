@@ -73,6 +73,7 @@ urlpatterns = [
         path('qsajax',views.qsajax,name='qsajax'),
         path("teamajax",views.teamajax,name="teamajax"),
         path('tbajax',views.tbajax,name='tbajax'),
+   
 
         #filterurls
         path('filterm',views.filterrm,name='filterrm'),
