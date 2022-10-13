@@ -71,6 +71,10 @@ urlpatterns = [
         path('misscmsajax',views.misscmsajax,name="misscmsajax"),
         path('missedcallajax',views.missedcallajax,name="missedcallajax"),
         path('qsajax',views.qsajax,name='qsajax'),
+<<<<<<< HEAD
+=======
+        path("teamajax",views.teamajax,name="teamajax"),
+>>>>>>> 9442c38 (a)
         path('tvajax',views.tvajax,name='tvajax'),
    
 
