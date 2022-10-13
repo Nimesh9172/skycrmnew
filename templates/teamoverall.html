@@ -12,15 +12,15 @@
 
     
     </style>
+      {% csrf_token %}
     <div class="container-fluid">
         <div class="row" >
             <div class="dash">
                Team Overall Report  
                <div style="float: right">
-                <img src="{% static 'Images/user.png' %}" class="show" style=" height: 41px; margin-right: 10px;" alt="">
+                <!-- <img src="{% static 'Images/user.png' %}" class="show" style=" height: 41px; margin-right: 10px;" alt=""> -->
 
-                 
-                          
+                           
                 </div>
               </div>
               <div>
@@ -81,78 +81,36 @@
                 <table id="example" class="table"  style=" width: 100%; margin-bottom: 0;">
                   <thead style="background-color: #047BD5;" class="tableheadings">
                     <tr class="importantth">
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Agent Name
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Sub Dispositions
                       </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Allocation(%)
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-1
                       </th>
-                      <th class="th-sm"  style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Collectable(%)
+                      <th class="th-sm"  style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-2
                       </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Target(%)
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-3
                       </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Paid(%)
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-4
                       </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Collection Projections(%)
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-5
                       </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Achieved(%)
+                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-6
                     </th>
-                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Efficiency(%)
+                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-7
+                    </th>
+                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-8
+                    </th>
+                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-9
+                    </th>
+                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-10
                     </th>
                     </tr>
                     </thead>
                   <tbody class="tablebody">
-                   
-                    <tr class="dashhover">
-                    <td>bdihder</td>
-                    <td>bdihder</td>
-                    <td>bdihder</td>
-                    <td>bdihder</td>
-                    <td>bdihder</td>
-                    <td>bdihder</td>
-                    <td>bdihder</td>
-                    <td>bdihder</td> 
-                      </tr>
-                      <tr class="dashhover">
-                        <td>bdihder</td>
-                        <td>bdihder</td>
-                        <td>bdihder</td>
-                        <td>bdihder</td>
-                        <td>bdihder</td>
-                        <td>bdihder</td>
-                        <td>bdihder</td>
-                        <td>bdihder</td> 
-                          </tr>
-                          <tr class="dashhover">
-                            <td>bdihder</td>
-                            <td>bdihder</td>
-                            <td>bdihder</td>
-                            <td>bdihder</td>
-                            <td>bdihder</td>
-                            <td>bdihder</td>
-                            <td>bdihder</td>
-                            <td>bdihder</td> 
-                              </tr>
-                              <tr class="dashhover">
-                                <td>bdihder</td>
-                                <td>bdihder</td>
-                                <td>bdihder</td>
-                                <td>bdihder</td>
-                                <td>bdihder</td>
-                                <td>bdihder</td>
-                                <td>bdihder</td>
-                                <td>bdihder</td> 
-                                  </tr>
-                                  <tr class="dashhover">
-                                    <td>bdihder</td>
-                                    <td>bdihder</td>
-                                    <td>bdihder</td>
-                                    <td>bdihder</td>
-                                    <td>bdihder</td>
-                                    <td>bdihder</td>
-                                    <td>bdihder</td>
-                                    <td>bdihder</td> 
-                                      </tr>
-             
-                    
+                   {% for i in con %}
+                   <tr>
+                    <td>{{i}}</td>
+                   </tr>
+                   {% endfor%}
                   </tbody>
                   <tfoot>
         
@@ -170,15 +128,31 @@
         // table design starts
          
             $(document).ready(function () {
-               var table =  $('#example').DataTable({
-                  "aLengthMenu":[100]
-                });
-                var search = $.fn.dataTable.util.throttle(
-                function(val) {
-                    table.search(val).draw();
+              console.log("get ready")
+              $.ajax({
+                method: 'POST',
+                headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
                 },
-                400  // Search delay in ms
-            );
+                url: "{% url 'tbajax' %}",
+                // data: data,
+                datatype:'json',
+                processData: false,
+                contentType: false,
+             
+                success: function (data) {
+                  console.log(data.con)
+                }
+              })
+            //    var table =  $('#example').DataTable({
+            //       "aLengthMenu":[100]
+            //     });
+            //     var search = $.fn.dataTable.util.throttle(
+            //     function(val) {
+            //         table.search(val).draw();
+            //     },
+            //     400  // Search delay in ms
+            // );
 
             $('.dashsearch').keyup(function() {
                 search(this.value);
