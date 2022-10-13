@@ -1,4 +1,5 @@
 from calendar import c
+from distutils.log import Log
 import json
 from operator import methodcaller
 from re import A
@@ -543,8 +544,74 @@ def qsdash(request):
 @login_required(login_url='login')
 def teamoverall(request):
     value = notificationCount(request)
-    return render(request,"teamoverall.html",{"value":value})
+    db=dbconnection()
+    cur=db.cursor()
+    q= f"select distinct status_name from vicidial_campaign_statuses"
+    
+    cur.execute(q)
+    sub =  cur.fetchall()
+    con = []
+    for i in sub:
+        con.append(i)
+    print(con)
 
+    
+
+    return render(request,"teamoverall.html",{"value":value,"con":con})
+
+
+def teamajax(request):
+    s=LogData.objects
+    print("latest",s)
+
+    print("subdisposition",s)
+    today = datetime.today()
+    d4 = today.strftime("%Y-%m-%d")
+    # s=s.filter(contacted_DateTime__contains=d4)
+    print("jgfirfg",s)
+    db=dbconnection()
+    cur=db.cursor()
+    q= f"select distinct status_name from vicidial_campaign_statuses"
+    cur.execute(q)
+    sub =  cur.fetchall()
+    con=[]
+    ls=[]
+    s=s.values("lastdial").distinct()
+    print("this is" ,s,"ends")
+    for i in s:
+        print(i["lastdial"])
+        c=LogData.objects.filter(lastdial=i["lastdial"]).count()
+        
+        ls.append([i["lastdial"],c])
+    
+    print("yyyyyyyyyyyyyyyyyyyyy",ls)
+
+    return JsonResponse({"con":con})
+
+def tbajax(request):
+    s=LogData.objects
+    db=dbconnection()
+    cur=db.cursor()
+    q= f"select distinct status_name from vicidial_campaign_statuses"
+    cur.execute(q)
+    sub = cur.fetchall()
+    no=s.values("lastdial").distinct()
+
+
+    for i in no:
+          print(i["lastdial"])
+    
+    for i in range(len(no)):
+        # print(no[i]["lastdial"])
+        for j in range(len(sub)):
+            print()
+            a = LogData.objects.filter(lastzldial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
+
+            print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
+
+    # print(sub)
+  
+    return JsonResponse({"status":"status"})
 
 @login_required(login_url='login')
 def display(request):
@@ -1228,8 +1295,8 @@ def upload(request):
 
                 # url=f"http://{apilink}/vicidial/non_agent_api.php?source=test&user={user}&pass=robust&function=add_lead&phone_number={i[7]}&phone_code=1&list_id={listid}&dnc_check=N&first_name={i[0]}"
                 # g_url = requests.get(url)
-                # q=f"INSERT INTO vicidial_list(entry_date,status,list_id,gmt_offset_now,called_since_last_reset,phone_code,phone_number,called_count,rank,entry_list_id) VALUES('{entry}','NEW','{listid}','-4.00','N','1','{mbno}','0','0','0')"
-                # cur.execute(q)
+                q=f"INSERT INTO vicidial_list(entry_date,status,list_id,gmt_offset_now,called_since_last_reset,phone_code,phone_number,called_count,rank,entry_list_id) VALUES('{entry}','NEW','{listid}','-4.00','N','1','{mbno}','0','0','0')"
+                cur.execute(q)
                
 
             db.close()
