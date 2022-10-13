@@ -554,12 +554,7 @@ def teamoverall(request):
     for i in sub:
         con.append(i[0])
     print("con",con)
-
-    
-
     return render(request,"teamoverall.html",{"value":value,"con":con})
-
-
 
 def tvajax(request):
     s=LogData.objects
@@ -569,15 +564,14 @@ def tvajax(request):
     cur.execute(q)
     sub = cur.fetchall()
     no=s.values("lastdial").distinct()
-
+    today = datetime.today()
+    d4 = today.strftime("%Y-%m-%d")
     final=[]
-    for i in no:
-          print(i["lastdial"])
-    
+ 
     for i in range(len(no)):
         # print(no[i]["lastdial"])
         for j in range(len(sub)):
-            print()
+        
             a = LogData.objects.filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
 
             # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
