@@ -552,7 +552,7 @@ def teamoverall(request):
     sub =  cur.fetchall()
     con = []
     for i in sub:
-        con.append(i[0][0])
+        con.append(i[0])
     print("con",con)
 
 
