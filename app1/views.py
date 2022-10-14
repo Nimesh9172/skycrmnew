@@ -553,7 +553,7 @@ def teamoverall(request):
     con = []
     print(sub)
     for i in sub:
-        con.append(i[0])
+        con.append([i[0],i[1]])
     print("con",con)
 
     
