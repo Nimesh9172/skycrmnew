@@ -575,15 +575,23 @@ def tvajax(request):
     final=[]
     for i in no:
           print(i["lastdial"])
-    
-    for i in range(len(no)):
-        # print(no[i]["lastdial"])
-        for j in range(len(sub)):
-            a = LogData.objects.filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
+    if request.user.user_level== 9:
+        for i in range(len(no)):
+            # print(no[i]["lastdial"])
+            for j in range(len(sub)):
+                a = LogData.objects.filter(contacted_DateTime=d4).filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
 
-            # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
-            final.append([sub[j][0],a['kos']])  
-            
+                # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
+                final.append([sub[j][0],a['kos']])  
+    elif request.user.user_level== 1:
+         for i in range(len(no)):
+            # print(no[i]["lastdial"])
+            for j in range(len(sub)):
+                a = LogData.objects.filter(caller_name=request.user.username).filter(contacted_DateTime=d4).filter(lastdial=no[i]["lastdial"]).filter(sub_dispossitions=sub[j][0]).aggregate(kos=Count('sub_dispossitions'))
+
+                # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
+                final.append([sub[j][0],a['kos']])
+                
     # print("final",final)
     stat=[]
     for i in final:
@@ -614,8 +622,8 @@ def dashtlots(request):
     data=otsdata.objects.all().order_by("tlstat")
     if request.user.user_level== 9:
         return render(request,'dashtlots.html',{"data":data})
-    elif request.user_level== 1:
-        return redirect('dashboard')
+    elif request.user.user_level== 1:
+        return redirect('/ots')
 
 @login_required(login_url='login')
 def logoutuser(request):
@@ -1692,7 +1700,7 @@ def ptp(request):
     bnk=[]
     bank=personaldetails.objects.all()
     for i in bank:
-        print(i.bankname)
+        # print(i.bankname)
         if i.bankname not in bnk:
             bnk.append(i.bankname)
            
@@ -1729,18 +1737,22 @@ def ptpajax(request):
             if agent == "all":
                 a=LogData.objects.filter(personalForkey_id=i).exclude(sub_dispossitions="Paid")
 
-            if agent != "" and agent != "all" :
+            if agent != "" and agent!="undefined" and agent != "all" :
                 a=a.filter(caller_name=agent)
             
             if bk =="all":
                 a=LogData.objects.filter(personalForkey_id=i).exclude(sub_dispossitions="Paid")
 
-            if bk != "" and bk !="all":
+            if bk != "" and bk !="all" and bk!="undefined":
                 a=a.filter(bankname=bk)
+            if request.user.user_level == 1:
+                print("level",type(request.user.user_level),request.user.user_level)
+                a=a.filter(caller_name=request.user.username)
                 
             a = a[:5]
             b.append(list(a.values()))
-   
+            print("gdsadi",request.user.username)
+
         return JsonResponse({"b":b})
     return JsonResponse({'log_data':200,"b":list(b)})
 
@@ -1761,6 +1773,9 @@ def ptpcount(request):
     this_month=  today + timedelta(days=30)
     print(this_week,"next",this_month)
     for i in agent:
+        if request.user.user_level == 1:
+            i.username=request.user.username
+            print(i.username)
         us=LogData.objects.filter(caller_name=i.username).filter(sub_dispossitions="Promise To Pay").filter(callbacktime=today).count()
         tw=LogData.objects.filter(caller_name=i.username).filter(sub_dispossitions="Promise To Pay").filter(callbacktime__range=[today,this_week]).count()
         tm=LogData.objects.filter(caller_name=i.username).filter(sub_dispossitions="Promise To Pay").filter(callbacktime__range=[today,this_month]).count()
@@ -1818,7 +1833,13 @@ def paidcount(request):
     this_week = today + timedelta(days=7)
     this_month=  today + timedelta(days=30)
     print(this_week,"next",this_month)
+
+    
+
     for i in agent:
+        if request.user.user_level == 1:
+            i.username=request.user.username
+            print(i.username)
         us=LogData.objects.filter(caller_name=i.username).filter(sub_dispossitions="Paid").filter(callbacktime=today).count()
         tw=LogData.objects.filter(caller_name=i.username).filter(sub_dispossitions="Paid").filter(callbacktime__range=[today,this_week]).count()
         tm=LogData.objects.filter(caller_name=i.username).filter(sub_dispossitions="Paid").filter(callbacktime__range=[today,this_month]).count()

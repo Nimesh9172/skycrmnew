@@ -18,8 +18,13 @@
   {% csrf_token %}
     <div class="container-fluid">
         <div class="row" >
+
             <div class="dash">
+              {% if request.user.user_level == 9 %}
                Team Overall Report  
+               {% else %}
+               Overall Report
+               {% endif %}
                <div style="float: right">
                 <!-- <img src="{% static 'Images/user.png' %}" class="show" style=" height: 41px; margin-right: 10px;" alt=""> -->
 
@@ -92,7 +97,7 @@
                 
                 <div class="table-responsive table-div" style="height: 437px;">
                 <table id="example" class="table"  style=" width: 100%; margin-bottom: 0;">
-                  <thead style="background-color: #047BD5;" class="tableheadings">
+                  <thead style="background: #047BD5;  position: sticky;top: 0;" class="tableheadings">
                     <tr class="importantth">
                       <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Sub Dispositions
                       </th>
@@ -121,7 +126,7 @@
                   <tbody class="tablebody">
                    {% for i in con %}
                    <tr>
-                    <td class="Busy">{{i.0}}</td>
+                    <td class="{{i.1}}">{{i.0}}</td>
                     <td class="atm1"></td>
                     <td class="atm2"></td>
                     <td class="atm3"></td>
@@ -154,6 +159,12 @@
                     
                     $(`.${htdispo}`).parent().find('.atm1').html()== "" ?  $(`.${htdispo}`).parent().find('.atm1').html(1):$(`.${htdispo}`).next().html(parseInt($(`.${htdispo}`).parent().find('.atm1').html()) + 1)
                 }
+                else if(ct ==  2){
+                  // console.log("Busy",count)
+                  // if (x[i][0] == "Busy"){
+                    $(`.${htdispo}`).parent().find('.atm2').html()== "" ?  $(`.${htdispo}`).parent().find('.atm2').html(1):$(`.${htdispo}`).parent().find('.atm2').html(parseInt($(`.${htdispo}`).parent().find('.atm2').html()) + 1)
+                    
+              }
                 else if(ct ==  3){
                   // console.log("Busy",count)
                   // if (x[i][0] == "Busy"){
