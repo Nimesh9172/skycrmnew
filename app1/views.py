@@ -1548,15 +1548,19 @@ def nonattempted(request):
     data=personaldetails.objects.filter(user_id=request.user.id).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
     u=User.objects.all()
     if request.user.user_level == 9:
-        data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:100]
+        data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:200]
         if request.method=="POST":
             agent=request.POST.get("agent")
             print("itssssss",agent)
             if agent == "all" and agent !="":
-                data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:100]
+                data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:200]
             else:
                 data=personaldetails.objects.filter(attempted=0).filter(callername=agent).exclude(list_id__status__contains="0")[:100]
             return JsonResponse({"data":list(data.values())})
+    else :
+        data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
+
+
 
 
     return render(request,'nonattempted.html',{'data':data,"value":value,"u":u})
