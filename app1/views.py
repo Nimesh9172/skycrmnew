@@ -813,10 +813,9 @@ def cms(request,id):
             noncontacted.append(i[1])
 
     
-
     print(contacted)
     print(noncontacted)
-    pers = LogData.objects.filter(personalForkey_id=id)
+    pers = LogData.objects.filter(personalForkey_id=id)[:10]
     print(len(pers))
     if len(pers) == 0:
         print("inside if")
@@ -1056,17 +1055,19 @@ def searchajax(request):
             if request.user.user_level == 9:
                 per=personaldetails.objects
             else:
-                per=personaldetails.objects.filter(callername=request.user.username)[:100]
+                per=personaldetails.objects.filter(callername=request.user.username)
             
             if given_name != "":
-                per=per.filter(borrowor_name__icontains=given_name)[:100]
+                per=per.filter(borrowor_name__icontains=given_name)
             elif given_phone != "":
-                per=per.filter(Q(mobile_number__icontains=given_phone) | Q(id = add) | Q(alt_mno_1__icontains=given_phone) | Q(alt_mno_2__icontains=given_phone)  | Q(alt_mno_3__icontains=given_phone))[:100]
+                per=per.filter(Q(mobile_number__icontains=given_phone) | Q(id = add) | Q(alt_mno_1__icontains=given_phone) | Q(alt_mno_2__icontains=given_phone)  | Q(alt_mno_3__icontains=given_phone))
             elif given_loan != "":
-                per=per.filter(bank_loan_accountno__icontains=given_loan)[:100]
+                per=per.filter(bank_loan_accountno__icontains=given_loan)
 
             if given_name  == "" and given_phone == "" and given_loan == "":
-                per=personaldetails.objects.filter(id__isnull=True)[:100]
+                per=personaldetails.objects.filter(id__isnull=True)
+            
+            per = per[:100]
      
             return JsonResponse({"status":200,'all_data':list(per.values())})
         except Exception as e:
@@ -1544,7 +1545,7 @@ def listid(request):
 
 
 def nonattempted(request):
-    value = notificationCount(request)
+
     data=personaldetails.objects.filter(user_id=request.user.id).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
     u=User.objects.all()
     if request.user.user_level == 9:
@@ -1557,13 +1558,13 @@ def nonattempted(request):
             else:
                 data=personaldetails.objects.filter(attempted=0).filter(callername=agent).exclude(list_id__status__contains="0")[:100]
             return JsonResponse({"data":list(data.values())})
-    else :
-        data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
+    # else :
+    #     data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
 
 
 
 
-    return render(request,'nonattempted.html',{'data':data,"value":value,"u":u})
+    return render(request,'nonattempted.html',{'data':data,"u":u})
 
 
 
@@ -2097,22 +2098,23 @@ def qsajax(request):
             dispo = "Refuse"
         elif dispo=="Exsisting Customer":
             dispo="Exsist"
-              
+        
+        p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id "
+
         if  campn !="" :
             # print("camp is not empty")
             # print(campn)
-            p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id, FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id and  recording_log.recording_id not in {tuple(rid)} and campaign_id = '{campn}' limit 60" 
+            p+=f" and recording_log.recording_id not in {tuple(rid)}" 
             
-    
         if agn !="":
             # print("agn not empty") 
             # print(agn) 
-            p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id  and  recording_log.recording_id not in {tuple(rid)}  and recording_log.user='{agn}' limit 60" 
-            
-
+            p+=f" and recording_log.user='{agn}'" 
+        
         if dispo != "":
             # print(dispo,"dispo not empty")
-            p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id and  recording_log.recording_id not in {tuple(rid)} and status='{dispo}' limit 10" 
+            p+=f" and status='{dispo}'" 
+
 
         if fd != '' and td != '':
             # print("inside",fd,td)
@@ -2124,10 +2126,12 @@ def qsajax(request):
             except Exception as e:
                 print(e)
             # print(fd,td,"dates not an empty")
-            p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id and  recording_log.recording_id not in {tuple(rid)}  and  date(call_date) >= '{fd}' AND date(call_date) <= '{td}'  limit 100" 
+            p+=f"  and  date(call_date) >= '{fd}' AND date(call_date) <= '{td}' " 
 
         cur.execute(p)
         b=cur.fetchall()
+
+        p += " limit 100"
     
         info=list(b)
         print(len(info),info)
