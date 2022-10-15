@@ -1026,7 +1026,7 @@ def tlcmsresponse(request):
 @login_required(login_url="login")
 def noncontacted(request):
     value = notificationCount(request)
-    data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0)
+    data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0).exclude(list_id__status__contains="0")
     return render(request,"noncontacted.html",{"data":data,"value":value})
 
 @login_required(login_url="login")
