@@ -2077,7 +2077,7 @@ def qsajax(request):
         dispo=request.POST.get("dispo")
         fd=request.POST.get("fdate").rstrip()
         td=request.POST.get("tdate").rstrip()
-        print('1',campn,'2',agn,'3',dispo,'4',fd,'5',td)
+        print('1',campn,'2',agn,'3',dispo,'4',fd,'5',td,"rid",rid,"tuple",tuple(rid))
         p=""
         if dispo=="Call Back":
             dispo="CBK"
@@ -2130,7 +2130,7 @@ def qsajax(request):
         b=cur.fetchall()
     
         info=list(b)
-        print(len(info))
+        print(len(info),info)
         
     return JsonResponse({'info':info})
 
@@ -2194,6 +2194,7 @@ def score(request,rec):
         print(type(ls))
         
         print(m1,m2,m3,m4,m5,m6,m7,m8,m9,total,got,per,ls)
+        return redirect("/qualityscore")
     return render(request,"score.html",{"q":q})
 
 def qualityexport(request):
