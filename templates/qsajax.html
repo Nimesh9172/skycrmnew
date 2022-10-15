@@ -46,7 +46,7 @@ $.ajax({
                 <input type="hidden" class="pno" value=${x[i][0]}>
                 <td class="agent">${x[i][4]}</td>
                 <td class="camp">${x[i][3]}</td>
-                <td class="dispo">${x[i][2]}</td>
+                <td class="dispos">${x[i][2]}</td>
                 <td class="contact">${d}</td>
                 <td style="display:none" class="recordid">${x[i][6]}</td>
                 
@@ -81,6 +81,46 @@ $.ajax({
               console.log(b)
               $(".hideme").attr("href",b)
             })
+
+            $(".dispos").each(function(){
+              console.log("hello dispo",$(this).html())
+              if ($(this).html() == "B"){
+                $(this).html("Busy")
+              }
+              else if($(this).html() == "FakeNu"){
+                $(this).html("Fake Number")
+              }
+              else if($(this).html() == "Broken"){
+                $(this).html("Broken Promise")
+              }
+              else if($(this).html() == "Exsist"){
+                $(this).html("Exsisting Customer")
+              }
+              else if($(this).html() == "WrongC"){
+                $(this).html("Wrong Number")
+              }
+              else if($(this).html() == "CBK"){
+                $(this).html("Call Back")
+              }
+              else if($(this).html() == "Refuse"){
+                $(this).html("Refused To Pay")
+              }
+              else if($(this).html() == "SCBK"){
+                $(this).html("Schedule Call")
+              }
+              else if($(this).html() == "SETTEL"){
+                $(this).html("Settelment")
+              }
+              else if($(this).html() == "Promis"){
+                $(this).html("Promise To Pay")
+              }
+              else if($(this).html() == "N"){
+                $(this).html("No Answer")
+              }
+              else if($(this).html() == "INCALL"){
+                $(this).html("Lead Being Call")
+              }
+            })
       }
 })
 }
@@ -89,7 +129,7 @@ $(document).on('click','.viewbtn',function(){
   var pno =  $(this).parent().parent().find(".pno").val()
   var agn = $(this).parent().parent().find(".agent").html()
   var camp = $(this).parent().parent().find(".camp").html()
-  var dispo = $(this).parent().parent().find(".dispo").html()
+  var dispo = $(this).parent().parent().find(".dispos").html()
   var con = $(this).parent().parent().find(".contact").html()
   var rec = $(this).parent().parent().find(".recordid").html()
   var aud =$(this).parent().parent().find(".aud").children().next().attr("src")
@@ -171,7 +211,7 @@ $.ajax({
                           <tr class="dashhover">
                             <td>${x[i][3]}</td>
                             <td>${x[i][2]}</td>
-                            <td>${x[i][1]}</td>
+                            <td class="dispos">${x[i][1]}</td>
                             <td >${d}</td>
                     
                             <td class="aud">

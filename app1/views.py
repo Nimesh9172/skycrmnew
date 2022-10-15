@@ -2007,8 +2007,9 @@ def qualityscore(request):
     for i in sub:
         if i[0] == 'contacted':
             contacted.append(i[1])
-        else:
-            noncontacted.append(i[1])
+    
+        
+         
     # p=f"SELECT call_date,status,campaign_id,recording_log.user,location FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and  date(call_date) >= '2022-08-01' AND date(call_date) <= '2022-08-31' and campaign_id = 'IIT' and status='INCALL' and recording_log.user='Nimesh' limit 10"
     # p=f"SELECT call_date,status,campaign_id,recording_log.user,location FROM asterisk.recording_log,asterisk.vicidial_log where vicidial_log.status='B' limit 10" 
     # p=f"SELECT call_date,status,campaign_id,recording_log.user,location FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and  date(call_date) >= '2022-08-01' AND date(call_date) <= '2022-08-31' and campaign_id = 'IIT' and status='B' and recording_log.user='Nimesh' limit 10"
@@ -2076,9 +2077,27 @@ def qsajax(request):
         dispo=request.POST.get("dispo")
         fd=request.POST.get("fdate").rstrip()
         td=request.POST.get("tdate").rstrip()
-        # print('1',campn,'2',agn,'3',dispo,'4',fd,'5',td)
+        print('1',campn,'2',agn,'3',dispo,'4',fd,'5',td)
         p=""
-
+        if dispo=="Call Back":
+            dispo="CBK"
+        elif dispo == "Settlement":
+            dispo = "SETTEL"
+        elif dispo == "Broken Promise":
+            dispo="Broken"
+        elif dispo == "Promise To Pay":
+            dispo = "Promis"
+        elif dispo =="Schedule Call":
+            dispo="SCBK"
+        elif dispo == "Wrong Contact":
+            dispo = "WrongC"
+        elif dispo == "B":
+            dispo = "Busy"
+        elif dispo == "Refused To Pay":
+            dispo = "Refuse"
+        elif dispo=="Exsisting Customer":
+            dispo="Exsist"
+              
         if  campn !="" :
             # print("camp is not empty")
             # print(campn)
@@ -2094,6 +2113,7 @@ def qsajax(request):
         if dispo != "":
             # print(dispo,"dispo not empty")
             p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id and  recording_log.recording_id not in {tuple(rid)} and status='{dispo}' limit 10" 
+
         if fd != '' and td != '':
             # print("inside",fd,td)
             try:
@@ -2105,11 +2125,12 @@ def qsajax(request):
                 print(e)
             # print(fd,td,"dates not an empty")
             p=f"SELECT vicidial_log.phone_number,call_date,status,campaign_id,recording_log.user,location, recording_log.recording_id FROM asterisk.recording_log,asterisk.vicidial_log where  vicidial_log.lead_id = recording_log.lead_id and vicidial_log.uniqueid = recording_log.vicidial_id and  recording_log.recording_id not in {tuple(rid)}  and  date(call_date) >= '{fd}' AND date(call_date) <= '{td}'  limit 100" 
+
         cur.execute(p)
         b=cur.fetchall()
     
         info=list(b)
-        print(info)
+        print(len(info))
         
     return JsonResponse({'info':info})
 
