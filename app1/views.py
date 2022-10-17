@@ -2115,7 +2115,6 @@ def qsajax(request):
             # print(dispo,"dispo not empty")
             p+=f" and status='{dispo}'" 
 
-
         if fd != '' and td != '':
             # print("inside",fd,td)
             try:
@@ -2127,11 +2126,13 @@ def qsajax(request):
                 print(e)
             # print(fd,td,"dates not an empty")
             p+=f"  and  date(call_date) >= '{fd}' AND date(call_date) <= '{td}' " 
+        else:
+
+            p += " limit 100"
 
         cur.execute(p)
         b=cur.fetchall()
 
-        p += " limit 100"
     
         info=list(b)
         print(len(info),info)
