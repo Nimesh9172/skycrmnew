@@ -1,4 +1,36 @@
 <script>
+    const rshtml = (id,name,acno,amount,dt,cn,dispo) => {
+        return component = `<a href="/cms/${id}" class="recovery-wrapper">
+      <div class="svg-icon">
+        <img src="/static/Images/recovery_icon.svg" alt="">
+      </div>
+      <div class="">
+        <div class="data-card-title">Borrower Name</div>
+        <div class="data-card-content">${name}</div>
+      </div>
+      <div class="">
+        <div class="data-card-title">Loan ID</div>
+        <div class="data-card-content2">${acno}</div>
+      </div>
+      <div class="">
+        <div class="data-card-title">Loan Amount</div>
+        <div class="data-card-content2">Rs. ${amount}</div>
+      </div>
+      <div class="">
+        <div class="data-card-title">Contacted Date & Time</div>
+        <div class="data-card-content2">${dt}</div>
+      </div>
+      <div class="">
+        <div class="data-card-title">Caller Name </div>
+        <div class="data-card-content2">${cn}</div>
+      </div>
+      <div class="">
+        <div class="data-card-title">Sub-disposition </div>
+        <div class="data-card-content3">${dispo}</div>
+      </div>
+    </a>`
+    }
+
     $(document).ready(function(){
     function dataSubmit(btnval) {
         var data = new FormData();
@@ -8,11 +40,13 @@
             $("input[name=remcb]:checkbox:checked").each(function() {
                 rem.push($(this).val());
             })
-            data.append('tdate',$('.rtodate').val())
-            data.append('fdate',$('.rfdate').val())
+            data.append('tdate',$('input[name=todate]').val())
+            data.append('fdate',$('input[name=fdate]').val())
             data.append('sortval',rem)
 
             sessionStorage.setItem('sortval2',rem)
+            sessionStorage.setItem('rsfdate',$('input[name=fdate]').val())
+            sessionStorage.setItem('rstdate',$('input[name=todate]').val())
 
             $.ajax({
                 method: 'POST',
@@ -27,9 +61,10 @@
              
                 success: function (data) {
                     let x = data.all_data
+                    console.log("asdasd",x)
                     // console.log(x)
-                    $('.bigdiv').empty()
-                    output = ""
+                    $('.main-data-wrapper').empty()
+                    
                     if (x.length < 1){
                         return 1
                     }
@@ -52,136 +87,23 @@
 
                     d = new Date(d);
                     d = dtFormat.format(d)
-                        output +=  (` <a href="/cms/${x[i].id}" style="text-decoration:none;" class="column detaildiv">
-                        <div class="twotable d-flex flex-wrap" >
-                            <div class="col-lg-6" style="height: 15%;" >
-                            <table style="padding-left: 8%">
-                            <tr>
-                                <td class="heading" style="padding: 6px 0px;">Borrower Name</td>
-                                <td class="heading" style="padding: 6px 0px;">:</td>
-                                <td class="borowername" style="padding: 6px 1px;">${x[i].borrowor_name}</td>
-                            </tr>
-                            <tr>
-                                <td class="heading" style="padding: 6px 0px;">Loan ID</td>
-                                <td class="heading" style="padding: 6px 0px;">:</td>
-                                <td class="loanidamt">${x[i].bank_loan_accountno}</td>
-                            </tr>
-                            <tr>
-                                <td class="heading" style="padding: 6px 0px;">Loan Amount</td>
-                                <td class="heading" style="padding: 6px 1px;">:</td>
-                                <td style="padding-left: 6%" class="loanidamt">${x[i].TOS}</td>
-                            </tr>
-                            </table>
-                        </div>
-                        <div class="col-lg-5" style="height: 15%;">
-                            <table>
-                            <tr>
-                                <td class="heading" style="padding: 6px 0px;">Contacted Datetime</td>
-                                <td class="heading"  style="padding: 6px 0px;">:</td>
-                                <td class="loanidamt" style="padding: 6px 1px;">${d}</td>
-                            </tr>
-                            <tr>
-                                <td class="heading" style="padding: 6px 0px;">Call Name</td>
-                                <td class="heading"   style="padding: 6px 0px;">:</td>
-                                <td class="borowername" style="padding: 6px 1px;">${x[i].callername}</td>
-                            </tr>
-                            <tr>
-                                <td class="heading" style="padding: 6px 0px;">Sub Disposition</td>
-                                <td class="heading" style="padding: 6px 0px;">:</td>
-                                <td class="call" style="padding: 6px 1px;">${x[i].sub_dispossitions}</td>
-                                <td></td>
-                            </tr>
-                            </table>
-                        
-                        </div>
-                        </div>
-                        </a>`)
-
+                    
+                    $('.main-data-wrapper').append(rshtml(x[i].id,x[i].borrowor_name,x[i].bank_loan_accountno,x[i].TOS.toLocaleString("en-US", {style:"currency", currency:"INR",maximumFractionDigits: 2}).replace(/₹/gi, ''),d,x[i].callername,x[i].sub_dispossitions))
+                       
                 }
             }
-            $('.bigdiv').html(output)
                 }
             })
     }
 
-    // $.ajax({
-    //         type: 'GET',
-    //         url: "{% url 'filterrs' %}",
-    //         // data: mydata,
-    //         success: function (data) {
-    //             let x = data.all_data
-    //             output = ""
-    //             if (x != undefined){
-    //                for (var i in x){
-    //                 let dtFormat = new Intl.DateTimeFormat('en-US',{
-    //                                     month:'short',
-    //                                     day:'2-digit',
-    //                                     year:'numeric',
-    //                                     hour: 'numeric',
-    //                                     minute:'numeric',
-    //                                     second:'numeric',
-    //                                     hour12:false
-    //                                 })
-
-    //                 let d = x[i].contacted_DateTime
-    //                 d = new Date(d);
-    //                 d = dtFormat.format(d)
-    //                 output +=    (` <a href="/cms/${x[i].id}" style="text-decoration:none;" class="column detaildiv">
-    //                 <div class="twotable d-flex flex-wrap" >
-    //                     <div class="col-lg-5" style="height: 15%;" >
-    //                     <table style="padding-left: 8%">
-    //                     <tr>
-    //                         <td class="heading" style="padding: 6px 0px;">Borrower Name</td>
-    //                         <td class="heading" style="padding: 6px 0px;">:</td>
-    //                         <td class="borowername" style="padding: 6px 1px;">${x[i].borrowor_name}</td>
-    //                     </tr>
-    //                     <tr>
-    //                         <td class="heading" style="padding: 6px 0px;">Loan ID</td>
-    //                         <td class="heading" style="padding: 6px 0px;">:</td>
-    //                         <td class="loanidamt">${x[i].bank_loan_accountno}</td>
-    //                     </tr>
-    //                     <tr>
-    //                         <td class="heading" style="padding: 6px 0px;">Loan Amount</td>
-    //                         <td class="heading" style="padding: 6px 1px;">:</td>
-    //                         <td style="padding-left: 6%" class="loanidamt">${x[i].TOS}</td>
-    //                     </tr>
-    //                     </table>
-    //                 </div>
-    //                 <div class="col-lg-6" style="height: 15%;">
-    //                     <table>
-    //                     <tr>
-    //                         <td class="heading" style="padding: 6px 0px;">Contacted Date Time</td>
-    //                         <td class="heading" style="padding: 6px 0px;">:</td>
-    //                         <td class="loanidamt" style="padding: 6px 1px;">${d}</td>
-    //                     </tr>
-    //                     <tr>
-    //                         <td class="heading" style="padding: 6px 0px;">Call Name</td>
-    //                         <td class="heading" style="padding: 6px 0px;">:</td>
-    //                         <td class="borowername" style="padding: 6px 1px;">${x[i].callername}</td>
-    //                     </tr>
-    //                     <tr>
-    //                         <td class="heading" style="padding: 6px 0px;">Sub Disposition</td>
-    //                         <td class="heading" style="padding: 6px 0px;">:</td>
-    //                         <td class="call" style="padding: 6px 1px;">${x[i].sub_dispossitions}</td>
-    //                         <td></td>
-    //                     </tr>
-    //                     </table>
-                    
-    //                 </div>
-    //                 </div>
-    //                 </a>`)
-
-    //         }
-    //     }
-    //     $('.bigdiv2').html(output)
-    //         }
-    //     })
-
-        $('input[name=remcb]').click(function(){
+        $('input[name=fdate]').change(function(){
             dataSubmit()
         })
-
-        $('.rtodate').change(function(){
+        $('input[name=todate]').change(function(){
+            dataSubmit()
+        })
+        
+        $('.checkbox-wrapper').click(function(){
             dataSubmit()
         })
     $(document).ready(function(){

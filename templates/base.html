@@ -21,7 +21,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
 <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
-
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
   
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
    </head>
@@ -47,7 +50,8 @@
   transition: all 0.5s ease;
 }
 .sidebar.close{
-  width: 78px;
+  width: 58px;
+  padding: 0;
 }
 .sidebar .logo-details{
   height: 60px;
@@ -94,6 +98,10 @@
 }
 .sidebar .nav-links li:hover{
   background: #121B55;
+}
+
+.sidebar .nav-links li:hover  .sidebar{
+  padding: 10px;
 }
 
 /* .sidebar .nav-links li a:active{
@@ -332,8 +340,61 @@
     }
 }
 
-   </style>
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 <body>
+
+  <div class="error__modal d-none">
+    <div class="loader__overlay"></div>
+    <div class="error__msg">
+      <span>Error msg</span>
+      <button>Okay</button>
+    </div>
+  </div>
+
+  </div>
+
+  <div class="loader__wrapper">
+    <div class="loader__overlay"></div>
+    <div class="css__loader">
+      <div class="loader-body">
+        <svg class="pl" viewBox="0 0 64 64" width="64px" height="64px" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#000" />
+                    <stop offset="100%" stop-color="#fff" />
+                </linearGradient>
+                <mask id="grad-mask">
+                    <rect x="0" y="0" width="64" height="64" fill="url(#grad)" />
+                </mask>
+            </defs>
+            <circle class="pl__ring" cx="32" cy="32" r="26" fill="none" stroke="hsl(206,100%,80.5%)"  stroke-width="8" stroke-dasharray="169.65 169.65" stroke-dashoffset="-127.24" stroke-linecap="round" transform="rotate(135)" />
+            <g fill="hsl(233,90%,65%)">
+                <circle class="pl__ball1" fill="#83c5f8" cx="32" cy="47" r="5" transform="rotate(14)" />
+                <circle class="pl__ball2" fill="#83c5f8" cx="32" cy="50" r="3" transform="rotate(-21)" />
+            </g>
+            <g mask="url(#grad-mask)">
+                <circle class="pl__ring" cx="32" cy="32" r="26" fill="none" stroke="hsl(206,96.3%,42.5%)"  stroke-width="8" stroke-dasharray="169.65 169.65" stroke-dashoffset="-127.24" stroke-linecap="round" transform="rotate(135)" />
+                <g fill="hsl(283,90%,55%)">
+                    <circle class="pl__ball1" fill="#407bd5" cx="32" cy="47" r="5" transform="rotate(14)" />
+                    <circle class="pl__ball2" fill="#407bd5" cx="32" cy="50" r="3" transform="rotate(-21)" />
+                </g>
+            </g>
+        </svg>
+      </div>
+      <div class="d-flex justify-content-center loader-text">
+          <span>Loading
+            <span class="loader__dot">.</span>
+            <span class="loader__dot">.</span>
+            <span class="loader__dot">.</span>
+          </span>
+      </div>
+    </div>
+  </div>
+
   <div class="sidebar close">
     <div class="logo-details">
       <i ><img src="{% static 'Images/skywhitelogo.png' %}" height="45px" width="45px" alt="" > </i>
@@ -345,10 +406,10 @@
       <li style="border-radius: 10px;" class="dashsel arrow2">
         <div class="iocn-link">
           <a href="/dashboard">
-            <i><img src="{% static 'Images/Vector.svg' %} " style="height: 20px;"/></i>
+            <i><img src="{% static 'Images/Vector.svg' %} " style="height: 18px;"/></i>
             <span class="link_name">Dashboard</span>
           </a>
-          <i class='fa-solid fa-caret-down arrow' style="min-width: 6px;margin-right:10px;font-size: 14px;"></i>
+          <i class='fa-solid fa-caret-down arrow' style="min-width: 6px;margin-right:21px;font-size: 14px;"></i>
         </div>
         <ul class="sub-menu" style="border-radius: 10px;">
           <li><a class="link_name" href="/dashboard">Dashboard</a></li>
@@ -364,22 +425,21 @@
       <li >
         <div class="iocn-link">
         <li style="border-radius: 10px;" class="sa" >
-              <a href="/search">
-                <i class="fa-solid fa-magnifying-glass" style=" color: white;font-size: 20px;"></i>
-                <span class="link_name">Search</span>
-              </a>
-            
-            </li>
+          <a href="/search">
+            <i class="fa-solid fa-magnifying-glass" style=" color: white;font-size: 18px;"></i>
+            <span class="link_name">Search</span>
+          </a>
+        </li>
       <li style="border-radius: 10px;" class="cmssel arrow2">
         <div class="iocn-link">
           <a href="#">
             <i style="position: relative;">
-              <img class="cmsimg" src="{% static 'Images/icon.svg' %}" style="height: 22px;"/>
+              <img class="cmsimg" src="{% static 'Images/icon.svg' %}" style="height: 18px;"/>
               <span class="cmsnotification"></span>
             </i>
           <span class="link_name">Call Management System</span>
           </a>
-          <i class='fa-solid fa-caret-down showno arrow' style="min-width: 6px; margin-right: 10px;font-size: 14px;"></i>
+          <i class='fa-solid fa-caret-down showno arrow' style="min-width: 6px; margin-right: 21px;font-size: 14px;"></i>
         </div>
         <ul class="sub-menu" style="border-radius: 10px;">
           <li><a class="link_name" href="#">Call Management System</a></li>
@@ -392,7 +452,7 @@
       {% if request.user.user_level == 9 %}
       <li style="border-radius: 10px;" class="otspg">
         <a href="/dashtlots">
-          <i><img src="{% static 'Images/deal icon.svg' %}" style="height: 23px;"/></i>
+          <i><img src="{% static 'Images/deal icon.svg' %}" style="height: 18px;"/></i>
           <span class="link_name">One Time Settlement</span>
         </a>
       </li>
@@ -400,7 +460,7 @@
       {%else%}
       <li style="border-radius: 10px;" class="otspage">
         <a href="/ots">
-          <i><img src="{% static 'Images/deal icon.svg' %}" style="height: 23px;"/></i>
+          <i><img src="{% static 'Images/deal icon.svg' %}" style="height: 18px;"/></i>
           <span class="link_name">One Time Settlement</span>
         </a>
       </li>
@@ -408,7 +468,7 @@
       {% if request.user.user_level == 1 %}
       <li style="border-radius: 10px;" class="non-atmped">
         <a href="{% url 'noncontacted' %}">
-          <i><img src="{% static 'Images/noncontacted.png' %}" style="height: 23px;"/></i>
+          <i><img src="{% static 'Images/noncontacted.png' %}" style="height: 18px;"/></i>
           <span class="link_name">Non-Attempted</span>
         </a>
       </li>
@@ -416,7 +476,7 @@
       {% if request.user.user_level == 9 %}
       <li style="border-radius: 10px;" class="non-atmp">
         <a href="{% url 'nonattempted' %}">
-          <i><img src="{% static 'Images/noncontacted.png' %}" style="height: 23px;"/></i>
+          <i><img src="{% static 'Images/noncontacted.png' %}" style="height: 18px;"/></i>
           <span class="link_name">Non-Attempted</span>
         </a>
       </li>
@@ -426,48 +486,47 @@
           {% if request.user.user_level == 9 %}
       <li style="border-radius: 10px;" class="ctc">
         <a href="/connecttocustomer">
-          <i><img src="{% static 'Images/connect.png' %}"  style="height: 23px;" alt=""></i>
+          <i><img src="{% static 'Images/connect.png' %}"  style="height: 18px;" alt=""></i>
           <span class="link_name">Connect To Customer</span>
         </a>
         <!-- <ul class="sub-menu blank">
           <li><a class="link_name" href="#">Connect To Customer</a></li>
         </ul> -->
       </li>
-      <li style="border-radius: 10px;" class="lms arrow2">
+      <li style="border-radius: 10px;" class="lms">
         <div class="iocn-link">
-          <a href="#">
-            <i><img src="{% static 'Images/data.png' %}"  style="height: 23px;"alt=""></i>
+          <a href="/dataupload">
+            <i><img src="{% static 'Images/data.png' %}"  style="height: 18px;"alt=""></i>
             <span class="link_name ">Lead Management System</span>
           </a>
-          <i class='fa-solid fa-caret-down arrow' style="min-width: 6px;margin-right:10px;font-size: 14px;"></i>
         </div>
-        <ul class="sub-menu" style="border-radius: 10px;">
+        <!-- <ul class="sub-menu" style="border-radius: 10px;">
           <li><a class="link_name" href="#">Lead Management System</a></li>
           <li><a href="/dataupload">Data Upload</a></li>
           <li><a href="/dataexport">Data Export</a></li>
-        </ul>
+        </ul> -->
       </li>
-          <li style="border-radius: 10px;">
+      <li style="border-radius: 10px;">
         <a href="/sms">
-          <i><img src="{% static 'Images/bulk sms 1.png' %}" style="height: 23px;"/></i>
+          <i><img src="{% static 'Images/bulk sms 1.png' %}" style="height: 18px;"/></i>
           <span class="link_name">SMS</span>
         </a>
       </li>
         {% endif %}
            
-        <li style="border-radius: 10px;" class="dialnow">
+        <!-- <li style="border-radius: 10px;" class="dialnow">
           <a target="_blank"  class="dialerlog">
            
             <i><img src="{% static 'Images/dialer icon.svg' %}" class="dialicon" alt=""></i>
             <span class="link_name diallinkname">Dialer Login</span>
             <input type="hidden" value="online" class="ustatus">
           </a>
-        </li>
+        </li> -->
         
       <div class="logoutlinkdiv" onclick="clearFilterSessions()">
         <li style="border-radius: 10px;">
           <a href="/logout">
-            <i class="fa-solid fa-power-off" style=" color: white;font-size: 20px"></i>
+            <i class="fa-solid fa-power-off" style=" color: white;font-size: 18px"></i>
               <span class="link_name">Logout</span>
             </a>
           </li>
@@ -475,14 +534,61 @@
       
         </ul>
       </div>
-  
-  
+
+      
+
+    <div class="main-contents-card">
+      <div class="top-header">
+        <h4 class="header-title m-0">Dashboard</h4>
+        <div class="navside" style="display: flex;gap: 5px; align-items:baseline;">
+          <span class="statebtn">
+            <button class="on sb1">You are Active</button>
+            <button class="sb2">You are Pause</button>
+          </span>
+          <div class="profileimg" style="width: 40px;" >
+            <img src="{% static 'Images/profile.png' %}"  class="showpro" style="width: 93%;padding:2px;">
+        <!-- profile pic html start -->
+            <div class="container_pro container__div d-none">
+            <div class="avatar-upload">
+            <div class="avatar-edit">
+                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" disabled/>
+                <label for="imageUpload"></label>
+            </div>
+            <div class="avatar-preview">
+                <div id="imagePreview" style="background-image: url('/static/Images/profile.png');">
+                </div>
+                <!-- <img src="{% static 'Images/restic.png' %}" id="imagePreview"> -->
+            </div>
+            </div>
+            <div class="profile-name">
+            <span>Mr. Kshitij  D. Chavan </span>
+            <span>Employer ID</span>
+            <span>001238700</span>
+            <span></span>
+            <span>Taking a Break ?</span>
+            <span>
+            <select name="selbreak" id="breakdrop">
+              <option value="">select</option>
+              {% for i in r %} 
+              <option value="{{i.0}}">{{i.1}}</option>
+              {% endfor %}
+            </select>
+            </span>
+            </div>
+            </div>
+            <!-- profile pic html end -->
+          </div>
+         </div>
+        
+      </div>
+      
       {% block content %}
-
+      
       {% endblock content %}
+    </div>
   
-
-    <script src="{% static 'vendor/js/select2.min.js' %}"></script>
+    
+  <script src="{% static 'vendor/js/select2.min.js' %}"></script>
   <script src="{% static 'js/select2custom.js' %}"></script>
   <script>
 
@@ -492,6 +598,19 @@
   }
 
   $(document).ready(function(){
+    
+    $('.showpro').click(function(){$('.container__div').toggleClass("d-none")})
+    
+     $(document).click(function(e){
+      let container = $(".container_pro");
+      let c2 = $('.profileimg')
+      if(!container.is(e.target) && container.has(e.target).length === 0 && !c2.is(e.target) && c2.has(e.target).length === 0) {
+
+        $('.container__div').addClass("d-none")
+      }
+     })
+
+    // if(){}
   
     $.ajax({
       type:'get',
@@ -499,8 +618,6 @@
       success:function(data){
         console.log(data.status)
         console.log("queue",data.res,data.count)
-      
-        
       }
 
     })
@@ -533,10 +650,10 @@
 
     })
     // dialer enable option end
-	$('.iocn-link').parent().mouseleave(function(){
-            $(this).removeClass('showMenu')
-            $('.cmsnotification').css({'display':'block'})
-        })
+	  $('.iocn-link').parent().mouseleave(function(){
+      $(this).removeClass('showMenu')
+      $('.cmsnotification').css({'display':'block'})
+    })
 	
     
     $(".sidebar").mouseover(function(){
@@ -606,6 +723,8 @@
 
 
   })
+
+
  </script>
 </body>
 </html>

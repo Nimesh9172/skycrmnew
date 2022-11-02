@@ -1,246 +1,191 @@
-{% extends 'base.html' %}
-{% load static %}
-<body>
-    {% block content %}
-    <style>
-          .ots-filter{
-      width: 60%;
-      min-width: 120px;
-    }
+{% extends 'base.html'  %}
 
-    .select2-container .select2-selection--single{
-      height: 33px;
-    }
 
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-      line-height: 35px;
-    }
-
-    .select2-container--default .select2-selection--single{
-      border-radius: 8px;
-      background-color: #ffffff;
-      box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
-      border: none;
-    }
-
-    .select2-container--default .select2-selection--single .select2-selection__arrow{
-      top: 4px;
-    }
-
-      .flatpickr-time{
-display: none;
-}
-.fa-caret-downs{
-        color: #197AA4;
-        font-size: 11px;
-        position: absolute;
-        background-color: #fff;
-        right: 3px;
-        top: 6px;
-        width: 12px;
-
-      }
-
-      .fa-caret-downs img{
-        width: 8px;
-        height: 5px;
-      }
-      .overselect{
-        cursor: pointer;
-      }
-    </style>
-  {% include "style.html" %}
-    <div class="row">
-      <div class="dash">Recovery Status</div>
-      <div class="row">
-        <div class="cal">
-          <div class="column gx-5">
-            From
-            <div class= "cal-con" style="width: 90%;">
-              <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" alt="">
-              <form action="">
-                {% csrf_token %}
-                <input class="form-control rfdate cal1" style="width: 100%;" type="datetime-local" placeholder="Select Date " >
-              </form>
-            </div>
-          </div>
-          <div class="column">
-            <div class="flex-wrap">
-              To
-              <div class="cal-div">
-                <div class= "cal-con" style="width: 90%;">
-                  <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
-                <form action="">
-                  <input class="form-control rtodate cal2" type="datetime-local" placeholder="Select Date" >
-                </form> 
-                </div>
-              </div>              
-            </div>
-          </div>
-          <div class="column d-flex gap-2 align-items-end justify-content-end flex-wrap " style="width:30%">
-            {% csrf_token %}
-            <div class="ots-filter">
-              <span style="color:black;font-size:15px;">Recovery status</span>
-             
-<div class="multiselect">                <div class="selectbox" onclick="showCheckBoxes()">
-  <img src="{% static 'Images/filterby.png' %}" style="height: 13px; margin-top: 2px; width: 15.7px;" class="sort-icon" alt="">
-           
-                   <select class="customselect" >
-                      <option value="">Filter By</option>
-                   </select>
-                   <div class="fa-caret-downs">
-                    <img class="" src="{% static 'Images/caret.png'  %}" alt="">
-                  </div>
-                   <div class="overselect"></div>
-                </div>
-                <div id="checkboxes">
-                  
-                  <label for="ots" class="checkbox-wrapper">
-                    <input type="checkbox" value="OTS Request" name="remcb" id="ots">
-                    <label for="ots">OTS Request</label>
-                  </label>
-                  
-                  <label for="set" class="checkbox-wrapper">
-                    <input type="checkbox" value="Send FE To Collect" name="remcb" id="set">
-                    <label for="set">Send FE To collect</label>
-                  </label>
-
-                  <label for="settlement" class="checkbox-wrapper">
-                    <input type="checkbox" value="Settlement" name="remcb" id="settlement">
-                    <label for="settlement">Settlement</label>
-                  </label>
-
-                  <label for="bp" class="checkbox-wrapper">
-                    <input type="checkbox" value="Broken Promise" name="remcb" id="bp">
-                    <label for="bp">Broken Promise To Pay</label>
-                  </label>
-
-                  <label for="Refused To Pay" class="checkbox-wrapper">
-                    <input type="checkbox" value="Refused To Pay" name="remcb" id="Refused To Pay">
-                    <label for="refusedtopay">Refused To Pay</label>
-                  </label>
-
-                  <label for="busy" class="checkbox-wrapper">
-                    <input type="checkbox" value="Busy" name="remcb" id="busy">
-                    <label for="busy">Busy</label>
-                  </label>
-
-                  <label for="nc" class="checkbox-wrapper">
-                    <input type="checkbox" value="No-recall" name="remcb" id="nc">
-                    <label for="nc">No-recall</label>
-                  </label>
-                  
-                  <label for="rn" class="checkbox-wrapper">
-                    <input type="checkbox" value="Ringing No Response" name="remcb" id="rn">
-                    <label for="rn">Ringing No Response</label>
-                  </label>
-                  
-                  <label for="cw" class="checkbox-wrapper">
-                    <input type="checkbox" value="Call Waiting" name="remcb" id="cw">
-                    <label for="cw">Call Waiting</label>
-                  </label>
-
-                  <label for="swm" class="checkbox-wrapper">
-                    <input type="checkbox" value="Switch OFF" name="remcb" id="swm">
-                    <label for="swm">Switched OFF</label>
-                  </label>
-                  
-                   <label for="nr" class="checkbox-wrapper">
-                    <input type="checkbox" value="Not Reachable" name="remcb" id="nr">
-                    <label for="nr">Not Reachable</label>
-                  </label>
-
-                  <label for="wc" class="checkbox-wrapper">
-                    <input type="checkbox" value="Wrong Contact" name="remcb" id="wc">
-                    <label for="wc">Wrong Contact</label>
-                  </label>
-
-                  <label for="lnc" class="checkbox-wrapper">
-                    <input type="checkbox" value="Language Not Communicable" name="remcb" id="lnc">
-                    <label for="lnc">Language Not Communicable</label>
-                  </label>
-
-                  <label for="na" class="checkbox-wrapper">
-                    <input type="checkbox" value="Not Available" name="remcb" id="na">
-                    <label for="na">Not Available But Resides Here</label>
-                  </label>
-                </div>
-              </div>
-          </div>
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
+<input type="hidden" value="" name="filterval">
+<main class="main-reminder main-recovery">
+  <div class="parent-filter-wrapper">
+    <div class="first-child-parent-filter">
+      <div class="filter-wrapper-reminder">
+        <p class="m-0">From</p>
+        <div class="date-wrapper">
+          <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+          </svg>
+          <input type="text" class="datepick" name="fdate" autocomplete="off">
         </div>
-    
       </div>
-      
-    </div>
-        <div class="bigdiv flex-wrap bigdiv2">
-        
+      <div class="filter-wrapper-reminder" >
+        <p class="m-0">To</p>
+        <div class="date-wrapper">
+          <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+          </svg>
+          <input type="text" class="datepick" name="todate" autocomplete="off">
         </div>
-        
-    <script>
-      var expanded = false;
-      function showCheckBoxes() {
-        var checkboxes = document.getElementById('checkboxes');
-        if (!expanded){
-          checkboxes.style.display = "block";
-          expanded = true;
-        }else {
-          checkboxes.style.display = "none";
-          expanded = false;
-        }
+      </div>
+    </div>
+    <div class="filter-wrapper-reminder">
+      <p class="m-0">Recovery Status</p>
+      <div class="sort-by-wrapper filter-by-wrapper">
+      <svg class="sort-by-icon filter-by-icon" width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.36402 6.22698L10.0293 1.53086C10.1326 1.3982 10.1793 1.23004 10.159 1.06311C10.1387 0.896181 10.0532 0.744063 9.92111 0.639993C9.81431 0.554117 9.68263 0.505018 9.54568 0.5H0.637036C0.493503 0.500833 0.354467 0.550168 0.242511 0.639993C0.110431 0.744063 0.0249122 0.896181 0.00464239 1.06311C-0.0156274 1.23004 0.0309995 1.3982 0.134335 1.53086L3.81869 6.22698V9.96225C3.80718 10.0585 3.81782 10.1562 3.8498 10.2477C3.88179 10.3392 3.93426 10.4222 4.00323 10.4904L5.27589 11.7631C5.39512 11.8816 5.5564 11.9481 5.72451 11.9481C5.89262 11.9481 6.0539 11.8816 6.17312 11.7631C6.24323 11.6955 6.29689 11.6128 6.32999 11.5212C6.36308 11.4296 6.37473 11.3317 6.36402 11.2349V6.22698ZM7.63668 9.40864L10.8183 12.5903L14 9.40864H7.63668Z" fill="#047BD5"/>
+        </svg>
+        <div class="multiselect">         
+          <div class="selectbox" onclick="showCheckBoxes()">
+              <select class="customselect">
+                  <option value="">Filter By</option>
+              </select>
+              <div class="overselect"></div>
+          </div>
+              <div id="checkboxess"  class="d-none">
+                <label for="ots" class="checkbox-wrapper">
+                  <input type="checkbox" value="OTS Request" name="remcb" id="ots">
+                  <label for="ots">OTS Request</label>
+                </label>
+                
+                <label for="set" class="checkbox-wrapper">
+                  <input type="checkbox" value="Send FE To Collect" name="remcb" id="set">
+                  <label for="set">Send FE To collect</label>
+                </label>
+
+                <label for="settlement" class="checkbox-wrapper">
+                  <input type="checkbox" value="Settlement" name="remcb" id="settlement">
+                  <label for="settlement">Settlement</label>
+                </label>
+
+                <label for="bp" class="checkbox-wrapper">
+                  <input type="checkbox" value="Broken Promise" name="remcb" id="bp">
+                  <label for="bp">Broken Promise To Pay</label>
+                </label>
+
+                <label for="Refused To Pay" class="checkbox-wrapper">
+                  <input type="checkbox" value="Refused To Pay" name="remcb" id="Refused To Pay">
+                  <label for="refusedtopay">Refused To Pay</label>
+                </label>
+
+                <label for="busy" class="checkbox-wrapper">
+                  <input type="checkbox" value="Busy" name="remcb" id="busy">
+                  <label for="busy">Busy</label>
+                </label>
+
+                <label for="nc" class="checkbox-wrapper">
+                  <input type="checkbox" value="No-recall" name="remcb" id="nc">
+                  <label for="nc">No-recall</label>
+                </label>
+                
+                <label for="rn" class="checkbox-wrapper">
+                  <input type="checkbox" value="Ringing No Response" name="remcb" id="rn">
+                  <label for="rn">Ringing No Response</label>
+                </label>
+                
+                <label for="cw" class="checkbox-wrapper">
+                  <input type="checkbox" value="Call Waiting" name="remcb" id="cw">
+                  <label for="cw">Call Waiting</label>
+                </label>
+
+                <label for="swm" class="checkbox-wrapper">
+                  <input type="checkbox" value="Switch OFF" name="remcb" id="swm">
+                  <label for="swm">Switched OFF</label>
+                </label>
+                
+                 <label for="nr" class="checkbox-wrapper">
+                  <input type="checkbox" value="Not Reachable" name="remcb" id="nr">
+                  <label for="nr">Not Reachable</label>
+                </label>
+
+                <label for="wc" class="checkbox-wrapper">
+                  <input type="checkbox" value="Wrong Contact" name="remcb" id="wc">
+                  <label for="wc">Wrong Contact</label>
+                </label>
+
+                <label for="lnc" class="checkbox-wrapper">
+                  <input type="checkbox" value="Language Not Communicable" name="remcb" id="lnc">
+                  <label for="lnc">Language Not Communicable</label>
+                </label>
+
+                <label for="na" class="checkbox-wrapper">
+                  <input type="checkbox" value="Not Available" name="remcb" id="na">
+                  <label for="na">Not Available But Resides Here</label>
+                </label>
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+
+
+  <section class="data-render-section">
+   <div class="main-data-wrapper">
+    
+   </div>
+  </section>
+</main>
+
+
+
+<script>
+
+$('.datepick').daterangepicker({
+        singleDatePicker:true,
+        autoApply:true,
+        locale: {
+                format: 'DD-MM-YYYY'
+            }
+      });
+    
+    if (sessionStorage.getItem('rstdate') != null) {
+      $('input[name=fdate]').val(sessionStorage.getItem('rsfdate'))
+      $('input[name=todate]').val(sessionStorage.getItem('rstdate'))
+    }
+
+      let rsfil=sessionStorage.getItem("sortval2")
+      rsfil = rsfil.split(',')
+    $('#checkboxess').find('input[name=remcb]').each(function(){
+      if (rsfil.includes($(this).val())){
+        $(this).attr('checked',true)
       }
-  </script>
-      {% include 'recoveryajax.html' %}
-        <script>
-          config={
-            enableTime: true,
-            dateFormat: "d-m-Y ",
-            altInput: true,
-            altFormat: "F j, Y",
-          
-      }
-          flatpickr("input[type=datetime-local]",config);
+    })
 
+  var expanded = false;
+  function showCheckBoxes() {
+    var checkboxes = document.getElementById('checkboxess');
+    if (!expanded){
+      checkboxes.style.display = "block";
+      expanded = true;
+    }else {
+      checkboxes.style.display = "none";
+      expanded = false;
+    }
+  }// 
+  $(document).ready(function(){
+    $('.cal__icon').click(function () {
+    $(this).next().click()
+  })
 
-          $(document).ready(function(){
-            $(".cmssel").addClass("active-page")
-          // $(".cal-icon").on("click", function () {
-          //     $('.rtodate').click()
-
-          $('.overselect').click(function(){
-            $('#checkboxes').toggleClass('d-none')
-          })
-            
-          let rsfil=sessionStorage.getItem("sortval2")
-          rsfil = rsfil.split(',')
-          $('#checkboxes').find('input[name=remcb]').each(function(){
-          if (rsfil.includes($(this).val())){
-            $(this).attr('checked',true)
-          }
-      })
-          console.log("resfilter",rsfil)
-          $('.c1').click(function(){
-        $('.cal1').click()
-      })
-
-      $('.c2').click(function(){
-        $('.cal2').click()
-      })
-          });
-
-
-          $(document).on("click", function (event) {
+    $(document).on("click", function (event) {
+    
       // If the target is not the container or a child of the container, then process
       // the click event for outside of the container.
 
-      if ($(event.target).parent().attr('id') != "checkboxes" && $(event.target).parent().attr('class') != 'checkbox-wrapper'){
-        $('#checkboxes').css({'display':'none'})
+      if ($(event.target).parent().attr('id') != "checkboxess" && $(event.target).parent().attr('class') != 'checkbox-wrapper'){
+        $('#checkboxess').toggleClass('d-none')
       }
       if ($(event.target).attr('class') == "overselect" ){
         console.log("You");
-        $('#checkboxes').css({'display':'block'})
+        $('#checkboxess').css({'display':'block'})
       }
-});
-        </script>
+    });
 
-            {% endblock content %}
-
+      
+    
+      
+      $('.header-title').html("Recovery Status")
+      
+  
+  })
+</script>
+{% include 'recoveryajax.html'  %}
+{% endblock content  %}

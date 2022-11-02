@@ -1,932 +1,415 @@
-{% extends 'base.html' %} {% load static %}
+{% extends 'base.html'  %}
 
-  {% block content %} {% include "style.html" %}
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/cms_style.css'  %}">
+<style>
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #000000;
+  }
+    
+.select2-container--default .select2-selection--single {
+    box-shadow: none;
+    border: 1px solid #E0E0E0;
+    background: #F3F5F9;
+}
+.select-details-div >.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 0px;
+}
+.select-details-div >.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 24px;
+}
 
-  <!-- CDN link used below is compatible with this example -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"
-  />
-  <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
-  <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-  <style>
-    .form-control:disabled, .form-control[readonly] {
-    border: 1px solid #aaa !important;
-    background-color:#F6F5FA !important;
-    height:25px !important;
+.select2-container--default .select2-results>.select2-results__options {
+    color: #000000;
+    /* border: 1px solid #E0E0E0; */
+    background: #F3F5F9 ;
+    border-radius: 0 0 10px 10px;
+}
+
+.select2-container--default .select2-selection--single {
+    border-radius: 8px;
+}
+
+.select2-results__option {
+    padding: 5px;
+    border-bottom: 1px solid #E0E0E0;
+}
+.select2-container--open .select2-dropdown--below {
+    border-radius: 0 0 10px 10px;
+}
+.form-control:disabled, .form-control[readonly] {
+    border: 1px solid  #E0E0E0 !important;
+    background-color:#F3F5F9 !important;
+    height:28px !important;
     box-shadow: none !important;
-    width: 97%;
+    width: 93%;
 
 }
-    .btn-light {
-      background-color: #e8e8e8;
-    }
-    .btn {
-      font-size: 13px;
-    }
-    .bootstrap-select .dropdown-menu.inner {
-      font-family: "Roboto";
-      font-size: 9px;
-    }
-    .dropdown-item {
-      font-weight: 600;
-    }
-    .dropdown-item:hover {
-      background-color: #197aa4;
-      color: white;
-    }
-    .dropdwon-menu .show {
-      left: 67px;
-    }
-    [type="radio"]:checked,
-    [type="radio"]:not(:checked) {
-      position: absolute;
-      left: -9999px;
-    }
-    [type="radio"]:checked + label,
-    [type="radio"]:not(:checked) + label {
-      position: relative;
-      padding-left: 17px;
-      cursor: pointer;
-      line-height: 20px;
-      display: inline-block;
-      color: #666;
-      font-size: 11px;
-    }
-    [type="radio"]:checked + label:before,
-    [type="radio"]:not(:checked) + label:before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 5px;
-      width: 10px;
-      height: 10px;
-      border: 1px solid #197aa4;
-      border-radius: 100%;
-      background: #fff;
-    }
-    [type="radio"]:checked + label:after,
-    [type="radio"]:not(:checked) + label:after {
-      content: "";
-      width: 6px;
-      height: 6px;
-      background: #197aa4;
-      position: absolute;
-      top: 7px;
-      left: 2px;
-      border-radius: 100%;
-      -webkit-transition: all 0.2s ease;
-      transition: all 0.2s ease;
-    }
-    [type="radio"]:not(:checked) + label:after {
-      opacity: 0;
-      -webkit-transform: scale(0);
-      transform: scale(0);
-    }
-    [type="radio"]:checked + label:after {
-      opacity: 1;
-      -webkit-transform: scale(1);
-      transform: scale(1);
-    }
-    .chequenable{
-        width: 178px;
-        height: 25px;
-        font-family: "Roboto";
-        background: #F0F0F0;
-        padding: 0px 60px 0px 8px;
-        background: #F0F0F0;
-        font-size: 9px;
-        border: 1px solid #D2D2D2;
-        border-radius: 5px;
-
-    }
-    .emiseldiv{
-      width: 103px;
-      margin-right: 3px;
-    }
-    .error{
-      color:red;
-      font-size: 10px;
-    }
-    .blink_me {
-      height: 200px;
-    padding-top: 93px;
-    font-family: "Roboto";
-    font-size: 14px;
-    animation: blinker 1s linear infinite;
-  }
-
-  @keyframes blinker {
-    50% {
-      opacity: 0;
-    }
-  }
-  .form-control:disabled, .form-control[readonly] {
-    border: none;
-    background-color: #F6F5FA;
-    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
-    height: 22px;
-    font-size: 12px;
-}
-.historyarrow{
-  margin-left: 15px !important;
-  cursor:pointer;
-}
-
-.main-disposition-boxes > .select2-container--default .select2-selection--single {
-    background-color:#F6F5FA;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
-    border: none;
-}
-
-/* popup module  starts*/
-.modal-confirm {		
-	color: #636363;
-	width: 325px;
-	font-size: 14px;
-}
-.modal-confirm .modal-content {
-	padding: 20px;
-	border-radius: 5px;
-	border: none;
-}
-.modal-confirm .modal-header {
-	border-bottom: none;   
-	position: relative;
-}
-.modal-confirm h4 {
-	text-align: center;
-	font-size: 26px;
-	margin: 30px 0 -15px;
-}
-.modal-confirm .form-control, .modal-confirm .btn {
-	min-height: 40px;
-	border-radius: 3px; 
-}
-.modal-confirm .close {
-	position: absolute;
-	top: -5px;
-	right: -5px;
-}	
-.modal-confirm .modal-footer {
-	border: none;
-	text-align: center;
-	border-radius: 5px;
-	font-size: 13px;
-}	
-.modal-confirm .icon-box {
-	color: #fff;		
-	position: absolute;
-	margin: 0 auto;
-	left: 0;
-	right: 0;
-	top: -70px;
-	width: 95px;
-	height: 95px;
-	border-radius: 50%;
-	z-index: 9;
-	background: #82ce34;
-	padding: 15px;
-	text-align: center;
-	box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-}
-.modal-confirm .icon-box i {
-	font-size: 58px;
-	position: relative;
-	top: 3px;
-}
-.modal-confirm.modal-dialog {
-	margin-top: 80px;
-}
-.modal-confirm .btn {
-	color: #fff;
-	border-radius: 4px;
-	background: #82ce34;
-	text-decoration: none;
-	transition: all 0.4s;
-	line-height: normal;
-	border: none;
-}
-.modal-confirm .btn:hover, .modal-confirm .btn:focus {
-	background: #6fb32b;
-	outline: none;
-}
-.trigger-btn {
-	display: inline-block;
-	margin: 100px auto;
-}
-
-#exampleModal2 .modal-dialog {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.modal-content {
-  height: auto;
-  min-height: 100%;
-  border-radius: 0;
-}
-
-
-.modal-icon{
-  background: #ffff;
-    color: #079D43; 
-    padding: 17px;
-    font-size: 25px;
-    border-radius: 44px;
-}
-.fill-bg{
-  clip-path:circle(27px at 50% 9.8em);
-  background:#079D43;
-}
-
-.fill-bg{
-  animation-name: grow;
-  animation-duration:1s;
-}
-
 .cal-icon {
-    position: absolute;
-    right: 9%;
-    top: 5px;
-    height: 13px;
-}
-@keyframes grow {
-  0% { clip-path: circle(0%  at 50% 9.8em); }
-  100% {clip-path: circle(100%  at 50% 9.8em); }
-}
-/* popup module ends*/
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,400");
-*:before, *:after {
-  box-sizing: inherit;
-  -webkit-font-smoothing: antialiased;
-}
-h1 {
-  margin-bottom: 20px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid #ddd;
-  font-size: 32px;
-  font-weight: 100;
-  color: #626262;
-}
-p {
-  margin-bottom: 8px;
+    right: 10%;
 }
 
-a {
-  color: #2196f3;
-}
-.button {
-  margin-bottom: 4px;
-  padding: 8px 12px;
-  border: 1px solid #75B9E1;
-  border-radius: 3px;
-  background: #4FA0D0;
-  cursor: pointer;
-  font-family: inherit;
-  text-transform: uppercase;
-  color: #fff;
-}
-.popup {
-  visibility: hidden;
-  transition: visibility 0ms linear 0.3s;
-}
-.popup--visible {
-  visibility: visible;
-  transition: visibility 0ms;
+/* .select2-container--default .select2-results__option--selected {
+    background-color:red;
+} */
+/* .select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: yellowgreen;
+    color: white;
+} */
+
+.main-disposition-box > .select2-container {
+    width: 87px !important;
 }
 
-.popup__background {
+
+/* Tast notification css start */
+
+.toastContain {
   position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10000;
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
+  left: calc(50% - 200px);
+  bottom: 30px;
+  width: 400px;
 }
-.popup--visible .popup__background {
-  opacity: 1;
-}
-.button--success {
-  border: 1px solid #079D43;
-  background: #079D43;
-}
-
-.button--error {
-  border: 1px solid red;
-  background: red;
-}
-.popup__content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 10001;
-  min-width: 400px;
-  padding: 25px 50px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 3px;
+.toast {
+  /* opacity: 0; */
+  min-height: 30px;
+  padding: 5px;
+  margin-top: -42px;
+  background-color: black;
+  color: white;
   text-align: center;
-  -webkit-animation: hide-popup 0.3s forwards;
-          animation: hide-popup 0.3s forwards;
-  /**
-   * Popup types.
-   */
+  line-height: 30px;
+  border-radius: 8px;
+  transition:
+    margin-top 0.7s,
+    opacity 0.7s;
 }
-.popup--visible .popup__content {
-  -webkit-animation: show-popup 0.3s forwards;
-          animation: show-popup 0.3s forwards;
+.toast.open {
+  margin-top: 10px;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  border-radius: 8px;
+  background-color: black;
+  color: white;
 }
-.popup--icon .popup__content {
-  padding-top: 130px;
-  /**
-   * Animations on opened popups.
-   *
-   * We need to prepend ".popup--visible" with no space to "&" to match the
-   * an opened popup: ".popup--visible.popup--icon".
-   *
-   * Therefore we need the "at-root" function to break out of nesting as well as the
-   * "selector-append" function to append parent selectors without space.
-   *
-   * Details:
-   *  - https://css-tricks.com/the-sass-ampersand/
-   *  - http://sass-lang.com/documentation/Sass/Script/Functions.html#selector_append-instance_method
-   */
-  /**
-   * Different popup icon styles
-   *
-   * E.g. selector for type question: ".popup--icon.-question" to match class="popup--icon -question"
-   *
-   * To have an easier selector in SCSS we use a little workaround and rearrange the selectors:
-   *  ".-question.popup--icon" is also matching class="popup--icon -question"
-   */
+
+.toast:not(.showing):not(.show) {
+    opacity: 2;
 }
-.popup--icon .popup__content:before, .popup--icon .popup__content:after {
-  position: absolute;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: block;
-  height: 90px;
-  width: 90px;
-}
-.popup--icon .popup__content:before {
-  content: "";
-  border: 3px solid currentColor;
-  border-radius: 50%;
-  transform: translateX(-50%) scale(1, 0);
-  opacity: 0;
-  color: #079D43;
-}
-.popup--icon .popup__content:after {
-  content: "\f00c";
-  line-height: 90px;
-  font-size: 45px;
-  font-family: "Font Awesome 5 Free";
-  font-weight: 900;
-  color: #079D43;
-  transform: translateX(-50%) scale(0);
-  opacity: 0;
-}
-.-error.popup--icon .popup__content:before {
+
+/* Custom Toast Style */
+.toast.critical {
+  background-color: pink;
   border-color: red;
 }
-.-error.popup--icon .popup__content:after {
-  font-family: "Font Awesome 5 Free";
-  content: "\f3dd";
-  font-weight: 900;
-  transform: translateX(-50%) scale(1, 0);
-  color: red;
-}
-.-question.popup--icon .popup__content:before {
-  border-color: red;
-}
-.-question.popup--icon .popup__content:after {
-  content: "\f095";
-  color: red;
-  font-family: "Font Awesome 6 Free";
-    font-weight: 900;
-    transform: rotate(136deg);
-    font-size: 43px;
-}
-.popup--visible.popup--icon .popup__content:before {
-  -webkit-animation: show-icon-cirlce 0.3s forwards 0.15s;
-          animation: show-icon-cirlce 0.3s forwards 0.15s;
-}
-.popup--visible.popup--icon .popup__content:after {
-  -webkit-animation: show-icon 0.3s forwards 0.3s;
-          animation: show-icon 0.3s forwards 0.3s;
-}
-.popup__content__title {
-  margin-bottom: 10px;
-  font-size: 28px;
-  font-weight: 100;
-  color: #626262;
-}
-
-/**
- * Popup animations.
- * Based on Sweet Alert: "https://t4t5.github.io/sweetalert/"
- */
-@-webkit-keyframes show-popup {
-  0% {
-    transform: translate(-50%, -50%) scale(0.7);
-    opacity: 0;
-  }
-  45% {
-    transform: translate(-50%, -50%) scale(1.05);
-    opacity: 1;
-  }
-  80% {
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-@keyframes show-popup {
-  0% {
-    transform: translate(-50%, -50%) scale(0.7);
-    opacity: 0;
-  }
-  45% {
-    transform: translate(-50%, -50%) scale(1.05);
-    opacity: 1;
-  }
-  80% {
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-@-webkit-keyframes hide-popup {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 0;
-  }
-}
-@keyframes hide-popup {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 0;
-  }
-}
-/**
- * Icon animations.
- */
-@-webkit-keyframes show-icon {
-  0% {
-    transform: translateX(-50%) scale(0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-  }
-}
-@keyframes show-icon {
-  0% {
-    transform: translateX(-50%) scale(0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(-50%) scale(1);
-    opacity: 1;
-  }
-}
-@-webkit-keyframes show-icon-cirlce {
-  0% {
-    transform: translateX(-50%) scale(1, 0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(-50%) scale(1, 1);
-    opacity: 1;
-  }
-}
-@keyframes show-icon-cirlce {
-  0% {
-    transform: translateX(-50%) scale(1, 0);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(-50%) scale(1, 1);
-    opacity: 1;
-  }
-}
-
-.select-details-div > .select2-container--default .select2-selection--single{
-  border-radius:4px;
-}
-.sub-disposition-box{
-  width:101px !important;
-}
-.select2-container--default .select2-selection--single{
-  background-color: #f6f5fa;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-
-    font-size: 10px !important;
-}
-
-
-
-/* popup submit and error ends */
-
-
-.label-container{
-	position:fixed;
-	bottom:48px;
-	right:105px;
-	display:table;
-	visibility: hidden;
-}
-
-.label-text{
-	color:#FFF;
-	background:rgba(51,51,51,0.5);
-	display:table-cell;
-	vertical-align:middle;
-	padding:10px;
-	border-radius:3px;
-}
-
-.label-arrow{
-	display:table-cell;
-	vertical-align:middle;
-	color:#333;
-	opacity:0.5;
-}
-
-.float{
-  position: fixed;
-  width: 55px;
-  height: 55px;
-  bottom: 40px;
-  right: 40px;
-  background-color: #06C;
-  color: #FFF;
-  border-radius: 50px;
-  text-align: center;
-  /* box-shadow: 2px 2px 3px #999; */
-}
-
-.float:hover{
-  color:#fff
-}
-
-.my-float{
-  font-size: 20px;
-  margin-top: 18px;
-
-}
-
-a.float + div.label-container {
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s ease;
-}
-
-a.float:hover + div.label-container{
-  visibility: visible;
-  opacity: 1;
-}
-
+/* tOAST NOTIFICATIONS CSS END */
 
 </style>
-  <!-- <a href="#" class="float" onclick="pa()">
-    <i class="fa fa-envelope my-float"></i>
-    </a>
-    <div class="label-container">
-      <div class="label-text">Click here</div>
-      <i class="fa fa-play label-arrow"></i>
-    </div>
- -->
 
 
-  <!-- <div class="container"> -->
-  <div class="row" style="margin-left: 101px">
-    {% for i in info %}
-    <div class="main">
+<div class="row"  style="margin-left:18px ;">
+  {% for i in info %}
+  <div class="main">
       <div class="title">Customer Information</div>
       <div class="content">
-        <div class="image">
-          <img
-            src="{% static 'Images/Ringing.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Mobile Number</span>
-          <div class="data">
-            <span>{{i.mobile_number}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/team 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Borrower Name</span>
-          <div class="data">
-            <span>{{i.borrowor_name}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Address</span>
-          <div class="data">
-            <span>{{i.address}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">State</span>
-          <div class="data">
-            <span>{{i.state}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Pincode</span>
-          <div class="data">
-            <span>{{i.pincode}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Date Of Birth</span>
-          <div class="data">
-            <span>{{i.dateofbirth}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/email 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Email ID</span>
-          <div class="data">
-            <span>{{i.email_id}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/Ringing.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Phone Number</span>
-          <div class="data">
-            <span>{{i.phone_number}}</span>
-          </div>
-        </div>
-        <div class="image" {% if i.alt_mno_1 == None and i.alt_mno_2 == None and alt_mno_3 == None %}style="display:none";{% else %}style="display: block"{% endif %}>
-          <img
-            src="{% static 'Images/Ringing.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info" >Alternate Phone Numbers</span>
-          <div class="data" >
-            <span {% if i.alt_mno_1 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_1}}</span>
-            <span {% if i.alt_mno_2 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_2}}</span>
-            <span {% if i.alt_mno_3 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_3}}</span>
-          </div>
-        </div>
-       
-        <div class="additional" {%if flag %} style="display: block"; {%else%} style="display: none"{%endif%}>
-          Additionnal Details
-          <div class="emailshow"{% if em %} style="display: block";{%else%} style="display: none"{% endif %}>
-            <span class="additionalheading">Email-Id</span>
-            <div class="additionaldetails" id="email-field">
-              {% for i in a %}
-              <span class="d-block">{{i.email}}</span>
-              {% endfor %}
+
+          <div class="image">
+              <img
+                src="{% static 'Images/Ringing.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Mobile Number</span>
+              <div class="data">
+                <span>{{i.mobile_number}}9587856475745</span>
+              </div>
             </div>
-          </div>
-          <div class="contactshow"{% if con %}style="display: block;"{% else%} style="display: none"{%endif%}>
-            <span class="additionalheading">Contact-Number</span>
-            <div class="additionaldetails" id="contact-field">
-              {% for i in a %}
-              <span class="d-block">{{i.contactnum}}</span>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="addressshow" {% if add %}style="display: block;"{%else%} style="display: none"{%endif%}>
-            <span class="additionalheading">Address</span>
-            <div class="additionaldetails" id="address-field">
-              {% for i in a %}
-                <span class="d-block">{{i.address}} {{i.state}} {{i.city}} {{i.landmark}} {{i.pincode}}</span>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="main">
-      <div class="title title2">Process</div>
-      <div class="content">
-        <div class="image">
-          <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt=""/>
-          <span id="info">Bank Name</span>
-          <div class="data">
-            <span>{{i.bankname}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Trust Name</span>
-          <div class="data">
-            <span>{{i.trustname}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">System LAN</span>
-          <div class="data">
-            <span>{{i.systemlan}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Bank Loan A/c(loan ID)</span>
-          <div class="data">
-            <span>{{i.bank_loan_accountno}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Branch Name</span>
-          <div class="data">
-            <span>{{i.branchname}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">State</span>
-          <div class="data">
-            <span>{{i.bankstate}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px"alt=""/>
-          <span id="info">Nature of Facility</span>
-          <div class="data">
-            <span>{{i.nature_of_facility}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Sanction Amount</span>
-          <div class="data">
-            <span>{{i.sanctionamount}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Loan Sanction Date</span>
-          <div class="data">
-            <span>{{i.loan_sanction_date}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">NPA Date</span>
-          <div class="data">
-            <span>{{i.NPA_Date}}</span>
-          </div>
-        </div>
-        <div class="image">
-            <img
-              src="{% static 'Images/rupee.png'%}"
-              height="24px"
-              width="24px"
-              alt=""
-            />
-            <span id="info">Interest Rate (%p.a)</span>
-            <div class="data">
-              <span>{{i.interest_rate}}</span>
-            </div>
-      </div>
-      <div class="image">
-        <img
-          src="{% static 'Images/rupee.png'%}"
-          height="24px"
-          width="24px"
-          alt=""
-        />
-        <span id="info">Account status</span>
-        <div class="data">
-          <span>{{i.account_status}}</span>
-        </div>
-        </div>
-        <div class="image">
-            <img
-              src="{% static 'Images/rupee.png'%}"
-              height="24px"
-              width="24px"
-              alt=""
-            />
-            <span id="info">Security Value</span>
-            <div class="data">
-              <span>{{i.security_value}}</span>
-            </div>
-            </div>
+
             <div class="image">
+              <img
+                src="{% static 'Images/team 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Borrower Name</span>
+              <div class="data">
+                <span>{{i.borrowor_name}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/address 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Address</span>
+              <div class="data">
+                <span>{{i.address}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/address 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">State</span>
+              <div class="data">
+                <span>{{i.state}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/address 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Pincode</span>
+              <div class="data">
+                <span>{{i.pincode}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/dis.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Date Of Birth</span>
+              <div class="data">
+                <span>{{i.dateofbirth}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/email 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Email ID</span>
+              <div class="data">
+                <span>{{i.email_id}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/Ringing.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Phone Number</span>
+              <div class="data">
+                <span>{{i.phone_number}}</span>
+              </div>
+            </div>
+
+            <div class="image" {% if i.alt_mno_1 == None and i.alt_mno_2 == None and alt_mno_3 == None %}style="display:none";{% else %}style="display: block"{% endif %}>
+              <img
+                src="{% static 'Images/Ringing.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info" >Alternate Phone Numbers</span>
+              <div class="data" >
+                <span {% if i.alt_mno_1 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_1}}</span>
+                <span {% if i.alt_mno_2 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_2}}</span>
+                <span {% if i.alt_mno_3 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_3}}</span>
+              </div>
+            </div>
+           
+            <div class="additional" {%if flag %} style="display: block"; {%else%} style="display: none"{%endif%}>
+              Additionnal Details
+              <div class="emailshow"{% if em %} style="display: block";{%else%} style="display: none"{% endif %}>
+                <span class="additionalheading">Email-Id</span>
+                <div class="additionaldetails" id="email-field">
+                  {% for i in a %}
+                  <span class="d-block">{{i.email}}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="contactshow"{% if con %}style="display: block;"{% else%} style="display: none"{%endif%}>
+                <span class="additionalheading">Contact-Number</span>
+                <div class="additionaldetails" id="contact-field">
+                  {% for i in a %}
+                  <span class="d-block">{{i.contactnum}}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="addressshow" {% if add %}style="display: block;"{%else%} style="display: none"{%endif%}>
+                <span class="additionalheading">Address</span>
+                <div class="additionaldetails" id="address-field">
+                  {% for i in a %}
+                    <span class="d-block">{{i.address}} {{i.state}} {{i.city}} {{i.landmark}} {{i.pincode}}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+      </div>
+  </div>
+  <div class="main">
+      <div class="title">Process</div>
+      <div class="content">
+          <div class="image">
+            <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt=""/>
+            <span id="info">Bank Name</span>
+            <div class="data">
+              <span>{{i.bankname}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/user.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Trust Name</span>
+            <div class="data">
+              <span>{{i.trustname}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">System LAN</span>
+            <div class="data">
+              <span>{{i.systemlan}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/dis.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Bank Loan A/c(loan ID)</span>
+            <div class="data">
+              <span>{{i.bank_loan_accountno}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Branch Name</span>
+            <div class="data">
+              <span>{{i.branchname}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/address 1.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">State</span>
+            <div class="data">
+              <span>{{i.bankstate}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px"alt=""/>
+            <span id="info">Nature of Facility</span>
+            <div class="data">
+              <span>{{i.nature_of_facility}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Sanction Amount</span>
+            <div class="data">
+              <span>{{i.sanctionamount}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Loan Sanction Date</span>
+            <div class="data">
+              <span>{{i.loan_sanction_date}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/dis.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">NPA Date</span>
+            <div class="data">
+              <span>{{i.NPA_Date}}</span>
+            </div>
+          </div>
+          <div class="image">
               <img
                 src="{% static 'Images/rupee.png'%}"
                 height="24px"
                 width="24px"
                 alt=""
               />
-              <span id="info">Document Custody</span>
+              <span id="info">Interest Rate (%p.a)</span>
+              <div class="data">
+                <span>{{i.interest_rate}}</span>
+              </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Account status</span>
+          <div class="data">
+            <span>{{i.account_status}}</span>
+          </div>
+          </div>
+          <div class="image">
+              <img
+                src="{% static 'Images/rupee.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Security Value</span>
               <div class="data">
                 <span>{{i.security_value}}</span>
               </div>
@@ -938,45 +421,45 @@ a.float:hover + div.label-container{
                   width="24px"
                   alt=""
                 />
-                <span id="info">Security Flag</span>
-                <div class="data">
-                  <span>{{i.security_flag}}</span>
-                </div>
-                </div>
-            <div class="image">
-              <img
-                src="{% static 'Images/rupee.png'%}"
-                height="24px"
-                width="24px"
-                alt=""
-              />
-              <span id="info">Current Allocation</span>
-              <div class="data">
-                <span>{{i.current_allocation}}</span>
-              </div>
-              </div>
-              <div class="image">
-                <img
-                  src="{% static 'Images/dis.png'%}"
-                  height="24px"
-                  width="24px"
-                  alt=""
-                />
-                <span id="info">Current Allocation Date</span>
+                <span id="info">Document Custody</span>
                 <div class="data">
                   <span>{{i.security_value}}</span>
                 </div>
                 </div>
                 <div class="image">
                   <img
-                    src="{% static 'Images/user.png'%}"
+                    src="{% static 'Images/rupee.png'%}"
                     height="24px"
                     width="24px"
                     alt=""
                   />
-                  <span id="info">Team Leader</span>
+                  <span id="info">Security Flag</span>
                   <div class="data">
-                    <span>{{i.team_ledear}}</span>
+                    <span>{{i.security_flag}}</span>
+                  </div>
+                  </div>
+              <div class="image">
+                <img
+                  src="{% static 'Images/rupee.png'%}"
+                  height="24px"
+                  width="24px"
+                  alt=""
+                />
+                <span id="info">Current Allocation</span>
+                <div class="data">
+                  <span>{{i.current_allocation}}</span>
+                </div>
+                </div>
+                <div class="image">
+                  <img
+                    src="{% static 'Images/dis.png'%}"
+                    height="24px"
+                    width="24px"
+                    alt=""
+                  />
+                  <span id="info">Current Allocation Date</span>
+                  <div class="data">
+                    <span>{{i.security_value}}</span>
                   </div>
                   </div>
                   <div class="image">
@@ -986,767 +469,824 @@ a.float:hover + div.label-container{
                       width="24px"
                       alt=""
                     />
-                    <span id="info">Zone Name</span>
+                    <span id="info">Team Leader</span>
                     <div class="data">
-                      <span>{{i.zone_name}}</span>
+                      <span>{{i.team_ledear}}</span>
                     </div>
                     </div>
                     <div class="image">
                       <img
-                        src="{% static 'Images/email 1.png'%}"
+                        src="{% static 'Images/user.png'%}"
                         height="24px"
                         width="24px"
                         alt=""
                       />
-                      <span id="info">Branch Email ID</span>
+                      <span id="info">Zone Name</span>
                       <div class="data">
-                        <span>{{i.branch_email_id}}</span>
+                        <span>{{i.zone_name}}</span>
                       </div>
                       </div>
                       <div class="image">
                         <img
-                          src="{% static 'Images/Ringing.png'%}"
+                          src="{% static 'Images/email 1.png'%}"
                           height="24px"
                           width="24px"
                           alt=""
                         />
-                        <span id="info">Branch Contact Details</span>
+                        <span id="info">Branch Email ID</span>
                         <div class="data">
-                          <span>{{i.branch_contact_details}}</span>
+                          <span>{{i.branch_email_id}}</span>
                         </div>
                         </div>
-                      </div>  
-                       
-                         
-                            
-    </div>
-    <div class="main">
-      <div class="title title3">Process Additional Information</div>
+                        <div class="image">
+                          <img
+                            src="{% static 'Images/Ringing.png'%}"
+                            height="24px"
+                            width="24px"
+                            alt=""
+                          />
+                          <span id="info">Branch Contact Details</span>
+                          <div class="data">
+                            <span>{{i.branch_contact_details}}</span>
+                          </div>
+                          </div>
+              </div>    
+     
+  </div>
+  <div class="main">
+      <div class="title">Process Additional Information</div>
       <div class="content">
-        <div class="image">
-          <img
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Current Principal Outstanding</span>
+            <div class="data">
+              <span>{{i.current_principal_outstanding}}</span>
+            </div>
+            </div>
+            <div class="image">
+            <img
             src="{% static 'Images/rupee.png'%}"
             height="24px"
             width="24px"
             alt=""
           />
-          <span id="info">Current Principal Outstanding</span>
+          <span id="info">Total Collected Amount</span>
           <div class="data">
-            <span>{{i.current_principal_outstanding}}</span>
+          <span>{{i.total_collected_amount}}</span>
           </div>
           </div>
-          <div class="image">
+          
+      <div class="image">
+      <img
+          src="{% static 'Images/rupee.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+      />
+      <span id="info">Balance POS Amount</span>
+      <div class="data">
+          <span>{{i.balance_POS_amount}}</span>
+      </div>
+      </div>
+      <div class="image">
           <img
           src="{% static 'Images/rupee.png'%}"
           height="24px"
           width="24px"
           alt=""
-        />
-        <span id="info">Total Collected Amount</span>
-                          <div class="data">
-                            <span>{{i.total_collected_amount}}</span>
-                          </div>
-                         </div>
-                         
-                          <div class="image">
-                            <img
-                              src="{% static 'Images/rupee.png'%}"
-                              height="24px"
-                              width="24px"
-                              alt=""
-                            />
-                            <span id="info">Balance POS Amount</span>
-                            <div class="data">
-                              <span>{{i.balance_POS_amount}}</span>
-                            </div>
-                            </div>
-                            <div class="image">
-                              <img
-                                src="{% static 'Images/rupee.png'%}"
-                                height="24px"
-                                width="24px"
-                                alt=""
-                              />
-                              <span id="info">TOS</span>
-                              <div class="data">
-                                <span>{{i.TOS}}</span>
-                              </div>
-                              </div>
-                              <div class="image">
-                                <img
-                                  src="{% static 'Images/dis.png'%}"
-                                  height="24px"
-                                  width="24px"
-                                  alt=""
-                                />
-                                <span id="info">TOS as on Date</span>
-                                <div class="data">
-                                  <span>{{i.TOS_as_on_Date}}</span>
-                                </div>
-                                </div>
-                                 <div class="image">
-                            
-                    
-                              
-</div>
-    </div>
-    </div>
-
-    <div class="parent">
-     
-      <div class="history" style="background-color: #FFFFFF;">
-        <div class="title title3">Customer History</div>
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
           />
-          <span id="info">Agent username</span>
+          <span id="info">TOS</span>
           <div class="data">
-            <span>{{i.callername}}</span>
+          <span>{{i.TOS}}</span>
           </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Sub-Disposition</span>
-          <div class="data">
-            <span>{{i.sub_dispossitions}}</span>
           </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/pencil 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Remark</span>
-          <div class="data">
-            <span>{{i.remark}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Contacted Date & Time</span>
-          <div class="data">
-            <span>{{i.contacted_DateTime}}</span
-            >
-              <div class="historytitle">See Call History<i class="fa-solid fa-arrow-right historyarrow" id="showcall"  style="color:  #047BD5;" ></i></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="callhistory" style="display: none;padding-left: 6px;">
-        <div class="main-data-wrapper">
-          {% if show %}
-        {% for a in pers %}
-    
-        
-          <div class="list-wrapper">
-            <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 15px;cursor:pointer" id="back"></i>
-            <span style="font-size: 11px; margin-left:5px;margin-right:3px">{{a.contacted_DateTime}}</span
-              >
-            <i class="fa-solid fa-arrow-right historyarrow" style="color:  #047BD5;" ></i>
-           <div class="historycontent" style="margin-top: 5px;">
-            <div id="info" style="margin-top: 0px;">Agent Name</div>
-            <div class="data" style="margin-top: 0px;margin-left: 7px;">
-              
-              <div><i class="bi bi-telephone-forward-fill" style="font-size: 12px;color:  #047BD5; margin-right: 9px;"></i>{{a.caller_name}}</div>
-            </div>
-            <div id="info" style="margin-top: 2px;">Sub dispostion</div>
-            <div class="data" style="margin-top: 2px;margin-left: 3px;">
-              <div>{{a.sub_dispossitions}}</div>
-            </div>
-    
-            <div id="info" style="margin-top: 1px;">Remark</div>
-            <div class=" historyremark">
-              {{a.remark}}
-            </div>
-            </div>
-    
-            </div>
-          
-            {% endfor %}
-            <div id="pagination-container"></div>
-            {% else %}
-            <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 15px;cursor:pointer" id="back"></i>
-            <div class="text-center text-danger blink_me">No History Found</div>
-            {% endif %}
-          </div>
-   
-      </div>
-
-
-       <div class="mortgage">
-        <div class="title title3">Mortgage Details</div>
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Mortgage Type</span>
-          <div class="data">
-            <span>{{i.agent_username}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/detail.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Category</span>
-          <div class="data">
-            <span>{{i.sub_dispossitions}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/pencil 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Details</span>
-          <div class="data">
-            <span>{{i.remark}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/pencil 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Details 2</span>
-          <div class="data">
-            <span>{{i.remark}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Value</span>
-          <div class="data">
-            <span>{{i.contacted_DateTime}}</span
-            >
-            </div>
-
-       </div>
-    </div>
-    </div>
- 
-
-
-    <div class="parent">
-      <div class="Agent">
-        <div class="title title4">Agent Action</div>
-        <div class="callmsg text-center py-2  " style="display: none;font-size:11px">The Call is Placed Successfully</div>
-         <div class="d-flex justify-content-center">
-         
-          <div class="main-disposition-boxes" style="margin-top: 12px;width: 152px;">
-            <select class="dispositionsel new-contacts" name="danger" id="callname"  style="width:200px">
-              {% if i.lastdial == None or i.lastdial == "nan" or i.lastdial == "" %}
-              {% else %}
-              <option value="{{i.lastdial}}">{{i.lastdial}}</option>
-              {% endif %}
-              <option value="{{i.mobile_number}}">{{i.mobile_number}}</option>
-              {% if i.alt_mno_1 == None or i.alt_mno_1 == "nan" or i.alt_mno_1 == "" %}
-              {% else %}
-
-              <option value="{{i.alt_mno_1}}">{{i.alt_mno_1}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt no.</option>
-              {% endif %}
-
-              {% if i.alt_mno_2 == None or i.alt_mno_2 == "nan" or i.alt_mno_2 == "" %}
-              {% else %}
-              <option value="{{i.alt_mno_2}}">{{i.alt_mno_2}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt no.</option>
-              {% endif %}
-
-              {% if i.alt_mno_3 == None  or i.alt_mno_3 == "nan" or i.alt_mno_3 == ""  %}
-              {% else %}
-              <option value="{{i.alt_mno_3}}">{{i.alt_mno_3}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt no.</option>
-              {% endif %}
-              
-
-              {% for i in a %}
-              {% if i.contactnum == None or i.contactnum == "" or i.contactnum == "nan" %}
-              {% else %}
-              <option value="{{i.contactnum}}">{{i.contactnum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="relspan">{{i.relation}}</span></option>
-              {% endif %}
-              {% endfor %}
-            </select>
-      
-         </div>
-        </div>
-        
-        <div class="icondiv">
-          <a  style="text-decoration: none;">
-          <div
-            class="callcontact"
-            style="background-color: rgb(65, 207, 65); color: white"
-          >
-            <i class="fa-solid fa-phone"></i>
-          </div>
-          <button class="button button--error bts3" data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button>   
-       
-        </a>
-          <div class="contact1"><i class="fa-solid fa-phone"></i></div>
-          <div
-            class="whatcontact"
-            style="background-color: rgb(73, 226, 73); color: white"
-          >
-            <i class="fa-brands fa-whatsapp"></i>
-          </div>
-          <div
-            class="msgcontact"
-            style="background-color: rgb(233, 146, 58); color: white"
-          >
-            <i class="bi bi-chat-left-dots-fill" style="font-size: 16px"></i>
-          </div>
-        </div>
-      </div>
-      <div class="Agnttag">
-        <div class="title angtagtitle">Agent Tagging</div>
-        <div class="content">
           <div class="image">
-            <div class="add-details-sel d-flex mb-2 justify-content-between">
-              <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
-              <span id="info" style="margin-left: 5px;font-size: 12px;
-              font-weight: 500;">Add Details</span>
-              <div class="select-details-div">
-                  <select class="add-details" name="agenttag" id="selectBox">
-                      <option value="select" >Select</option>
-                      <option value="email">Email</option>
-                      <option value="contactnum">Contact Number</option>
-                      <option value="address">Address</option>
-                  </select>
-              </div>
-           </div>
-            <form action="" id="post-form" method="POST">
-              {% csrf_token %}
-              <input type="hidden" name="additional_id" value="{{i.id}}">
-              <div id="emaildiv" class="dis mb-2" style="display: none">
-                <input
-                  class="emailbox"
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="Enter Email-id"
-                  autocomplete="off"
-                />
-                <input
-                  style="margin-left: 4%"
-                  class="addbtn add-email"
-                  type="submit"
-                  value="Add +"
-                />
-              </div>
+          <img
+              src="{% static 'Images/dis.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+          />
+          <span id="info">TOS as on Date</span>
+          <div class="data">
+              <span>{{i.TOS_as_on_Date}}</span>
+          </div>
+          </div>
+              <div class="image">
+      
 
-              <div class="mb-2" id="contactbox" style="display: none">
-                <div class="d-flex align-items-center gap-2">
-                  <input class="contactsubdiv1 allow-only-number" type="tel"  id="contactnum"name="contactnum" placeholder="Contact no.">
-                  <div class="main-relation-div">
-                      <select class="relationsel" id="relation">
-                     
-                          <option value="Own">Own</option>
-                          <option value="Father">Father</option>
-                          <option value="Mother">Mother</option>
-                          <option value="Daughter">Daughter</option>
-                          <option value="Son">Son</option>
-                          <option value="Wife">Wife</option>
-                      </select>
-                  </div>
-                  <span class="addbtn testnumber">Add <i class="bi bi-plus" style="font-size: 16px;"></i></span>
-                  <button class="confirmcon" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;"></button>
-                </div>
-                
-              </div>
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Mobile Confirmation</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      Are you sure you want to match the <span class="mobconfirm"></span> with the LAN {{i.bank_loan_accountno}}? </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                      <button type="submit"  class="btn btn-primary add-contact" id="submitme" data-bs-dismiss="modal">Yes</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="Addis" id="Addressdiv" style="display: none">
-                <textarea name="address-txt" class="addressbar" cols="29" rows="4" placeholder="Address"></textarea>
-                <!-- <div class="moreaddress"> -->
-                <input class="dissub" style="padding-left: 2%;" id="state" type="text" name="state" placeholder="State" autocomplete="off">
-                <input class="dissub" style="padding-left: 2%;" id="city" type="text" name="city" placeholder="City" autocomplete="off">
-                <input class="dissub" style="padding-left: 2%;" id="landmark" type="text" name="landmark" placeholder="Landmark" autocomplete="off">
-                <input class="dissub" style="padding-left: 2%;" id="pincode" type="tel" name="pincode" placeholder="Pincode" autocomplete="off">
-                <div class="d-flex justify-content-center my-2">
-                    <button class="addbtn add-address" type="submit">Add <i class="bi bi-plus" style="font-size: 16px;"></i></button>
-                </div>
-              </div>
-            </form>
-            <form action="" method="post" id="disform">
-              {% csrf_token %}
-              <input type="hidden"  name='dialnum3'  value="">
-
-              <div class="gap-1 d-flex">
-                <div class="main-disposition-box">
-                  <select class="dispositionsel" name="dispositionvalue" id="disposition" required>
-                      <option value="">Disposition</option>
-                      <option value="contacted">Contacted</option>
-                      <option value="non-contacted">Non-Contacted</option>
-                  </select>
-                  <span class="error" id="disposerror"></span>
-               </div>
-              
-                <div class="sub-disposition-box">
-                  <select class="subdispositionsel"  name="subdispositionvalue" placeholder="Subdisposition" id="sub_disposition" required>
-                      <option value="">Subdisposition</option>
-                  </select>
-                  <span class="error" id="subdisposerror"></span>
-
-                </div>
-              </div>
-
-              <div class="paiddiv" style="display: none">
-                   <span id="info">Enter Amount : </span><input type="tel" autocomplete="off" class="paidamtin" name="paidamt" onkeypress="return isNumber(event)" required>
-                  
-                  <p style="margin-bottom:0px" class="radioval">
-                    <input
-                      type="radio"
-                      id="test1"
-                      name="radio-group"
-                      value="cash"
-                   />
-                    <label for="test1">Cash</label>
-                  </p>
-                  <p style="margin-bottom:0px" class="radioval">
-                    <input
-                      type="radio"
-                      id="test2"
-                      value="cheque"
-                      name="radio-group"
-                    />
-                    <label for="test2">Cheque</label>
-                  </p>
-                  <input type="tel" id="cheque" class="chequenable" style="display: none;" name="trans1" placeholder="Enter Cheque No.">
-                  <p style="margin-bottom:0px" class="radioval">
-                    <input
-                      type="radio"
-                      id="test3"
-                      name="radio-group"
-                      value="online payment"
-                    />
-                    <label for="test3">Online Payment</label>
-                    <input type="tel" id="onlinepay" class="chequenable" style="display: none;" name="trans2"  placeholder="Enter Transaction ID">
-                  </p>
-
-           
-              </div>
-             
-              <div class="Addis" id="ptpdiv" style="display: none;margin-top:11px;">
-        		<div class="d-flex">
-                  <input class="ptpdate"  type="date"
-                    placeholder="Select Date Time" name="ptpdate"/>
-
-                  <input type="tel" class="otsamtint" placeholder="PTP Amount" name="ptpamt" autocomplete="off" required onkeypress="return isNumber(event)">
-                </div>
-              
-                
-              </div>
-              <div class="dis">
-                <span  class="dissub contdiv" style="display: none;">
-                  Contacted
-              </span>
-              <div class=" cashdiv" style="display: none;">
-              <select class="selectpicker" name="cashtype" id="Mode1" >
-                  <option value="">Cash</option>
-                  <option value="fieldexecutive">Field Executive</option>
-                  <option value="branch">Branch</option>
-               </select>
-              </div>
-              </div>
-              <input
-                type="text"
-                placeholder="Field Executive"
-                name="field_branch"
-                class="dissub"
-                id="fieldex"
-                style="display: none; border: none"
-              />
-
-              <input
-                type="text"
-                placeholder="Branch"
-                class="dissub"
-                name="field_branch"
-                id="branchex"
-                style="display: none"
-              />
-
-              <div id="call" class="callcheck container" style="display: none">
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
-                            <input
-                                type="radio"
-                                id="calltest1"
-                                name="checks[]"
-                                value="15min"
-                            />
-                            <label for="calltest1">15 Min</label>
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <p style="margin-bottom:7px;margin-top: 7px;"class="radioval">
-                            <input
-                                type="radio"
-                                id="calltest2"
-                                value="30min"
-                                name="checks[]"
-                            />
-                         <label for="calltest2">30 Min</label>
-                        </p>
-                    </div>
-                    <div class="col-md-6">
-                        <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
-                            <input
-                                type="radio"
-                                id="calltest3"
-                                name="checks[]"
-                                value="45min"
-                            />
-                            <label for="calltest3">45 Min</label>
-                            </p>
-                    </div>
-                    <div class="col-md-6">
-                        <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
-                            <input
-                              type="radio"
-                              id="calltest4"
-                              name="checks[]"
-                              value="1hr"
-                            />
-                        <label for="calltest4">60 Min</label>
-                        </p>
-                   </div>
-              </div>
-              </div>
-             
-              <div class="schedule" style="display: none; margin-top: 6px;padding-left: 0px;">
-        
-                          <div class= "cal-con">
-                <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">        
-                <input
-                  id="schedulecall"
-                  class="form-control"
-                  type="datetime-local"
-                  placeholder="Select Date Time"
-                  name="scheduledate"
-                  />
           
-               </div>
-              </div>
+  </div>
+      </div>
+  </div>
+  
+  <div class="parent">
+        
+    <div class="history" style="background-color: #FFFFFF;">
+      <div class="title">Customer History</div>
+      <div class="content">
+      <div class="image">
+        <img
+          src="{% static 'Images/user.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Agent username</span>
+        <div class="data">
+          <span>{{i.callername}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/rupee.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Sub-Disposition</span>
+        <div class="data">
+          <span>{{i.sub_dispossitions}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/pencil 1.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Remark</span>
+        <div class="data">
+          <span>{{i.remark}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/dis.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Contacted Date & Time</span>
+        <div class="data">
+          <span>{{i.contacted_DateTime}}</span
+          >
+            <div class="historytitle"><span class="historyspan">See Call History</span><i class="fa-solid fa-arrow-right historyarrow" id="showcall"  style="color:  #047BD5;" ></i></div>
+        </div>
+      </div>
 
-              <!-- call schedule  settings end -->
+      </div>
+    </div>
 
-              <!-- OTS request  settings starts -->
-
-              <div class="otsreq" style="display: none">
-   
-                <!-- <div class=""> -->
-                  
-                <input
-                  type="tel"
-                  placeholder="TOS %"
-                  name="tospercent"
-                  class="dissub percaltos"
-                  autocomplete="off";       
-                  style="width:100px;
-                  margin-left:0px"
-                
-                />
-                <input
-                  type="tel"
-                  placeholder="TOS Amount"
-                  name="otsamt"
-                  class="otsamtint" 
-                  readonly
-                  style="width:101px;margin-left:0px"
-                  autocomplete="off"
-                />
-                <input
-                  type="tel"
-                  placeholder="POS %"
-                  readonly
-                  class="dissub percalpos"
-                  style="width:100px;margin-left: 0;
-                  "
-                  />
-                <input
-                  type="tel"
-                  placeholder="POS Amount"
-                  name="posamt"
-                  class="otsamtint" 
-                  readonly
-                  style="width:101px;margin-left:0px"
-                  autocomplete="off"
-                />
-                <!-- <span class="spanots">OTS</span> -->
-                
-                </div>
-             
-              <!-- settelement  settings starts -->
-              <div id="settle" style="display: none;justify-content: end;">
-                <!-- <form action="" method="post">
-                                      {%  csrf_token %} -->
-                <div class="emiseldiv">
-                  <select class="emisel" id="settle" name="settle">
-                    <option class="agentselect" value="">
-                      Select EMI
-                    </option>
-                    <option value="EMI1">EMI 1</option>
-                    <option value="EMI2">EMI 2</option>
-                    <option value="EMI3">EMI 3</option>
-                    <option value="EMI4">EMI 4</option>
-                  </select>
-                </div>
-              </div>
-
-                <!-- settelement  settings ends -->
-                <!-- EMI4 div starts -->
-                <span class="emiin" style="display: none"></span>
-               
+    <div class="callhistory" style="display: none;padding-left: 6px;">
+      <div class="main-data-wrapper">
+        {% if show %}
+      {% for a in pers %}
+  
+      
+        <div class="list-wrapper">
+          <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 31px;cursor:pointer" id="back"></i>
+          <span style="font-size: 11px; margin-left:5px;margin-right:3px">{{a.contacted_DateTime}}</span
+            >
+          <i class="fa-solid fa-arrow-right historyarrow" style="color:  #047BD5;" ></i>
+         <div class="historycontent" style="margin-top: 5px;">
+          <div id="info" style="margin-top: 0px;">Agent Name</div>
+          <div class="data" style="margin-top: 0px;margin-left: 7px;">
             
-              <div class="emidiv" id="emid1" style="display: none;">
-                <input type="date" placeholder="select" id="emical1" name="emidate1" class="emidate">
-                <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)"  autocomplete="off">
-              </div>
-                <div id="emid2"  style="display:none">
-                <input type="date" placeholder="select" id="emical2" name="emidate2" class="emidate" >
-                <input type="tel" name="emiamt2"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
-                </div>
-                <div id="emid3"  style="display:none">
-                <input type="date" placeholder="select" id="emical3" name="emidate3"  class="emidate" >
-                <input type="tel" name="emiamt3"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
-                </div>
-                <div id="emid4"  style="display:none">
-                <input type="date" id="emical4" placeholder="select" name="emidate4" class="emidate" >
-                <input type="tel" name="emiamt4"   class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
-              </div>
-              
-            <div class="sendFE" style="display: none;">
-            <textarea name="saddress" class="addressin" id="remark" class="rm"cols="29" rows="7" placeholder="Complete Address" ></textarea>   
-            
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area" autocomplete="off">
-              
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark" autocomplete="off">
+            <div><i class="bi bi-telephone-forward-fill" style="font-size: 12px;color:  #047BD5; margin-right: 9px;"></i>{{a.caller_name}}</div>
+          </div>
+          <div id="info" style="margin-top: 2px;">Sub dispostion</div>
+          <div class="data" style="margin-top: 2px;margin-left: 3px;">
+            <div>{{a.sub_dispossitions}}</div>
+          </div>
+  
+          <div id="info" style="margin-top: 1px;">Remark</div>
+          <div class="historyremark">
+            {{a.remark}}
+          </div>
+          </div>
+  
+          </div>
+        
+          {% endfor %}
+          <div id="pagination-container"></div>
+          {% else %}
+          <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 15px;cursor:pointer" id="back"></i>
+          <div class="text-center text-danger blink_me">No History Found</div>
+          {% endif %}
+        </div>
+ 
+    </div>
 
-            <input class="dissub" style="padding-left: 2%;"  type="text" name="spincode" placeholder="Pincode" autocomplete="off" onkeypress="return isNumber(event)"><br>
+    <div class="mortgage">
+      <div class="title">Mortgage Details</div>
+      <div class="content" style="height: 85%;">
+      <div class="image">
+        <img
+          src="{% static 'Images/user.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Mortgage Type</span>
+        <div class="data">
+          <span>{{i.agent_username}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/detail.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Category</span>
+        <div class="data">
+          <span>{{i.sub_dispossitions}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/pencil 1.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Details</span>
+        <div class="data">
+          <span>{{i.remark}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/pencil 1.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Details 2</span>
+        <div class="data">
+          <span>{{i.remark}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/dis.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Value</span>
+        <div class="data">
+          <span>{{i.contacted_DateTime}}</span
+          >
+          </div>
 
-            <hr style="margin-right: 10px;"/>
+     </div>
+   </div>  
+  </div>
 
-            <div class="d-flex justify-content-around align-items-center">
-                <p class="m-0 sendfetext">Date & Time</p>
-                <input class="dissub" style="padding-left: 2%;"  type="datetime-local" name="sdate" placeholder="Date">
+      
+  </div>
+  <div class="parent">
+      <div class="Agent">
+          <div class="title">Agent Action</div>
+          <div class="callmsg text-center py-2  " style="display: none;font-size:11px">The Call is Placed Successfully</div>
+           <div class="d-flex justify-content-center">
+           
+            <div class="main-disposition-boxes" style="margin-top: 12px;width: 152px;">
+              <select class="dispositionsel new-contacts" name="danger" id="callname"  style="width:200px">
+                {% if i.lastdial == None or i.lastdial == "nan" or i.lastdial == "" %}
+                {% else %}
+                <option value="{{i.lastdial}}">{{i.lastdial}}</option>
+                {% endif %}
+                <option value="{{i.mobile_number}}">{{i.mobile_number}}</option>
+                {% if i.alt_mno_1 == None or i.alt_mno_1 == "nan" or i.alt_mno_1 == "" %}
+                {% else %}
+  
+                <option value="{{i.alt_mno_1}}">{{i.alt_mno_1}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt no.</option>
+                {% endif %}
+  
+                {% if i.alt_mno_2 == None or i.alt_mno_2 == "nan" or i.alt_mno_2 == "" %}
+                {% else %}
+                <option value="{{i.alt_mno_2}}">{{i.alt_mno_2}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt no.</option>
+                {% endif %}
+  
+                {% if i.alt_mno_3 == None  or i.alt_mno_3 == "nan" or i.alt_mno_3 == ""  %}
+                {% else %}
+                <option value="{{i.alt_mno_3}}">{{i.alt_mno_3}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alt no.</option>
+                {% endif %}
+                
+  
+                {% for i in a %}
+                {% if i.contactnum == None or i.contactnum == "" or i.contactnum == "nan" %}
+                {% else %}
+                <option value="{{i.contactnum}}">{{i.contactnum}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="relspan">{{i.relation}}</span></option>
+                {% endif %}
+                {% endfor %}
+              </select>
+        
+           </div>
+          </div>
+          
+          <div class="icondiv">
+            <a  style="text-decoration: none;">
+            <div>
+              <img src="{% static 'Images/callconnect.svg'%}" alt="" class="callcontact">
+              <button class="button button--error bts3" data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button>   
+     
             </div>
+            <!-- <button class="button button--error bts3" data-for="js_error-popup" style="position: absolute;z-index:-11;opacity:0">Show error popup</button>   
+          -->
+          </a>
+            <div class=""><img src="{% static 'Images/hang.svg'%}" alt="" class="contact1"></div>
+            <div
+            >
+             <img src="{% static 'Images/whatsup.svg'%}" alt="">
+            </div>
+            <div>
+              <img src="{% static 'Images/msg.svg'%}" alt="">
+            </div>
+          </div>
+        </div>
 
-            <div class="d-flex justify-content-around align-items-center mt-2">
-                <p class="m-0 sendfetext">Payment</p>
-                <div class="main-femode-div">
-                    <select class="femode" name="femode" id="">
-                        <option value=""  style="display:none;">Mode of Payment</option>
-                        <option value="cash">Cash</option>
-                        <option value="cheque">Cheque</option>
+        <div class="Agnttag">
+          <div class="title">Agent Tagging</div>
+          <div class="content">
+            <div class="image">
+              <div class="add-details-sel d-flex mb-2 justify-content-between">
+                <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt="">
+                <span id="info" style="margin-left: 5px;font-size: 12px;
+                font-weight: 500;">Add Details</span>
+                <div class="select-details-div">
+                    <select class="add-details" name="agenttag" id="selectBox">
+                        <option value="select" >Select</option>
+                        <option value="email">Email</option>
+                        <option value="contactnum">Contact Number</option>
+                        <option value="address">Address</option>
                     </select>
                 </div>
-            </div>                                       
-            
-        </div>
-              <div class="remark" style="position: relative">
-                <i
-                  class="bi bi-mic-fill"
-                  style="
-                    position: absolute;
-                    z-index: 1;
-                    right: 10px;
-                    margin-top: 10px;
-                  "
-                ></i>
-                <textarea
-                  name="remark"
-                  placeholder="Remark"
-                  id="remark"
-                  class="rm"
-                  cols="29"
-                  rows="7"
-                  required
-                  style="position: relative;resize:none"
-                ></textarea>
-                <span class="error" id="rem-error"></span>
-              </div>
-              <input class="subbtn" type="button" value="Submit" />
-              <input type="hidden"  class="freeornot" value={{what}}>
-            
-            <!-- send FE to Collect end-->
+             </div>
+              <form action="" id="post-form" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="additional_id" value="{{i.id}}">
+                <div id="emaildiv" class="dis mb-2" style="display: none">
+                  <input
+                    class="emailbox"
+                    id="email"
+                    type="email"
+                    name="email"
+                    placeholder="Enter Email-id"
+                    autocomplete="off"
+                  />
+                  <input
+                    style="margin-left: 4%"
+                    class="addbtn add-email"
+                    type="submit"
+                    value="Add +"
+                  />
+                </div>
+  
+                <div class="mb-2" id="contactbox" style="display: none">
+                  <div class="d-flex align-items-center gap-2">
+                    <input class="contactsubdiv1 allow-only-number" type="tel"  id="contactnum"name="contactnum" placeholder="Contact no.">
+                    <div class="main-relation-div">
+                        <select class="relationsel" id="relation">
+                       
+                            <option value="Own">Own</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Daughter">Daughter</option>
+                            <option value="Son">Son</option>
+                            <option value="Wife">Wife</option>
+                        </select>
+                    </div>
+                    <span class="addbtn testnumber">Add <i class="bi bi-plus" style="font-size: 16px;"></i></span>
+                    <button class="confirmcon" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;"></button>
+                  </div>
+                  
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Mobile Confirmation</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Are you sure you want to match the <span class="mobconfirm"></span> with the LAN {{i.bank_loan_accountno}}? </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button type="submit"  class="btn btn-primary add-contact" id="submitme" data-bs-dismiss="modal">Yes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="Addis" id="Addressdiv" style="display: none">
+                  <textarea name="address-txt" class="addressbar" cols="29" rows="4" placeholder="Address"></textarea>
+                  <!-- <div class="moreaddress"> -->
+                  <input class="dissub" style="padding-left: 2%;" id="state" type="text" name="state" placeholder="State" autocomplete="off">
+                  <input class="dissub" style="padding-left: 2%;" id="city" type="text" name="city" placeholder="City" autocomplete="off">
+                  <input class="dissub" style="padding-left: 2%;" id="landmark" type="text" name="landmark" placeholder="Landmark" autocomplete="off">
+                  <input class="dissub" style="padding-left: 2%;" id="pincode" type="tel" name="pincode" placeholder="Pincode" autocomplete="off">
+                  <div class="d-flex justify-content-center my-2">
+                      <button class="addbtn add-address" type="submit">Add <i class="bi bi-plus" style="font-size: 16px;"></i></button>
+                  </div>
+                </div>
+              </form>
+              <form action="" method="post" id="disform">
+                {% csrf_token %}
+                <input type="hidden"  name='dialnum3'  value="">
+  
+                <div class="gap-1 d-flex">
+                  <div class="main-disposition-box">
+                    <select class="dispositionsel" name="dispositionvalue" id="disposition" required>
+                        <option value="">Disposition</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="non-contacted">Non-Contacted</option>
+                    </select>
+                    <span class="error" id="disposerror"></span>
+                 </div>
+                
+                  <div class="sub-disposition-box">
+                    <select class="subdispositionsel"  name="subdispositionvalue" placeholder="Subdisposition" id="sub_disposition" required>
+                        <option value="">Subdisposition</option>
+                    </select>
+                    <span class="error" id="subdisposerror"></span>
+  
+                  </div>
+                </div>
+  
+                <div class="paiddiv" style="display: none">
+                     <span id="info" style="margin-left: 0px;">Enter Amount : </span><input type="tel" autocomplete="off" class="paidamtin" name="paidamt" onkeypress="return isNumber(event)" required>
+                    
+                    <p style="margin-bottom:0px" class="radioval">
+                      <input
+                        type="radio"
+                        id="test1"
+                        name="radio-group"
+                        value="cash"
+                     />
+                      <label for="test1">Cash</label>
+                    </p>
+                    <p style="margin-bottom:0px" class="radioval">
+                      <input
+                        type="radio"
+                        id="test2"
+                        value="cheque"
+                        name="radio-group"
+                      />
+                      <label for="test2">Cheque</label>
+                    </p>
+                    <input type="tel" id="cheque" class="chequenable" style="display: none;" name="trans1" placeholder="Enter Cheque No.">
+                    <p style="margin-bottom:0px" class="radioval">
+                      <input
+                        type="radio"
+                        id="test3"
+                        name="radio-group"
+                        value="online payment"
+                      />
+                      <label for="test3">Online Payment</label>
+                      <input type="tel" id="onlinepay" class="chequenable" style="display: none;" name="trans2"  placeholder="Enter Transaction ID">
+                    </p>
+  
              
-            <button class="button button--success bts2" type="button" data-for="js_success-popup" style="position: absolute;z-index:-11;opacity:0"></button> 
-              <!-- send FE to Collect end-->
-              <button class="button button--warning" type="button" data-for="js_question-popup" style="display:none">Show question popup</button>
+                </div>
+               
+                <div class="Addis" id="ptpdiv" style="display: none;margin-top:11px;">
+                  <div class="d-flex">
+                    <input class="ptpdate"  type="date"
+                      placeholder="Select Date Time" name="ptpdate"/>
+  
+                    <input type="tel" class="otsamtint" placeholder="PTP Amount" name="ptpamt" autocomplete="off" required onkeypress="return isNumber(event)">
+                  </div>
+                
+                  
+                </div>
+                <div class="dis">
+                  <span  class="dissub contdiv" style="display: none;">
+                    Contacted
+                </span>
+                <div class=" cashdiv" style="display: none;">
+                <select class="selectpicker" name="cashtype" id="Mode1" >
+                    <option value="">Cash</option>
+                    <option value="fieldexecutive">Field Executive</option>
+                    <option value="branch">Branch</option>
+                 </select>
+                </div>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Field Executive"
+                  name="field_branch"
+                  class="dissub"
+                  id="fieldex"
+                  style="display: none; border: none"
+                />
+  
+                <input
+                  type="text"
+                  placeholder="Branch"
+                  class="dissub"
+                  name="field_branch"
+                  id="branchex"
+                  style="display: none"
+                />
+  
+                <div id="call" class="callcheck container" style="display: none">
+                  
+                  <div class="row">
+                      <div class="col-md-6">
+                          <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
+                              <input
+                                  type="radio"
+                                  id="calltest1"
+                                  name="checks[]"
+                                  value="15min"
+                              />
+                              <label for="calltest1">15 Min</label>
+                          </p>
+                      </div>
+                      <div class="col-md-6">
+                          <p style="margin-bottom:7px;margin-top: 7px;"class="radioval">
+                              <input
+                                  type="radio"
+                                  id="calltest2"
+                                  value="30min"
+                                  name="checks[]"
+                              />
+                           <label for="calltest2">30 Min</label>
+                          </p>
+                      </div>
+                      <div class="col-md-6">
+                          <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
+                              <input
+                                  type="radio"
+                                  id="calltest3"
+                                  name="checks[]"
+                                  value="45min"
+                              />
+                              <label for="calltest3">45 Min</label>
+                              </p>
+                      </div>
+                      <div class="col-md-6">
+                          <p style="margin-bottom:7px;margin-top: 7px;" class="radioval">
+                              <input
+                                type="radio"
+                                id="calltest4"
+                                name="checks[]"
+                                value="1hr"
+                              />
+                          <label for="calltest4">60 Min</label>
+                          </p>
+                     </div>
+                </div>
+                </div>
+               
+                <div class="schedule" style="display: none; margin-top: 6px;padding-left: 0px;">
+          
+                            <div class= "cal-con">
+                  <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">        
+                  <input
+                    id="schedulecall"
+                    class="form-control"
+                    type="datetime-local"
+                    placeholder="Select Date Time"
+                    name="scheduledate"
+                    />
+            
+                 </div>
+                </div>
+  
+                <!-- call schedule  settings end -->
+  
+                <!-- OTS request  settings starts -->
+  
+                <div class="otsreq" style="display: none">
+     
+                  <!-- <div class=""> -->
+                    
+                  <input
+                    type="tel"
+                    placeholder="TOS %"
+                    name="tospercent"
+                    class="dissub percaltos"
+                    autocomplete="off";       
+                    style="width:95px;
+                    margin-left:0px"
+                  
+                  />
+                  <input
+                    type="tel"
+                    placeholder="TOS Amount"
+                    name="otsamt"
+                    class="otsamtint" 
+                    readonly
+                    style="width:95px;margin-left:0px"
+                    autocomplete="off"
+                  />
+                  <input
+                    type="tel"
+                    placeholder="POS %"
+                    readonly
+                    class="dissub percalpos"
+                    style="width:95px;margin-left: 0;
+                    "
+                    />
+                  <input
+                    type="tel"
+                    placeholder="POS Amount"
+                    name="posamt"
+                    class="otsamtint" 
+                    readonly
+                    style="width:95px;margin-left:0px"
+                    autocomplete="off"
+                  />
+                  <!-- <span class="spanots">OTS</span> -->
+                  
+                  </div>
+               
+                <!-- settelement  settings starts -->
+                <div id="settle" style="display: none;justify-content: end;">
+                  <!-- <form action="" method="post">
+                                        {%  csrf_token %} -->
+                  <div class="emiseldiv">
+                    <select class="emisel" id="settle" name="settle">
+                      <option class="agentselect" value="">
+                        Select EMI
+                      </option>
+                      <option value="EMI1">EMI 1</option>
+                      <option value="EMI2">EMI 2</option>
+                      <option value="EMI3">EMI 3</option>
+                      <option value="EMI4">EMI 4</option>
+                    </select>
+                  </div>
+                </div>
+  
+                  <!-- settelement  settings ends -->
+                  <!-- EMI4 div starts -->
+                  <span class="emiin" style="display: none"></span>
+                 
+              
+                <div class="emidiv" id="emid1" style="display: none;">
+                  <input type="date" placeholder="select" id="emical1" name="emidate1" class="emidate">
+                  <input type="tel" name="emiamt1"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)"  autocomplete="off">
+                </div>
+                  <div id="emid2"  style="display:none">
+                  <input type="date" placeholder="select" id="emical2" name="emidate2" class="emidate" >
+                  <input type="tel" name="emiamt2"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
+                  </div>
+                  <div id="emid3"  style="display:none">
+                  <input type="date" placeholder="select" id="emical3" name="emidate3"  class="emidate" >
+                  <input type="tel" name="emiamt3"  class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
+                  </div>
+                  <div id="emid4"  style="display:none">
+                  <input type="date" id="emical4" placeholder="select" name="emidate4" class="emidate" >
+                  <input type="tel" name="emiamt4"   class="emidate"placeholder="Enter Amount" disabled onkeypress="return isNumber(event)">
+                </div>
+                
+              <div class="sendFE" style="display: none;">
+              <textarea name="saddress" class="addressin" id="remark" class="rm"cols="29" rows="7" placeholder="Complete Address" ></textarea>   
+              
+              <input class="dissub" style="padding-left: 2%;"  type="text" name="sarea" placeholder="Area" autocomplete="off">
+                
+              <input class="dissub" style="padding-left: 2%;"  type="text" name="slandmark" placeholder="LandMark" autocomplete="off">
+  
+              <input class="dissub" style="padding-left: 2%;"  type="text" name="spincode" placeholder="Pincode" autocomplete="off" onkeypress="return isNumber(event)"><br>
+  
+              <hr style="margin-right: 10px;"/>
+  
+              <div class="d-flex justify-content-around align-items-center">
+                  <p class="m-0 sendfetext">Date & Time</p>
+                  <input class="dissub" style="padding-left: 2%;"  type="datetime-local" name="sdate" placeholder="Date">
+              </div>
+  
+              <div class="d-flex justify-content-around align-items-center mt-2">
+                  <p class="m-0 sendfetext">Payment</p>
+                  <div class="main-femode-div">
+                      <select class="femode" name="femode" id="">
+                          <option value=""  style="display:none;">Mode of Payment</option>
+                          <option value="cash">Cash</option>
+                          <option value="cheque">Cheque</option>
+                      </select>
+                  </div>
+              </div>                                       
+              
+          </div>
 
-          </div>
-          </div>
+          <div class="custbehave">
+            <span class="custtitle">Customer Behaviour</span>
+            <!-- <span class="cbi"><i class="fa-regular fa-face-confused"></i></span> -->
+            <span class="cbi">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_1086_1739)">
+              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 10H9.01178" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 10H15.0118" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9.5 15.9999C11.2913 14.8785 13.3917 14.3534 15.5 14.4999" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_1086_1739">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+              </svg></span>
+            <span class="cbi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_1167_1745)">
+              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 10H9.01178" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 10H15.0118" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 15H15" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_1167_1745">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+              </svg>
+              </span>
+            <span class="cbi"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_1167_1751)">
+              <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9 10H9.01178" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M15 10H15.0118" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M9.5 15C9.82588 15.3326 10.2148 15.5968 10.6441 15.7772C11.0734 15.9576 11.5344 16.0505 12 16.0505C12.4656 16.0505 12.9266 15.9576 13.3559 15.7772C13.7852 15.5968 14.1741 15.3326 14.5 15" stroke="#047BD5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_1167_1751">
+              <rect width="24" height="24" fill="white"/>
+              </clipPath>
+              </defs>
+              </svg>
+              </span>
+
         </div>
-      </div>
+                <div class="remark" style="position: relative">
+                  <i
+                    class="bi bi-mic-fill"
+                    style="
+                      position: absolute;
+                      z-index: 1;
+                      right: 17px;
+                      margin-top: 10px;
+                    "
+                  ></i>
+                  <textarea
+                    name="remark"
+                    placeholder="Remark"
+                    id="remark"
+                    class="rm"
+                    cols="29"
+                    rows="7"
+                    required
+                    style="position: relative;resize:none"
+                  ></textarea>
+                  <span class="error" id="rem-error"></span>
+                </div>
+                <input class="subbtn" type="button" value="Submit" />
+                <input type="hidden"  class="freeornot" value={{what}}>
+              
+              <!-- send FE to Collect end-->
+               
+              <button class="button button--success bts2" type="button" data-for="js_success-popup" style="position: absolute;z-index:-11;opacity:0"></button> 
+                <!-- send FE to Collect end-->
+                <button class="button button--warning" type="button" data-for="js_question-popup" style="display:none">Show question popup</button>
+  
+            </div>
+            </div>
+          </div>
+
+  </div>
+
+</div>
+<!-- modal call Successfully connected starts -->
+<button type="button" class="btn btn-primary open-modal2" data-bs-toggle="modal" data-bs-target="#exampleModal2" style="display: none;">
+Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog  modal-xl m-0" style="width: 100vw;max-width:100%">
+  <div class="modal-content" >
+    <div class="text-center fill-bg"style="height: 100vh;padding-top:8em">
+      <div><i class="fa-solid fa-phone modal-icon" ></i></div>
+      <div class="mt-3" style="color:white;font-size: 24px;">Call Placed Successfully</div>
+      
     </div>
   </div>
- <!-- modal call Successfully connected starts -->
-  <button type="button" class="btn btn-primary open-modal2" data-bs-toggle="modal" data-bs-target="#exampleModal2" style="display: none;">
-    Launch demo modal
-  </button>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog  modal-xl m-0" style="width: 100vw;max-width:100%">
-      <div class="modal-content" >
-        <div class="text-center fill-bg"style="height: 100vh;padding-top:8em">
-          <div><i class="fa-solid fa-phone modal-icon" ></i></div>
-          <div class="mt-3" style="color:white;font-size: 24px;">Call Placed Successfully</div>
-          
-        </div>
-      </div>
-    </div>
-    <button type="button" class="btn btn-secondary modal-cl2" style="opacity: 0; position:absolute;" data-bs-dismiss="modal">Close</button>
-  </div>  
-  <!-- modal call Successfully connected ends -->
+</div>
+<button type="button" class="btn btn-secondary modal-cl2" style="opacity: 0; position:absolute;" data-bs-dismiss="modal">Close</button>
+</div>  
+<!-- modal call Successfully connected ends -->
 
 <!-- modal something went wrong starts -->
-  
+
 <!-- modal something went wrong ends -->
 
 
@@ -1756,760 +1296,640 @@ a.float:hover + div.label-container{
   <div class="popup__content">
   
     <h3 class="popup__content__title">
-     Done
+     Response Recorded
     </h1>
-    <p class="finalmsg">Data Submitted Succesfully</p>
+    <p class="finalmsg">Your Disposition & Subdisposition Response has been Recorded Successfully</p>
     <p>
-      <button class="button button--success" id="finalsubbtn" type="submit" data-for="js_success-popup">Submit</button>
+      <button class="button button--success" id="finalsubbtn" type="submit" data-for="js_success-popup">OK</button>
     </p>
   </div>
-</form>
-</div>
-
-<!--modal  submit Data successfully ends -->
-
-
+  </form>
+  </div>
+  
+  <!--modal  submit Data successfully ends -->
+  
+  
 <!-- popup call not connected error starts -->
 <div class="popup popup--icon -error js_error-popup">
   <div class="popup__background"></div>
   <div class="popup__content">
-    <h3 class="popup__content__title">
+    <h3 class="popup__content__title" style="color:#EE0000;">
    
-      call Not Connected
+     Oops! Call not connected
     </h1>
-    <p class="command"></p>
-    <i class="fa-solid fa-phone-xmark"></i>
+    <p class="command finalmsg"></p>
     <p>
-      <button class="button button--error" data-for="js_error-popup">OK</button>
+      <button class="button button--error" data-for="js_error-popup">Login in Dialer</button>
     </p>
   </div>
-</div>
-<!-- popup call not connected error ends -->
-
+  </div>
+  <!-- popup call not connected error ends -->
+  
 <!-- popup call hangup starts -->
 
 <div class="popup popup--icon -question js_question-popup">
-  <div class="popup__background"></div>
-  <div class="popup__content">
-    <h3 class="popup__content__title">
-       Call Hang Up
-    </h3>
-   <button class="dismis-question" type="button" style="opacity:0;" data-for="js_question-popup"></button>
-   </div>
+<div class="popup__background"></div>
+<div class="popup__content">
+<h3 class="popup__content__title">
+   Call Hang Up
+</h3>
+<button class="dismis-question" type="button" style="opacity:0;" data-for="js_question-popup"></button>
+</div>
 </div>
 
 <!-- popup call hangup ends -->
 
-{% endfor %}
-  <script src="{% static 'vendor/js/select2.min.js' %}"></script>
-  <script src="{% static 'js/select2custom.js' %}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
-  <script type="text/javascript">
-	function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
+<script type="text/javascript">
+  function isNumber(evt) {
+  evt = (evt) ? evt : window.event;
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+  }
+  return true;
 }
 
+
+// toast Notification starts
+
+const
+  FADE_DUR = 400,
+  MIN_DUR = 600;
+let toastContain;
+
+function toast(str, addClass) { 
+  console.log("toast")
+  console.log(str)
+  let duration = Math.max(MIN_DUR, str.length * 80);
+  
+  if (!toastContain) {
+    toastContain = document.createElement('div');
+    toastContain.classList.add('toastContain');
+    document.body.appendChild(toastContain);
+  }
+  
+  const EL = document.createElement('div');
+  EL.classList.add('toast', addClass);
+  EL.innerText = str;
+  toastContain.prepend(EL);
+  
+  setTimeout(() => EL.classList.add('open'));
+  setTimeout(
+    () => EL.classList.remove('open'),
+    duration
+  );
+  setTimeout(
+    () => toastContain.removeChild(EL),
+    duration + FADE_DUR
+  );
+}
+
+// Toast Notification ends
+
 </script>
-  <script type="text/javascript">
+<script type="text/javascript">
 
-    // pause and active function start
+  // pause and active function start
 
-    function pa(){
-        $.ajax({
-          url:'{% url "pa" %}',
-          type: 'post',
-          data:{
-            csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
-          } ,
-          dataType:'json',
-          success:function(e){
-            console.log(e.status,"jdfjge",e.res)
-            $('.label-text').html(e.res)
-              if (e.status == 200){
-                console.log(e.res,"its")
-                $('.label-text').html("active")
-                $(".float").css({"background":"#00ff00 "})
-              }else if(e.status == 300){
-                $('.label-text').html("pause")
-                $(".float").css({"background":"#ffa500 "})
-                
-              }
-              else{
-                $('.label-text').html("Error")
-              }
-          },
-        })
-      }
-      // pause and active function end
+  function pa(){
+      $.ajax({
+        url:'{% url "pa" %}',
+        type: 'post',
+        data:{
+          csrfmiddlewaretoken:$("input[name=csrfmiddlewaretoken]").val(),
+        } ,
+        dataType:'json',
+        success:function(e){
+          console.log(e.status,"jdfjge",e.res)
+          $('.label-text').html(e.res)
+            if (e.status == 200){
+              console.log(e.res,"its")
+              $('.label-text').html("active")
+              $(".float").css({"background":"#00ff00 "})
+            }else if(e.status == 300){
+              $('.label-text').html("pause")
+              $(".float").css({"background":"#ffa500 "})
+              
+            }
+            else{
+              $('.label-text').html("Error")
+            }
+        },
+      })
+    }
+    // pause and active function end
 
-    $(document).ready(function () {
+  $(document).ready(function () {
+    
 
-      $(".subbtn").css({"pointer-events":"none"})
-      const addButtonTrigger = (el) => {
-                console.log("done")
-	el.addEventListener('click', () => {
-		const popupEl = document.querySelector(`.${el.dataset.for}`);
-		popupEl.classList.toggle('popup--visible');
-    console.log("its")
-	});
+    $('.top-header').css({"display":"none"})
+
+    $("input").focusout(function(){
+        $(this).css({"color":"#047BD5"})
+    })
+
+    $("input").focusin(function(){
+        $(this).css({"color":"#000000"})
+    })
+
+    $(".subbtn").css({"pointer-events":"none"})
+    const addButtonTrigger = (el) => {
+              console.log("done")
+  el.addEventListener('click', () => {
+      const popupEl = document.querySelector(`.${el.dataset.for}`);
+      popupEl.classList.toggle('popup--visible');
+  console.log("its")
+  });
 };
 
 Array.from(document.querySelectorAll('button[data-for]'))
-           .forEach(addButtonTrigger); 
+         .forEach(addButtonTrigger); 
 
-      a =  $('input[name=dialnum3]').val($("#callname").val())
-      
-      //Pagination start
-      var items = $(".main-data-wrapper .list-wrapper");
-      var numItems = items.length;
-      var perPage = 1;
-
-      items.slice(perPage).hide();
-
-      $('#pagination-container').pagination({
-          items: numItems,
-          itemsOnPage: perPage,
-          prevText: "&laquo;",
-          nextText: "&raquo;",
-          onPageClick: function (pageNumber) {
-              var showFrom = perPage * (pageNumber - 1);
-              var showTo = showFrom + perPage;
-              items.hide().slice(showFrom, showTo).show();
-          }
-      });
-      //Pagination end 
-
-      $( window ).on( "load", function() {
-       c= $(".freeornot").val()
-       console.log(c)
-       if ($(".freeornot").val()=="oncall"){
-        // console.log("oh")
-        $("input[name=danger]").attr("disabled","disabled")
-        $('.callcontact').off('click');
+    a =  $('input[name=dialnum3]').val($("#callname").val())
     
-        // console.log("done")
-       }
-       else{
-        $("input[name=danger]").removeAttr('disabled');
-       }
-      });
+    //Pagination start
+    var items = $(".main-data-wrapper .list-wrapper");
+    var numItems = items.length;
+    var perPage = 1;
 
-      $(".allow-only-number").keypress(function (e) {
-        console.log("start")
-        $(".allow-only-number").attr("min", "10");
-            var valueLength = this.value.length;
-            if (valueLength == 10) {
-                return false;
-            }
-            var kk = e.which;
-            if (kk < 48 || kk > 57)
-                e.preventDefault();
+    items.slice(perPage).hide();
+
+    $('#pagination-container').pagination({
+        items: numItems,
+        itemsOnPage: perPage,
+        prevText: "&laquo;",
+        nextText: "&raquo;",
+        onPageClick: function (pageNumber) {
+            var showFrom = perPage * (pageNumber - 1);
+            var showTo = showFrom + perPage;
+            items.hide().slice(showFrom, showTo).show();
+        }
     });
-    $(".testnumber").click(function(){
-      var conum=$("#contactnum").val()
-      if(conum.length < 10 ){
-        alert("Please Enter 10 Digit Number")
-      }
-      else{
-        $(".confirmcon").click()
-        $('.new-contacts').append(`<option>${$('input[name="contactnum"]').val()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${$('.relationsel').val()}</option>`)
-      }
+    //Pagination end 
+
+    $( window ).on( "load", function() {
+     c= $(".freeornot").val()
+     console.log(c)
+     if ($(".freeornot").val()=="oncall"){
+      // console.log("oh")
+      $("input[name=danger]").attr("disabled","disabled")
+      $('.callcontact').off('click');
+  
+      // console.log("done")
+     }
+     else{
+      $("input[name=danger]").removeAttr('disabled');
+     }
+    });
+
+    $(".allow-only-number").keypress(function (e) {
+      console.log("start")
+      $(".allow-only-number").attr("min", "10");
+          var valueLength = this.value.length;
+          if (valueLength == 10) {
+              return false;
+          }
+          var kk = e.which;
+          if (kk < 48 || kk > 57)
+              e.preventDefault();
+  });
+  $(".testnumber").click(function(){
+    var conum=$("#contactnum").val()
+    if(conum.length < 10 ){
+      alert("Please Enter 10 Digit Number")
+    }
+    else{
+      $(".confirmcon").click()
+      $('.new-contacts').append(`<option>${$('input[name="contactnum"]').val()}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${$('.relationsel').val()}</option>`)
+    }
+  })
+
+
+   $("#showcall").click(function(){
+    console.log("click")
+      $(".history").css({"display":"none"})
+      $(".callhistory").css({"display":"block"})
+   })
+   $("#back").click(function(){
+    console.log("click")
+      $(".history").css({"display":"block"})
+      $(".callhistory").css({"display":"none"})
+   })
+    $('#callname').change(function (){
+      a =  $('input[name=dialnum3]').val($("#callname").val())
+      console.log('phone number',$('#callname').val())
+      console.log(a)
     })
 
-
-     $("#showcall").click(function(){
-      console.log("click")
-        $(".history").css({"display":"none"})
-        $(".callhistory").css({"display":"block"})
-     })
-     $("#back").click(function(){
-      console.log("click")
-        $(".history").css({"display":"block"})
-        $(".callhistory").css({"display":"none"})
-     })
-      $('#callname').change(function (){
-        a =  $('input[name=dialnum3]').val($("#callname").val())
-        console.log('phone number',$('#callname').val())
-        console.log(a)
-      })
-
-        TOS = `{% for i in info %} {{i.TOS}} {%  endfor %}`
-        POS = `{% for i in info %} {{i.balance_POS_amount}} {%  endfor %}`
-        console.log(TOS)
-        $(".percaltos").on('input', function() {
-          $(this).val(function(i, v) {
-          return v.replace('%','') + '%';  });
-        });
-    
-        $('.percaltos').keyup(function (){
-            b = $('.percaltos').val()
-            b = b.replace('%','')     
-                console.log(b)
-                percentage=(b/100)*TOS
-                percentage=Math.round(percentage)
-                console.log(percentage)
-
-                // $('.percaltos').val(`${percentage}%`)
-                $('input[name=otsamt]').val(percentage)
-                console.log( $('input[name=otsamt]').val())
-                
-                console.log("pos",POS)
-                percentage=(percentage/POS)*100
-                percentage=Math.round(percentage)
-                console.log(percentage)
-                $(".percalpos").val(`${percentage}%`)
-               c= $('.percalpos').val()
-              c = c.replace('%','')     
-                console.log(c)
-                percentage=(c/100)*POS
-                percentage=Math.round(percentage)
-                console.log(percentage)
-
-                // $('.percaltos').val(`${percentage}%`)
-                $('input[name=posamt]').val(percentage)
-                console.log( $('input[name=posamt]').val())
-     
-        })
-        $('.percalpos').keyup(function (){
-          $(".percaltos").append('.percaltos').val()
-        })
-        $('.percalpos').keyup(function (){
-            b = $('.percalpos').val()
-                console.log(b)
-                percentage=(b/100)*TOS
-                percentage=Math.round(percentage)
-                console.log(percentage)
-
-                $('input[name=otsamt]').html(`${percentage}%`)
-                $('input[name=otsamt]').val(percentage)
-                console.log( $('input[name=otsamt]').val())
-     
-        })
-      
-      
-     
-      $('#disform').validate({ // initialize the plugin
-        rules: {
-          dispositionvalue : {
-                required: true,
-            },
-            subdispositionvalue: {
-                required: true,
-            },
-            remark:{
-              required:true
-            }
-        },errorPlacement: function(error,element){
-          if (element.attr("name")=='dispositionvalue'){
-            error.appendTo('#disposerror')
-          }if (element.attr("name")=='subdispositionvalue'){
-            error.appendTo('#subdisposerror')
-          }
-          if (element.attr("name")=='remark'){
-            error.appendTo('#rem-error')
-          }
-        }   
-     });   
-
-   
-
-        $(".callcontact").click(function(){
-          console.log('click')
-          var c=$('input[name=dialnum3]').val()
-           console.log("calllinggggg",c)
-          $.ajax({
-            type:"post",
-            url:'{% url "call" %}',
-            data:{
-              dialnum3:$('input[name=dialnum3]').val(),
-            
-              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-            },
-            success: function(data){
-              console.log("done")
-              console.log(data.status)
-              var msg=data.msg
-              if (data.status == '300'){
-                $('.bts3').click()
-                $(".command").val(" ")
-                $(".command").html(msg)
-              }
-              else if (data.status == '200'){
-                $('.open-modal2').click()
-
-                    console.log("Asdd")
-                    // $('.modal-cl2').click()
-                
-                  setTimeout( function() { 
-                  
-                    $('.modal-cl2').click()
-                  }, 1000);
-                  $(".callmsg").css({'display':'block'})
-              $(".main-disposition-boxes").css({"display":"none"})
-              $(".subbtn").css({'pointer-events': ''})
-              $(".contact1").click(function(){
-          console.log('click')
-          $.ajax({
-            type:"post",
-            url:'{% url "disconnect" %}',
-            data:{
-              // dialnum3:$('input[name=dialnum3]').val(),
-               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-            },
-            success: function(data){
-              console.log("oo ho")
-              // alert("Call Disconnected!!")
-              $(".callmsg").css({"display":"none"})
-              $(".main-disposition-boxes").css({"display":"block"})
-              $(".button--warning").click()
-              setTimeout(
-                function(){
-                  $(".dismis-question").click()
-                }
-              ,1000)
-            }
-          })
-        })
-           
-              }
-               }
-              })
-           
-        })
-       
-          $(".subbtn").click(function(){
-            if ($('#disform').valid()===true){
-            $('.bts2').click()
-            }
-          })
-         $("#finalsubbtn").click(function(){
-          // console.log($('select[name=subdispositionvalue]').val())
-         
-            $.ajax({
-            type:"post",
-            url:'{% url "dispose" %}',
-            data:{
-              csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-              checks:$('input[name="checks[]"]:checked').val(),
-              schedule:$('input[name=scheduledate]').val(),
-              dispos:$('select[name=subdispositionvalue]').val()
-            },
-            success: function(data){
-              console.log("disposed")
-              // alert(" Disposed")
-              
-              $(".subbtn").css({'pointer-events': 'none'})
-            }
-          })
-          
-        })
-
-        $('#submitme').click(function(e) {
-          e.preventDefault();
-
-$.ajax({
-  type: "POST",
-  url: "{% url 'additional'  %}",
-  data: {
-    email: $("#email").val(),
-    contactnum: $("#contactnum").val(),
-    relation:$("#relation").val(),
-    address: $(".addressbar").val(),
-    state: $("#state").val(),
-    city: $("#city").val(),
-    landmark: $("#landmark").val(),
-    pincode: $("#pincode").val(),
-    additional:$("input[name='additional_id']").val(),
-    csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-  },
-  success: function () {
-    console.log("submit")
-    $("#email").val("");
-    $("#contactnum").val("");
-    $(".relationsel").val("own");
-    $("#address").val("");
-    $("#state").val("");
-    $("#ciy").val("");
-    
-    $("#landmark").val("");
-    $("#pincode").val("");
-    $(".addressbar").val("");
-    $("#contactbox").css({ "display": "none" });
-          
-          $("#Addressdiv").css({ "display": "none" });
-          $("#emaildiv").css({ "display": "none" });
-          $(".sendFE").css({ "display": "none" });
-          $('.add-details').empty()
-          $(".add-details").append(`<option value="select" >Select</option>
-                      <option value="email">Email</option>
-                      <option value="contactnum">Contact Number</option>
-                      <option value="address">Address</option>`)
-
+      TOS = `{% for i in info %} {{i.TOS}} {%  endfor %}`
+      POS = `{% for i in info %} {{i.balance_POS_amount}} {%  endfor %}`
+      console.log(TOS)
+      $(".percaltos").on('input', function() {
+        $(this).val(function(i, v) {
+        return v.replace('%','') + '%';  });
+      });
   
-  },
- 
-});
-});
-      $(document).on("submit", "#post-form", function (e) {
-        e.preventDefault();
+      $('.percaltos').keyup(function (){
+          b = $('.percaltos').val()
+          b = b.replace('%','')     
+              console.log(b)
+              percentage=(b/100)*TOS
+              percentage=Math.round(percentage)
+              console.log(percentage)
 
+              // $('.percaltos').val(`${percentage}%`)
+              $('input[name=otsamt]').val(percentage)
+              console.log( $('input[name=otsamt]').val())
+              
+              console.log("pos",POS)
+              percentage=(percentage/POS)*100
+              percentage=Math.round(percentage)
+              console.log(percentage)
+              $(".percalpos").val(`${percentage}%`)
+             c= $('.percalpos').val()
+            c = c.replace('%','')     
+              console.log(c)
+              percentage=(c/100)*POS
+              percentage=Math.round(percentage)
+              console.log(percentage)
+
+              // $('.percaltos').val(`${percentage}%`)
+              $('input[name=posamt]').val(percentage)
+              console.log( $('input[name=posamt]').val())
+   
+      })
+      $('.percalpos').keyup(function (){
+        $(".percaltos").append('.percaltos').val()
+      })
+      $('.percalpos').keyup(function (){
+          b = $('.percalpos').val()
+              console.log(b)
+              percentage=(b/100)*TOS
+              percentage=Math.round(percentage)
+              console.log(percentage)
+
+              $('input[name=otsamt]').html(`${percentage}%`)
+              $('input[name=otsamt]').val(percentage)
+              console.log( $('input[name=otsamt]').val())
+   
+      })
+    
+    
+   
+    $('#disform').validate({ // initialize the plugin
+      rules: {
+        dispositionvalue : {
+              required: true,
+          },
+          subdispositionvalue: {
+              required: true,
+          },
+          remark:{
+            required:true
+          }
+      },errorPlacement: function(error,element){
+        if (element.attr("name")=='dispositionvalue'){
+          error.appendTo('#disposerror')
+        }if (element.attr("name")=='subdispositionvalue'){
+          error.appendTo('#subdisposerror')
+        }
+        if (element.attr("name")=='remark'){
+          error.appendTo('#rem-error')
+        }
+      }   
+   });   
+
+ 
+
+      $(".callcontact").click(function(){
+        console.log('click')
+        var c=$('input[name=dialnum3]').val()
+         console.log("calllinggggg",c)
         $.ajax({
-          type: "POST",
-          url: "{% url 'additional'  %}",
-          data: {
-            email: $("#email").val(),
-            contactnum: $("#contactnum").val(),
-            address: $(".addressbar").val(),
-            state: $("#state").val(),
-            city: $("#city").val(),
-            landmark: $("#landmark").val(),
-            pincode: $("#pincode").val(),
-            additional:$("input[name='additional_id']").val(),
+          type:"post",
+          url:'{% url "call" %}',
+          data:{
+            dialnum3:$('input[name=dialnum3]').val(),
+          
             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
           },
-          success: function () {
-            console.log("submit")
-            $("#email").val("");
-            $("#contactnum").val("");
-            $("#address").val("");
-            $("#relation").val("");
-            $("#state").val("");
-            $("#ciy").val("");
-            $("#landmark").val("");
-            $("#pincode").val("");
-            $(".addressbar").val("");
-            $('.add-details').empty()
-          $(".add-details").append(`<option value="select" >Select</option>
-                      <option value="email">Email</option>
-                      <option value="contactnum">Contact Number</option>
-                      <option value="address">Address</option>`)
-            $("#contactbox").css({ "display": "none" });
-          
-          $("#Addressdiv").css({ "display": "none" });
-          $("#emaildiv").css({ "display": "none" });
-          $(".sendFE").css({ "display": "none" });
-           
-          
+          success: function(data){
+            console.log("done")
+            console.log(data.status)
+            var msg=data.msg
+            if (data.status == '300'){
+              $('.bts3').click()
+              $(".command").val(" ")
+              $(".command").html(msg)
+            }
+            else if (data.status == '200'){
+              toast('Call Connected')
+                $(".callmsg").css({'display':'block'})
+            $(".main-disposition-boxes").css({"display":"none"})
+            $(".subbtn").css({'pointer-events': ''})
+
+            $(".contact1").click(function(){
+        console.log('click')
+        $.ajax({
+          type:"post",
+          url:'{% url "disconnect" %}',
+          data:{
+            // dialnum3:$('input[name=dialnum3]').val(),
+             csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
           },
-        });
-      });
-      
-
-      $("#selectBox").change(function () {
-        if ($("#selectBox").val() == "contactnum") {
-          $("#contactbox").css({ "display": "block" });
-          
-          $("#Addressdiv").css({ "display": "none" });
-          $("#emaildiv").css({ "display": "none" });
-          $(".sendFE").css({ "display": "none" });
-        }
-      });
-
-      $("#selectBox").change(function () {
-        if ($("#selectBox").val() == "select") {
-          $("#contactbox").css({ "display": "none" });
-          
-          $("#Addressdiv").css({ "display": "none" });
-          $("#emaildiv").css({ "display": "none" });
-          $(".sendFE").css({ "display": "none" });
-        }
-      });
-      $("#disposition").change(function () {
-        if ($("#disposition").val() == "contacted") {
-          $(".contdiv").css({ "display": "none" });
-          // $('#disposition').val(""
-          $(".sendFE").css({ "display": "none" });
-          $("#schedulecall").css({ "display": "none" });
-        }
-      });
-      $("#selectBox").change(function () {
-        if ($("#selectBox").val() == "email") {
-          $("#emaildiv").css({ display: "block" });
-          $("#contactbox").css({ display: "none" });
-          $("#Addressdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-        }
-      });
-
-      $("#selectBox").change(function () {
-        if ($("#selectBox").val() == "address") {
-          console.log('address')
-          $("#Addressdiv").css({ display: "block" });
-          $("#emaildiv").css({ display: "none" });
-          $("#contactbox").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-        }
-      });
-       
-      $(".add-contact").click(function () {
-        
-        var conval = $("#contactnum").val();
-        console.log("this")
-        console.log(conval);
-        $(".additional").css({ display: "block" });
-        $(".contactshow").css({ display: "block" });
-        $("#contact-field").append(
-          `<span style="display:block;">${conval}</span>`
-        );
-        $(".mobconfirm").html(`${conval}%`)
-        // $('#usercontact').val('')
-        $(".sendFE").css({ display: "none" });
-        $("#schedulecall").css({ display: "none" });
-      });
-      $('#contactnum').keyup(function (){
-         var conval = $("#contactnum").val();
-         
-          $(".mobconfirm").html(conval)
+          success: function(data){
+            console.log("oo ho")
+            // alert("Call Disconnected!!")
+            $(".callmsg").css({"display":"none"})
+            $(".main-disposition-boxes").css({"display":"block"})
+            toast('Call Ended')
+          }
         })
-      $(".add-email").click(function () {
-        console.log("click");
-        var emailval = $("#email").val();
-        console.log(emailval);
-        $(".additional").css({ display: "block" });
-        $(".emailshow").css({ display: "block" });
-        $("#email-field").append(
-          `<span style="display:block;">${emailval}</span>`
-        );
+      })
+         
+            }
+             }
+            })
+         
+      })
+     
+        $(".subbtn").click(function(){
+          if ($('#disform').valid()===true){
+          $('.bts2').click()
+          }
+        })
+       $("#finalsubbtn").click(function(){
+        // console.log($('select[name=subdispositionvalue]').val())
+       
+          $.ajax({
+          type:"post",
+          url:'{% url "dispose" %}',
+          data:{
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            checks:$('input[name="checks[]"]:checked').val(),
+            schedule:$('input[name=scheduledate]').val(),
+            dispos:$('select[name=subdispositionvalue]').val()
+          },
+          success: function(data){
+            console.log("disposed")
+            // alert(" Disposed")
+            
+            $(".subbtn").css({'pointer-events': 'none'})
+          }
+        })
+        
+      })
+
+      $('#submitme').click(function(e) {
+        e.preventDefault();
+
+$.ajax({
+type: "POST",
+url: "{% url 'additional'  %}",
+data: {
+  email: $("#email").val(),
+  contactnum: $("#contactnum").val(),
+  relation:$("#relation").val(),
+  address: $(".addressbar").val(),
+  state: $("#state").val(),
+  city: $("#city").val(),
+  landmark: $("#landmark").val(),
+  pincode: $("#pincode").val(),
+  additional:$("input[name='additional_id']").val(),
+  csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+},
+success: function () {
+  console.log("submit")
+  $("#email").val("");
+  $("#contactnum").val("");
+  $(".relationsel").val("own");
+  $("#address").val("");
+  $("#state").val("");
+  $("#ciy").val("");
+  
+  $("#landmark").val("");
+  $("#pincode").val("");
+  $(".addressbar").val("");
+  $("#contactbox").css({ "display": "none" });
+        
+        $("#Addressdiv").css({ "display": "none" });
+        $("#emaildiv").css({ "display": "none" });
+        $(".sendFE").css({ "display": "none" });
+        $('.add-details').empty()
+        $(".add-details").append(`<option value="select" >Select</option>
+                    <option value="email">Email</option>
+                    <option value="contactnum">Contact Number</option>
+                    <option value="address">Address</option>`)
+
+
+},
+
+});
+});
+    $(document).on("submit", "#post-form", function (e) {
+      e.preventDefault();
+
+      $.ajax({
+        type: "POST",
+        url: "{% url 'additional'  %}",
+        data: {
+          email: $("#email").val(),
+          contactnum: $("#contactnum").val(),
+          address: $(".addressbar").val(),
+          state: $("#state").val(),
+          city: $("#city").val(),
+          landmark: $("#landmark").val(),
+          pincode: $("#pincode").val(),
+          additional:$("input[name='additional_id']").val(),
+          csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+        },
+        success: function () {
+          console.log("submit")
+          $("#email").val("");
+          $("#contactnum").val("");
+          $("#address").val("");
+          $("#relation").val("");
+          $("#state").val("");
+          $("#ciy").val("");
+          $("#landmark").val("");
+          $("#pincode").val("");
+          $(".addressbar").val("");
+          $('.add-details').empty()
+        $(".add-details").append(`<option value="select" >Select</option>
+                    <option value="email">Email</option>
+                    <option value="contactnum">Contact Number</option>
+                    <option value="address">Address</option>`)
+          $("#contactbox").css({ "display": "none" });
+        
+        $("#Addressdiv").css({ "display": "none" });
+        $("#emaildiv").css({ "display": "none" });
+        $(".sendFE").css({ "display": "none" });
+        $(".remark").css({ display: "block" });
+        $(".sub-disposition-box").css({display:"block"})
+        $(".subbtn").css({display:"block"})
+        $(".main-disposition-box").css({display:"block"})
+        $(".custbehave").css({display:"block"})
+         
+        
+        },
+      });
+    });
+    
+
+    $("#selectBox").change(function () {
+      if ($("#selectBox").val() == "contactnum") {
+        $("#contactbox").css({ "display": "block" });
+        
+        $("#Addressdiv").css({ "display": "none" });
+        $("#emaildiv").css({ "display": "none" });
+        $(".sendFE").css({ "display": "none" });
+      }
+    });
+
+    $("#selectBox").change(function () {
+      if ($("#selectBox").val() == "select") {
+        $("#contactbox").css({ "display": "none" });
+        
+        $("#Addressdiv").css({ "display": "none" });
+        $("#emaildiv").css({ "display": "none" });
+        $(".sendFE").css({ "display": "none" });
+        $(".remark").css({ display: "block" });
+        $(".sub-disposition-box").css({display:"block"})
+        $(".subbtn").css({display:"block"})
+        $(".main-disposition-box").css({display:"block"})
+        $(".custbehave").css({display:"block"})
+      }
+    });
+    $("#disposition").change(function () {
+      if ($("#disposition").val() == "contacted") {
+        $(".contdiv").css({ "display": "none" });
+        // $('#disposition').val(""
+        $(".sendFE").css({ "display": "none" });
+        $("#schedulecall").css({ "display": "none" });
+      }
+    });
+    $("#selectBox").change(function () {
+      if ($("#selectBox").val() == "email") {
+        $("#emaildiv").css({ display: "block" });
+        $("#contactbox").css({ display: "none" });
+        $("#Addressdiv").css({ display: "none" });
         $(".sendFE").css({ display: "none" });
         $("#schedulecall").css({ display: "none" });
-      });
+        $("#disposition").css({display:"none"})
+      }
+    });
+
+    $("#selectBox").change(function () {
+      if ($("#selectBox").val() == "address") {
+        console.log('address')
+        $("#Addressdiv").css({ display: "block" });
+        $("#emaildiv").css({ display: "none" });
+        $("#contactbox").css({ display: "none" });
+        $("#schedulecall").css({ display: "none" });
+        $(".remark").css({ display: "none" });
+        $(".sub-disposition-box").css({display:"none"})
+        $(".subbtn").css({display:"none"})
+        $(".main-disposition-box").css({display:"none"})
+        $(".custbehave").css({display:"none"})
+
+      }
+    });
+     
+    $(".add-contact").click(function () {
+      
+      var conval = $("#contactnum").val();
+      console.log("this")
+      console.log(conval);
+      $(".additional").css({ display: "block" });
+      $(".contactshow").css({ display: "block" });
+      $("#contact-field").append(
+        `<span style="display:block;">${conval}</span>`
+      );
+      $(".mobconfirm").html(`${conval}%`)
+      // $('#usercontact').val('')
+      $(".sendFE").css({ display: "none" });
+      $("#schedulecall").css({ display: "none" });
+    });
+    $('#contactnum').keyup(function (){
+       var conval = $("#contactnum").val();
+       
+        $(".mobconfirm").html(conval)
+      })
+    $(".add-email").click(function () {
+      console.log("click");
+      var emailval = $("#email").val();
+      console.log(emailval);
+      $(".additional").css({ display: "block" });
+      $(".emailshow").css({ display: "block" });
+      $("#email-field").append(
+        `<span style="display:block;">${emailval}</span>`
+      );
+      $(".sendFE").css({ display: "none" });
+      $("#schedulecall").css({ display: "none" });
+      
+    });
 
 
-      $(".add-address").click(function () {
-        console.log("click");
-        var addval = $(".addressbar").val();
-        console.log(addval);
-        var stateval = $("#state").val();
-        console.log(stateval);
-        var cityval = $("#city").val();
-        console.log(cityval);
-        var landval = $("#landmark").val();
-        console.log(landval);
-        var pinval = $("#pincode").val();
-        console.log(pinval);
-        $(".additional").css({ display: "block" });
-        $(".addressshow").css({ display: "block" });
-        $("#address-field").append(
-          `<span style="display:block margin-right:19px;">${addval}   ${stateval} ${cityval}     ${landval}    ${pinval}</span>`
-        );
-        // $('#useradd').val('');
-        // $('#userstate').val('');
-        // $('#userciy').val('');
-        // $('#userland').val('');
-        // $('#userpincode').val('');
-        $(".sendFE").css({ display: "none" });
-        $(".online").css({ display: "none" });
+    $(".add-address").click(function () {
+      console.log("click");
+      var addval = $(".addressbar").val();
+      console.log(addval);
+      var stateval = $("#state").val();
+      console.log(stateval);
+      var cityval = $("#city").val();
+      console.log(cityval);
+      var landval = $("#landmark").val();
+      console.log(landval);
+      var pinval = $("#pincode").val();
+      console.log(pinval);
+      $(".additional").css({ display: "block" });
+      $(".addressshow").css({ display: "block" });
+      $("#address-field").append(
+        `<span style="display:block margin-right:19px;">${addval}   ${stateval} ${cityval}     ${landval}    ${pinval}</span>`
+      );
+      // $('#useradd').val('');
+      // $('#userstate').val('');
+      // $('#userciy').val('');
+      // $('#userland').val('');
+      // $('#userpincode').val('');
+      $(".sendFE").css({ display: "none" });
+      $(".online").css({ display: "none" });
+      $(".paiddiv").css({ display: "none" });
+      $(".cashdiv").css({ display: "none" });
+      $(".sendFE").css({ display: "none" });
+      $("#branchex").css({ display: "none" });
+      $(".contdiv").css({ display: "none" });
+      $("#schedulecall").css({ display: "none" });
+    });
+
+   
+     
+    $("#disposition").change(function () {
+      if ($("#sub_disposition").val() == "non-contacted") {
         $(".paiddiv").css({ display: "none" });
+        $(".contdiv").css({ display: "none" });
+        $("#ptpdiv").css({ display: "none" });
+        $("#emid2").css({ display: "none" });
+        $("#emid4").css({ display: "none" });
+        $(".schedule").css({ display: "none" });
+        $("#emid3").css({ display: "none" });
+        $("#emid1").css({ display: "none" });
+        $(".callcheck").css({ display: "none" });
+        $(".online").css({ display: "none" });
+        $(".settel").css({ display: "none" });
+        $(".remark").css({ display: "block" });
         $(".cashdiv").css({ display: "none" });
         $(".sendFE").css({ display: "none" });
+        $(".otsreq").css({ display: "none" });
         $("#branchex").css({ display: "none" });
         $(".contdiv").css({ display: "none" });
         $("#schedulecall").css({ display: "none" });
-      });
+        $(".schedule").css({ display: "none" });
+      }
+    });
 
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Paid") {
-          $(".paiddiv").css({ display: "block" });
-          $(".contdiv").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $("#disposition").val("contacted");
-          $("#call").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".settel").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".cashdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-        }
-      });
-       
-      $("#disposition").change(function () {
-        if ($("#sub_disposition").val() == "non-contacted") {
-          $(".paiddiv").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $(".callcheck").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".settel").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".cashdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-        }
-      });
-   
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Promise To Pay") {
-          $("#ptpdiv").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#mainbtn").css({ display: "block" });
-          $("#call").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Call Back") {
-          $(".callcheck").css({ display: "block" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Schedule Call") {
-          $(".schedule").css({ display: "block" });
-          $(".remark").css({ display: "block" });
-          $("#disposition").val("contacted");
-          $(".otsreq").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-
-          $("#call").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-
-          $(".settelement").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "OTS Request") {
-          $(".otsreq").css({ display: "block" });
-          $("input[name=otsamt]").val("")
-          $("input[name=posamt]").val("")
-          $(".percaltos").val("")
-          $(".percalpos").val("")
-          // $('.otsspan').css({display:'block'})
-          $(".remark").css({ display: "block" });
-          // $('#otsremark').css({display:'block'})
-          // $('#otsbtn').css({display:'block'})
-          $("#schedulecall").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-          $("#call").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $("#mainbtn").css({ display: "none" });
-          $("#shedulebtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-        }
-      });
-
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Settlement") {
-          $("#settle").css({ display: "block" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $("#disposition").val("contacted");
-          $(".otsreq").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $("#call").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $("#mainbtn").css({ display: "none" });
-        }
-      });
-      $("select[name=settle]").change(function () {
+    $("select[name=settle]").change(function () {
             $('#emical1').val("");
             $('#emical2').val("");
             $('#emical3').val("");
@@ -2605,597 +2025,246 @@ $.ajax({
         }
       
       });
-      $('#emical1').change(function (){
-        var a = $(".emidate").val()
-         console.log(a)
-         var newDate  = moment(a, "YYYY-MM-DD").add(1, 'months').format("YYYY-MM-DD");
-         var newDate2 = moment(a, "YYYY-MM-DD").add(2, 'months').format("YYYY-MM-DD");
-         var newDate3 = moment(a, "YYYY-MM-DD").add(3, 'months').format("YYYY-MM-DD");
-  
- 
-        console.log($('.emisel').val())
-        if ($('.emisel').val() == 'EMI2'){
-          $('#emical2').val(newDate);
+
+
+    $("#sub_disposition").change(function () {
+      if ($("#sub_disposition").val() == "Paid") {
+        $(".paiddiv").css({ display: "block" });
+      }
+      else {
+        $(".paiddiv").css({ display: "none" });
+
+      }
+
+      if ($("#sub_disposition").val() == "Promise To Pay") {
+        $("#ptpdiv").css({ display: "block" });
+       }
+       else{
+        $("#ptpdiv").css({ display: "none" });
         }
-        if ($('.emisel').val() == 'EMI3'){
+ 
+      if ($("#sub_disposition").val() == "Call Back") {
+        $(".callcheck").css({ display: "block" });
+        }
+      else{
+        $(".callcheck").css({ display: "none" });
+      }
+   
+      if ($("#sub_disposition").val() == "Schedule Call") {
+        $(".schedule").css({ display: "block" });
+        }
+      else{
+        $(".schedule").css({ display: "none" });
+      }
+   
+      if ($("#sub_disposition").val() == "OTS Request") {
+        $(".otsreq").css({ display: "block" });
+        $("input[name=otsamt]").val("")
+        $("input[name=posamt]").val("")
+        $(".percaltos").val("")
+        $(".percalpos").val("")
+        }
+        else{
+          $(".otsreq").css({ display: "none" });
+        $("input[name=otsamt]").val("")
+        $("input[name=posamt]").val("")
+        $(".percaltos").val("")
+        $(".percalpos").val("")
+        }
+  
+      if ($("#sub_disposition").val() == "Settlement") {
+        $("#settle").css({ display: "block" });
+      }
+      else{
+        $("#settle").css({ display: "none" });
+        $("#emid1").css({ display: "none" });
+        $("#emid2").css({ display: "none" });
+        $("#emid3").css({ display: "none" });
+        $("#emid4").css({ display: "none" });
+        
+
+      }
+    });
+       $('#emical1').change(function (){
+      var a = $(".emidate").val()
+       console.log(a)
+       var newDate  = moment(a, "YYYY-MM-DD").add(1, 'months').format("YYYY-MM-DD");
+       var newDate2 = moment(a, "YYYY-MM-DD").add(2, 'months').format("YYYY-MM-DD");
+       var newDate3 = moment(a, "YYYY-MM-DD").add(3, 'months').format("YYYY-MM-DD");
+
+
+      console.log($('.emisel').val())
+      if ($('.emisel').val() == 'EMI2'){
+        $('#emical2').val(newDate);
+      }
+      if ($('.emisel').val() == 'EMI3'){
+        $('#emical2').val(newDate);
+        $('#emical3').val(newDate2);
+      }
+      if ($('.emisel').val() == 'EMI4'){
           $('#emical2').val(newDate);
           $('#emical3').val(newDate2);
-        }
-        if ($('.emisel').val() == 'EMI4'){
-            $('#emical2').val(newDate);
-            $('#emical3').val(newDate2);
-            $('#emical4').val(newDate3);
-        }
-         console.log(newDate)
-        $("input[name=emiamt1]").removeAttr("disabled");
-        $("input[name=emiamt2]").removeAttr("disabled");
-        $("input[name=emiamt3]").removeAttr("disabled");
-        $("input[name=emiamt4]").removeAttr("disabled");
+          $('#emical4').val(newDate3);
+      }
+       console.log(newDate)
+      $("input[name=emiamt1]").removeAttr("disabled");
+      $("input[name=emiamt2]").removeAttr("disabled");
+      $("input[name=emiamt3]").removeAttr("disabled");
+      $("input[name=emiamt4]").removeAttr("disabled");
 
-      });
+    });
+  
     
-      
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Send FE To Collect") {
-          $(".sendFE").css({ display: "block" });
-          $("#disposition").val("contacted");
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $(".emidiv").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
+    $("#sub_disposition").change(function () {
+      if ($("#sub_disposition").val() == "Send FE To Collect") {
+        $(".sendFE").css({ display: "block" });
         }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Broken Promise") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Refused To Pay") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Ringing No Response") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Switch OFF") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-       $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Not Reachable") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Call Waiting") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "No-Recall") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Refused To Pay") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Wrong Contact") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      
-       $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Busy") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      
-       $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Call Waiting") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Language Not Communicable") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-      });
-      $("#sub_disposition").change(function () {
-        if ($("#sub_disposition").val() == "Not Available") {
-          $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          // $('#disposition').val('contacted')
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        }
-        $(".radioval").click(function(){
-        var val = $("input[type='radio']:checked").val();
-        if(val==="cheque"){
-            $("#cheque").css({ display: "block" });
-            $("#onlinepay").css({ display: "none" });
-        }
-        else if(val==="online payment"){
-            $("#onlinepay").css({ display: "block" });
-            $("#cheque").css({ display: "none" });
-        }
-        else if(val==="cash"){
-            $("#onlinepay").css({ display: "none" });
-            $("#cheque").css({ display: "none" });
-        }
-    });
-      });
-
-      $(document).ready(function () {
-        
-       $(".subbtn").css({"pointer":"none"})
-        
-
-        $("#disposition").change(function () {
-          var conval = $("#disposition").val();
-          console.log(conval);
-
-          if (conval == "contacted") {
-            $("#sub_disposition").selectpicker("refresh");
-            $("#sub_disposition option").remove();
-            $("#sub_disposition").append(
-            
-              `<option  value="none" disabled selected hidden>Subdisposition</option>\
-              {% for i in contacted %}<option value="{{i}}">{{i}}</option>{% endfor %}`
-            );
-            
-            $("#sub_disposition").selectpicker("refresh");
-          } else if (conval == "non-contacted") {
-            $("#sub_disposition").selectpicker("refresh");
-            $("#sub_disposition option").remove();
-            $("#sub_disposition ").append(
-              `<option  value="none" disabled selected hidden>Subdisposition</option>\
-              {% for i in noncontacted %}<option value="{{i}}">{{i}}</option>{% endfor %}`
-            );
-           
-            $("#sub_disposition").selectpicker("refresh");
-              $("#call").css({ display: "none" });
-          $(".remark").css({ display: "block" });
-          $(".online").css({ display: "none" });
-          $("#ptpdiv").css({ display: "none" });
-          $(".online").css({ display: "none" });
-          $(".paiddiv").css({ display: "none" });
-          $(".cashdiv").css({ display: "none" });
-          $("#branchex").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".contdiv").css({ display: "none" });
-          $(".sendFE").css({ display: "none" });
-          $(".settelement").css({ display: "none" });
-          $("#schedulecall").css({ display: "none" });
-          $("#settle").css({ display: "none" });
-          $("#emid1").css({ display: "none" });
-          $("#emid4").css({ display: "none" });
-          $("#emid2").css({ display: "none" });
-          $("#emid3").css({ display: "none" });
-          $("#mainbtn").css({ display: "none" });
-          $(".schedule").css({ display: "none" });
-          $(".otsinfo").css({ display: "none" });
-          $(".otsspan").css({ display: "none" });
-          $(".otsreq").css({ display: "none" });
-          $("#otsremark").css({ display: "none" });
-          $("#otsbtn").css({ display: "none" });
-        
-          }
-        });
-      });
-
-      // the selector will match all input controls of type :checkbox
-      // and attach a click event handler
-      $("input:checkbox").on("click", function () {
-        // in the handler, 'this' refers to the box clicked on
-        var $box = $(this);
-        if ($box.is(":checked")) {
-          // the name of the box is retrieved using the .attr() method
-          // as it is assumed and expected to be immutable
-          var group = "input:checkbox[name='" + $box.attr("name") + "']";
-          // the checked state of the group/box on the other hand will change
-          // and the current value is retrieved using .prop() method
-          $(group).prop("checked", false);
-          $box.prop("checked", true);
-        } else {
-          $box.prop("checked", false);
-        }
-      });
-    });
-
-    from =  "1990-04-01"
-    var today = new Date();
-    var dd = String(today.getDate()-1).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = yyyy + '-' +mm + '-' + dd;
-    console.log(today)
-    config = {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i",
-      altInput: true,
-      altFormat: "F j, Y (h:i K)",
-      disable: [
-        {
-            from:from,
-            to: today
-        }
-    ]
-    };
-    flatpickr("input[type=datetime-local]", config);
-    $("select[name=mode]").change(function () {
-      console.log($("select[name=mode]").val());
-    });
-
-    $('select[name=dispositionvalue]').change(function(){
-      if ($("select[name=dispositionvalue]").val()!= ""){
-        $("#disposerror").css({'display':'none'})
-      }else{
-        $("#disposerror").css({'display':'block'})
+      else{
+        $(".sendFE").css({ display: "none" });
       }
-     })
-     $('select[name=subdispositionvalue]').change(function(){
-      if ($("select[name=subdispositionvalue]").val()!= ""){
-        $("#subdisposerror").css({'display':'none'})
-      }else{
-        $("#subdisposerror").css({'display':'block'})
+    });
+  
+     
+    });
+
+    $(".radioval").click(function(){
+      var val = $("input[type='radio']:checked").val();
+      if(val==="cheque"){
+          $("#cheque").css({ display: "block" });
+          $("#onlinepay").css({ display: "none" });
       }
-     })
+      else if(val==="online payment"){
+          $("#onlinepay").css({ display: "block" });
+          $("#cheque").css({ display: "none" });
+      }
+      else if(val==="cash"){
+          $("#onlinepay").css({ display: "none" });
+          $("#cheque").css({ display: "none" });
+      }
+  });
+
+    $(document).ready(function () {
+      
+     $(".subbtn").css({"pointer":"none"})
+      
+
+      $("#disposition").change(function () {
+        var conval = $("#disposition").val();
+        console.log(conval);
+
+        if (conval == "contacted") {
+          // $("#sub_disposition").selectpicker("refresh");
+          $("#sub_disposition option").remove();
+          $("#sub_disposition").append(
+          
+            `<option  value="none" disabled selected hidden>Subdisposition</option>\
+            {% for i in contacted %}<option value="{{i}}">{{i}}</option>{% endfor %}`
+          );
+          
+          // $("#sub_disposition").selectpicker("refresh");
+        } else if (conval == "non-contacted") {
+          // $("#sub_disposition").selectpicker("refresh");
+          $("#sub_disposition option").remove();
+          $("#sub_disposition ").append(
+            `<option  value="none" disabled selected hidden>Subdisposition</option>\
+            {% for i in noncontacted %}<option value="{{i}}">{{i}}</option>{% endfor %}`
+          );
+         
+          // $("#sub_disposition").selectpicker("refresh");
+            $("#call").css({ display: "none" });
+        $(".remark").css({ display: "block" });
+        $(".online").css({ display: "none" });
+        $("#ptpdiv").css({ display: "none" });
+        $(".online").css({ display: "none" });
+        $(".paiddiv").css({ display: "none" });
+        $(".cashdiv").css({ display: "none" });
+        $("#branchex").css({ display: "none" });
+        $(".sendFE").css({ display: "none" });
+        $(".contdiv").css({ display: "none" });
+        $(".sendFE").css({ display: "none" });
+        $(".settelement").css({ display: "none" });
+        $("#schedulecall").css({ display: "none" });
+        $("#settle").css({ display: "none" });
+        $("#emid1").css({ display: "none" });
+        $("#emid4").css({ display: "none" });
+        $("#emid2").css({ display: "none" });
+        $("#emid3").css({ display: "none" });
+        $("#mainbtn").css({ display: "none" });
+        $(".schedule").css({ display: "none" });
+        $(".otsinfo").css({ display: "none" });
+        $(".otsspan").css({ display: "none" });
+        $(".otsreq").css({ display: "none" });
+        $("#otsremark").css({ display: "none" });
+        $("#otsbtn").css({ display: "none" });
+      
+        }
+      });
+    });
+
+    // the selector will match all input controls of type :checkbox
+    // and attach a click event handler
+    $("input:checkbox").on("click", function () {
+      // in the handler, 'this' refers to the box clicked on
+      var $box = $(this);
+      if ($box.is(":checked")) {
+        // the name of the box is retrieved using the .attr() method
+        // as it is assumed and expected to be immutable
+        var group = "input:checkbox[name='" + $box.attr("name") + "']";
+        // the checked state of the group/box on the other hand will change
+        // and the current value is retrieved using .prop() method
+        $(group).prop("checked", false);
+        $box.prop("checked", true);
+      } else {
+        $box.prop("checked", false);
+      }
+    });
 
 
-  </script>
+  from =  "1990-04-01"
+  var today = new Date();
+  var dd = String(today.getDate()-1).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
 
-  {% endblock content %}
+  today = yyyy + '-' +mm + '-' + dd;
+  console.log(today)
+  config = {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i",
+    altInput: true,
+    altFormat: "F j, Y (h:i K)",
+    disable: [
+      {
+          from:from,
+          to: today
+      }
+  ]
+  };
+  flatpickr("input[type=datetime-local]", config);
+  $("select[name=mode]").change(function () {
+    console.log($("select[name=mode]").val());
+  });
 
+  $('select[name=dispositionvalue]').change(function(){
+    if ($("select[name=dispositionvalue]").val()!= ""){
+      $("#disposerror").css({'display':'none'})
+    }else{
+      $("#disposerror").css({'display':'block'})
+    }
+   })
+   $('select[name=subdispositionvalue]').change(function(){
+    if ($("select[name=subdispositionvalue]").val()!= ""){
+      $("#subdisposerror").css({'display':'none'})
+    }else{
+      $("#subdisposerror").css({'display':'block'})
+    }
+   })
+
+
+</script>
+
+
+{% endfor %}
+
+
+{% endblock content %}

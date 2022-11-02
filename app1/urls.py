@@ -45,8 +45,10 @@ urlpatterns = [
         path("dataexport/",views.dataexport,name="dataexport"),
         path("connecttocustomer",views.connect),
         path('sf/<int:id>',views.sendfetagging),
-
+        
+        
         path("dashtl",views.dashtl,name="dashtl"),
+        path("dashtlajax",views.dashtlajax,name="dashtlajax"),
         path("ptp",views.ptp,name="ptp"),
         path("ptpcount",views.ptpcount,name="ptpcount"),
         path("paidcount",views.paidcount,name="paidcount"),
@@ -54,7 +56,7 @@ urlpatterns = [
 
 
         path("missedcall",views.missedcall,name="missedcall"),
-        path("unknown/<str:ph>",views.missunknown,name="unknown"),
+        path("unknown",views.missunknown,name="unknown"),
 
         path('qualityscore',views.qualityscore,name="qualityscore"),
         path('scoredata',views.scoredata,name='scoredata'),
@@ -86,6 +88,8 @@ urlpatterns = [
         path('dispose',views.dispose,name="dispose"),
         path('disconnect',views.disconnectcall,name="disconnect"),
         path("pausecode",views.pausecode,name="pausecode"),
+        path("breakcode",views.breakcode,name="breakcode"),
+        path("apstatus",views.activepausestatus,name="apstatus"),
         path("callsinqueue",views.callsinqueue,name="callsinqueue"),
         path('pa',views.pa,name="pa"),
 ]

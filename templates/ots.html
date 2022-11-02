@@ -1,184 +1,128 @@
-{% extends 'base.html' %}
-{% load static %}
-<body>
-    {% block content %}
-  
-  {% include "style.html" %}
-     <style>
-      tbody, td, tfoot, th, thead, tr{
-        padding: 5px 0 !important;
-      }
-      .ots-filter{
-        width: 120px;
-      }
+{% extends 'base.html'  %}
 
-      .select2-container .select2-selection--single{
-        height: 33px;
-      }
 
-      .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 35px;
-      }
-      .select2-container--default .select2-selection--single{
-        border-radius: 8px;
-        background-color: #ffffff;
-        box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
-        border: none;
-      }
-      .select2-container--default .select2-selection--single .select2-selection__arrow{
-        top: 4px;
-      }
-      .sortby-div >.select2-container--default .select2-selection--single .select2-selection__rendered{
-        padding-left: 38px; 
-      }
-    </style>
-
-    <div class="row">
-      <div class="dash" >One Time Settlement(OTS)</div>
-      
-      <div class="row" >
-        <div class="cal">
-          <div class="column gx-5 ">
-			<span>From</span>
-            <form action="">
-              {% csrf_token %}
-              <div class= "cal-con">
-                <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" alt="">
-              <input class="form-control fromdate cal1 " type="datetime-local" placeholder="selecte date time" >
-              </div>
-          </form>
-           
-          </div>
-          <div class="column">
-            <div class="flex-wrape ">
-              <span>To</span>
-
-              <form action="">
-                <div class= "cal-con">
-                  <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt="">
-                 <input class="form-control otodate cal2" type="datetime-local" placeholder="selecte date time" >
-                </div>
-              </form>
-              
-            </div>
-          </div>
-          <div class="column d-flex gap-2 align-items-end justify-content-end flex-wrap " style="width:30%">
-          
-            <div class="ots-filter sortby-div">
-              <img src="{% static 'Images/filt.png' %}" class="sort-icon" alt="">
-              <select class="sortbysel sortotsbtn" name="selectval"> select
-                <option value="">Sort By</option>
-                <option value="all">All</option>
-                <option value="Largest to Smallest">Largest To Smallest</option>
-                <option value="Oldest to Newest">Oldest To Newest</option>
-              </select>
-            </div>
-            <div class="ots-filter">
-              <select class="filtersel selectotss rselect" id="selectval" name="selectval"> select
-                <option value="">OTS Status</option>
-                <option value="all">All</option>
-                <option value="Accepted">Accept</option>
-                <option value="Declined">Declined</option>
-              </select>
-            </div>
-          </div>
-
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
+<style>
+  .menu {
+  --indicator-left: 10px;
+  --indicator-width: 39px;
+  }
+</style>
+<input type="hidden" value="all" name="filterval">
+<main class="main-reminder main-ots">
+  <div class="parent-filter-wrapper">
+    <div class="first-child-parent-filter">
+      <div class="filter-wrapper-reminder">
+        <p class="m-0">From</p>
+        <div class="date-wrapper">
+          <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+          </svg>
+          <input type="text" class="datepick" name="fdate">
         </div>
-       
       </div>
-        <div class="otsdetails ">
-          
-          
+      <div class="filter-wrapper-reminder" >
+        <p class="m-0">To</p>
+        <div class="date-wrapper">
+          <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+          </svg>
+          <input type="text" class="datepick" name="todate">
         </div>
+      </div>
+    </div>
+    <div class="filter-wrapper-reminder ">
+      <div class="sort-by-wrapper">
+        <svg class="sort-by-icon" width="14" height="17" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.2 21.6L14.4 16.8H18V4.8H14.4L19.2 0L24 4.8H20.4V16.8H24L19.2 21.6ZM0 19.2V16.8H12V19.2H0ZM0 12V9.6H8.4V12H0ZM0 4.8V2.4H4.8V4.8H0Z" fill="#575757"/>
+        </svg>
+          
+        <select class="rm-sortby" name="">
+          <option value="">Sort By</option>
+          <option value="Largest to Smallest">Largest to Smallest</option>
+          <option value="Oldest to Newest">Oldest to Newest </option>
+        </select>
+      </div>
+    </div>
   </div>
 
+  <section class="filter-slider-section">
+    <div class="menu">
+      <div class="menu__indicator"></div>
+      <div class="menu-line__indicator"></div>
+      <ul class="menu__list">
+        <li class="menu__item">
+          <a class="menu__link fall-link"  href="#">All OTS</a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link acp-link" id="fall"  href="#" >Accepted OTS</a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link rej-link" href="#">Rejected OTS</a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link pen-link" href="#">Pending</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="data-render-section">
+    <div class="main-data-wrapper">
+    </div>
+  </section>
+</main>
 
 
 
+<script>
+const menu = document.querySelector('.menu');
+const menuindicator = document.querySelector('.menu__indicator');
 
-              <!-- <div class="mx-3" style="width: fit-content;"> -->
-            <!-- <form action="">
-                <select class="selectots" name="selectval" id="selectval"> select
-                    <option value="">Select</option>
-                    <option value="all">All</option>
-                    <option value="Accepted">Accept</option>
-                    <option value="Declined">Declined</option>
-                </select>   
-            </form> -->
-              <!-- </div> -->
-           <!-- </div>
-           <div class="otsdetails">
-
-    
-            <div class="otsinside">
-        
-                
-            
-           </div> -->
-      
-    
-           
-               
-                     
-       
-        
-
-      <!-- </div>
-  </div> -->
-
-  <script>
-    config={
-  enableTime: true,
-  dateFormat: "d-m-Y ",
-  altInput: true,
-  altFormat: "F j, Y",
-  
+function updateIndicator(linkElem) {
+  menu.style.setProperty('--indicator-left', `${linkElem.offsetLeft}px`);
+  menu.style.setProperty('--indicator-width', `${linkElem.offsetWidth}px`);
 }
-  flatpickr("input[type=datetime-local]",config);
 
+function resetIndicator() {
+  menu.style.setProperty('--indicator-left', 0);
+  menu.style.setProperty('--indicator-width', 0);  
+}
 
-  $(document).ready(function(){
-    $(".otspage").addClass("active-page")
-    // var b=$('.tlstat').val()
-    // console.log("tstatussssssssss",b)
-    // $(".tlstat").css({"color":"pink"})
-
-    let sortots=sessionStorage.getItem("selval")
-    console.log(sortots)
-  $(".selectotss ").val(sortots)
-
-  let sortby=sessionStorage.getItem("sortval")
-  $(".sortbysel ").val(sortby)
-
-
-      $("#form-post").change(function(){
-          $(this).closest("form").submit();
-      })
-    
-
-  $('.sortotsshow').click(function() {
-      $('.sorthide').toggle('slow');        
-  });
+menu.addEventListener('click', function(evt) {
+  const link = evt.target.closest('.menu__link');
+  evt.target.classList.add("ac1");
   
-  $('.c1').click(function(){
-        $('.cal1').click()
-      })
+  if (link) {
+    updateIndicator(link);
+  }
+});
 
-      $('.c2').click(function(){
-        $('.cal2').click()
-      })
-      if($('.tlstat').val()=="null"){
-            console.log("works")
-                                    console.log($('.tlstat').val())
-                                    $('.tlstat').css({'color':'red'})
+menu.addEventListener('click', function(evt) {
+  evt.target.classList.remove("ac1");
+  evt.target.classList.contains('ac1')?resetIndicator():console.log("asd")
+});
+
+$(document).ready(function (){
+  $('.cal__icon').click(function (){
+    $(this).next().click()
+  })
+})
+
+  $('.datepick').daterangepicker({
+    singleDatePicker:true,
+    autoApply:true,
+    locale: {
+            format: 'DD-MM-YYYY'
         }
   });
 
+  $('.header-title').html("One Time Settlement (OTS)")
+
+
 
 </script>
-
-    {% include 'otsajax.html' %}
-  
-    {% endblock content %}
-
-</body>
+{% include 'dashtlotsajax.html'  %}
+{% endblock content  %}

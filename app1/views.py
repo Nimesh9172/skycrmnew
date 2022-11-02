@@ -10,7 +10,6 @@ from django.shortcuts import render,redirect
 from .models import *
 from .forms import otsdataForm, personalForm,additionalForm,DataUploadForm,SmsUploadForm
 
-from datetime import datetime
 from django.conf import settings
 from datetime import datetime,timedelta
 from django.db.models import Q
@@ -156,8 +155,6 @@ def misscallednotiCount(request):
         d=MissedCall.objects.filter(missdt__contains=d4).filter(username=request.user.username).exclude(contacted="Yes").count()
         print(d)
         
- 
-  
     return JsonResponse({'d':d})
 
 @login_required(login_url="login")
@@ -208,6 +205,7 @@ def incomingcms(request):
     
     except Exception as e:
         print(e)
+
     cur.close()
     db.close()
     if len(info)!=0:
@@ -385,8 +383,6 @@ def incomingcms(request):
             add.save()
             personaldetails.objects.update(what="")
          return render(request,"unknown.html",{"info":info,"p":p})
-    
-
 
 
 def test(request):
@@ -566,15 +562,15 @@ def tvajax(request):
     s=LogData.objects
     db=dbconnection()
     cur=db.cursor()
-    q= f"select distinct status_name from vicidial_campaign_statuses where campaign_id='IIT'"
+    q= f"select distinct status_name from vicidial_campaign_statuses"
     cur.execute(q)
     sub = cur.fetchall()
     no=s.values("lastdial").distinct()
     today = datetime.today()
     d4 = today.strftime("%Y-%m-%d")
     final=[]
-    for i in no:
-          print(i["lastdial"])
+    # for i in no:
+    #       print(i["lastdial"],"num")
     if request.user.user_level== 9:
         for i in range(len(no)):
             # print(no[i]["lastdial"])
@@ -592,14 +588,14 @@ def tvajax(request):
                 # print("subdispo",sub[j][0],"count",a['kos'],"number",no[i]["lastdial"])
                 final.append([sub[j][0],a['kos']])
                 
-    # print("final",final)
+    print("final",final)
     stat=[]
     for i in final:
         if i[1] != 0 :
-            print(i)
+            print(i,"team")
             stat.append(i)
         
-    # print(stat)
+    print("stat",stat)
   
     return JsonResponse({"stat":stat})
 
@@ -747,8 +743,32 @@ def dashboard(request):
     print("rrrr",r)
     db.close()
     return render(request,"dashboard.html",{"r":r})
+def activepausestatus(request):
+    if request.method == 'POST':
+        user=request.user.username
+        url = f'http://{apilink}/vicidial/non_agent_api.php?source=test&user=6666&pass=robust&function=agent_status&agent_user={user}&stage=csv&header=YES'
+        g_url = requests.get(url)
+        print(g_url.text)
+        txt=g_url.text
+        final=txt.split(',')
+        print(final,"girtdry")
+        stat=final[7]
+        print("8786656",stat[11:])
+        data=stat[11:]
+        # states=final
+        # print(statess)
+        return JsonResponse({"status":data})
 
 def pausecode(request):
+    if request.method == "POST":
+        user=request.user.username
+        url=f"http://{apilink}/agc/api.php?source=test&user=6666&pass=robust&agent_user={user}&function=external_pause&value=PAUSE"
+        g_url = requests.get(url)
+        res = g_url.text
+        
+        return JsonResponse({'status':200,"msg":res})
+
+def breakcode(request):
     if request.method == "POST":
         pc=request.POST.get("pc")
         user=request.user.username
@@ -756,11 +776,10 @@ def pausecode(request):
         url=f"http://{apilink}/agc/api.php?source=test&user=6666&pass=robust&agent_user={user}&function=pause_code&value={pc}"
         g_url=requests.get(url)
         res=g_url.text
-        print(res)
-        if 'ERROR' in res:
-            return JsonResponse({'status':300,"msg":res})
-        elif 'SUCCESS' in res:
-            return JsonResponse({'status':200,"msg":res})
+        print("this res",res)
+        return JsonResponse({'status':200,"res":res})
+    return JsonResponse({'status':400})
+
 
   
 @login_required(login_url="login")
@@ -777,6 +796,7 @@ def tlcms(request,id):
 
 
     if request.method=="POST":
+        print("Asads",id)
         otsamt=request.POST.get("otsamt")
         per = request.POST.get('percentage')
         status=request.POST.get("status")
@@ -789,7 +809,6 @@ def tlcms(request,id):
             otsdata.objects.filter(info_id=id).update(suggest=otsamt,otspercentage=per,tlstat=status,tlstatdate=dt,remark=remark)
         return redirect("dashtlots")
 
-
     return render(request,"tlcms.html",{"info":info,'otsamt':otsamt,"pers":pers})
 
 @login_required(login_url="login")
@@ -797,8 +816,6 @@ def cms(request,id):
     db=dbconnection()
     cur=db.cursor()
     q= f"select distinct category,status_name from vicidial_campaign_statuses where status_name!='Exsisting Customer' and status_name != 'Fake Number'"
-
-    
     
     cur.execute(q)
     sub =  cur.fetchall()
@@ -862,7 +879,7 @@ def cms(request,id):
         disval=request.POST.get("dispositionvalue")
         subval=request.POST.get("subdispositionvalue")
         dail=request.POST.get("dialnum3")
-       
+        
         mode=request.POST.get("radio-group")
         cash=request.POST.get('cashtype')
         trans_cheq1=request.POST.get("trans1")
@@ -895,7 +912,7 @@ def cms(request,id):
         amt=request.POST.get("amt")
         dt=datetime.now()
         nowdate=dt.now().date() 
- 
+
         
         try:
             cash = int(cash)
@@ -924,7 +941,7 @@ def cms(request,id):
         elif schedule!= "":
             date= schedule
 
-      
+
 
         dt = datetime.now()
         am = dt + timedelta(minutes=0)
@@ -1024,9 +1041,8 @@ def tlcmsresponse(request):
 
 @login_required(login_url="login")
 def noncontacted(request):
-    value = notificationCount(request)
     data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0).exclude(list_id__status__contains="0")
-    return render(request,"noncontacted.html",{"data":data,"value":value})
+    return render(request,"noncontacted.html",{"data":data})
 
 @login_required(login_url="login")
 def search(request):
@@ -1182,6 +1198,7 @@ def upload(request):
         entry=datetime.now()
         user = request.user.username
        
+        print("adafd",campion,listname,listid,file,entry)
    
         # url=f"http://{apilink}/vicidial/non_agent_api.php?source=test&function=add_list&user={user}&pass=robust&list_id={listid}&list_name={listname}&active=Y&campaign_id={campion}"
         # g_url = requests.get(url)
@@ -1316,6 +1333,7 @@ def dataupload(request):
     form = DataUploadForm
     context = {'form':form,'read':read,'campname':"campname","camp":camp}
     return render(request,'upload.html',context)
+
 def datastatus(request):
     if request.method=="POST":
         an=request.POST.get("an")
@@ -1336,7 +1354,6 @@ def datastatus(request):
     
 @login_required(login_url="login")
 def filterrm(request):
-    value = notificationCount(request)
     today = datetime.today()
     d4 = today.strftime("%Y-%m-%d")
     all_data=personaldetails.objects.filter(callername=request.user.username).filter(callbacktime__contains=d4).filter(Q(sub_dispossitions='Promise To Pay') | Q(sub_dispossitions='Call Back')| Q(sub_dispossitions='Schedule Call'))
@@ -1349,6 +1366,7 @@ def filterrm(request):
         fil = request.POST.get('remfilter')
         fil = fil.split(",")
         sortval = request.POST.get('sortby') 
+        print("filll",fil)
         try:
 
             if fd != "" and td != "":
@@ -1362,7 +1380,7 @@ def filterrm(request):
                 else:
                     all_data = personaldetails.objects.filter(callername=request.user.username).filter(Q(sub_dispossitions='Promise To Pay') | Q(sub_dispossitions='Call Back')| Q(sub_dispossitions='Schedule Call'))
                 all_data = all_data.filter(callbacktime__range=[fd,td])
-                print("now",all_data)
+            
             else:
                 if request.user.user_level == 9:
                     all_data=personaldetails.objects.filter(callbacktime__contains=d4).filter(Q(sub_dispossitions='Promise To Pay') | Q(sub_dispossitions='Call Back')| Q(sub_dispossitions='Schedule Call'))			
@@ -1416,6 +1434,8 @@ def filterrs(request):
 
             if sel != ['']:
                 all_data = all_data.filter(Q(sub_dispossitions__in=sel))
+            
+            print("asdsaaaaaddda",all_data)
 
         except Exception as e:
             print(e)
@@ -1450,6 +1470,8 @@ def filterots(request):
                 fd = fd.strftime("%Y-%m-%d")
                 td = td.strftime("%Y-%m-%d")
                 all_data = all_data.filter(tlstatdate__range=[fd,td])
+                
+
             if sortval != 'undefined':
                 if sortval == "Largest to Smallest":
                     all_data = all_data.order_by('-ots_amt')
@@ -1458,9 +1480,61 @@ def filterots(request):
            
         except Exception as e:
             print(e)
-            all_data = otsdata.objects.all()
+            
     return JsonResponse({'all_data':list(all_data.values())})
-	      
+
+def dashtlajax(request):
+    all_data =otsdata.objects.filter(callername=request.user.username)
+    if request.user.user_level == 9:
+        all_data =otsdata.objects.all()
+
+    if request.method == "POST":
+        fd = request.POST.get('fdate').rstrip()
+        td = request.POST.get('tdate').rstrip()
+        sel = request.POST.get('remfilter')
+        sortval = request.POST.get('sortby')
+        print(sortval)
+        try:
+            all_data =otsdata.objects.filter(callername=request.user.username)
+            if request.user.user_level == 9:
+                all_data = otsdata.objects	
+
+            if fd != "" and td != "":
+                fd = datetime.strptime(fd,'%d-%m-%Y')
+                td = datetime.strptime(td,'%d-%m-%Y')
+                fd = fd.strftime("%Y-%m-%d")
+                td = td.strftime("%Y-%m-%d")
+                if fd == td :
+                    all_data = all_data.filter(info_id__contacted_DateTime__contains=fd)
+                else:
+                   all_data = all_data.filter(info_id__contacted_DateTime__range=[fd,td])
+                print(fd,td,all_data)
+            
+            if sel != "all" and sel!="" and sel!="Pending":
+                all_data=all_data.filter(tlstat=sel)
+            elif sel == 'Pending':
+                all_data =  all_data.filter(tlstat__isnull = True)
+                print("pending",all_data)
+            elif sel == "all":
+                print("ASalll")
+                all_data=all_data.filter(id__isnull = False)
+            
+            if sortval != 'undefined':
+                if sortval == "Largest to Smallest":
+                    all_data = all_data.order_by('-ots_amt')
+                elif sortval == "Oldest to Newest":
+                    all_data = all_data.order_by('tlstatdate')
+
+            return JsonResponse({'all_data':list(all_data.values())})
+
+        except Exception as e:
+            print(e)
+            # all_data = otsdata.objects.all()
+        
+        print(all_data)
+    return JsonResponse({'all_data':list(all_data.values())})
+
+
 @login_required(login_url="login")
 def dataexport(request):
     db=dbconnection()
@@ -1479,15 +1553,17 @@ def dataexport(request):
     print("ID",campid,"Name",campname)
     value = notificationCount(request)
     if request.method == "POST":
-        sd = request.POST.get('sdate').rstrip()
-        ed = request.POST.get('edate').rstrip()
-        sel = request.POST.getlist('remcb')
+        sd = request.POST.get('sdate')
+        ed = request.POST.get('edate')
+        # sel = request.POST.getlist('remcb')
+        sel=request.POST.get("sel")
 
+        print(sd,ed,sel)
         read=LogData.objects
-        print(sel)
-        if sel!="":
+        print(sel,sd,ed)
+        if  sel != None:
             print(sel,"inside if")
-            read=read.filter(sub_dispossitions__in=sel)
+            read=read.filter(sub_dispossitions=sel)
             print(read)
     
 
@@ -1545,24 +1621,20 @@ def listid(request):
 
 
 def nonattempted(request):
-
     data=personaldetails.objects.filter(user_id=request.user.id).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
     u=User.objects.all()
     if request.user.user_level == 9:
         data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:200]
-        if request.method=="POST":
-            agent=request.POST.get("agent")
-            print("itssssss",agent)
-            if agent == "all" and agent !="":
-                data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:200]
-            else:
-                data=personaldetails.objects.filter(attempted=0).filter(callername=agent).exclude(list_id__status__contains="0")[:100]
-            return JsonResponse({"data":list(data.values())})
-    # else :
-    #     data=personaldetails.objects.filter(callername=request.user.username).filter(attempted=0).exclude(list_id__status__contains="0")[:100]
-
-
-
+    if request.method=="POST":
+        agent=request.POST.get("agent")
+        print("itssssss",agent)
+        if agent == "all" and agent !="":
+            data=personaldetails.objects.filter(attempted=0).exclude(list_id__status__contains="0")[:200]
+        else:
+            data=personaldetails.objects.filter(attempted=0).filter(callername=agent).exclude(list_id__status__contains="0")[:100]
+        
+        print("asdas",  data)
+        return JsonResponse({"data":list(data.values())})
 
     return render(request,'nonattempted.html',{'data':data,"u":u})
 
@@ -1890,20 +1962,20 @@ def missedcall(request):
 def missedcallajax(request):
     db = dbconnection()
     cur=db.cursor()
-    query2=f"SELECT user,phone_number,call_date,count(phone_number) as total FROM asterisk.vicidial_closer_log where campaign_id='CAPL_INB4' AND status='DROP' AND date(call_date)= '2022-09-22' group by phone_number "
+    # todaydate = datetime.today().strftime("%Y-%m-%d")   
+    todaydate = "2022-09-19"
+    query2=f"SELECT user,phone_number,call_date,count(phone_number) as total FROM asterisk.vicidial_closer_log where status='DROP' AND date(call_date)= '{todaydate}' group by phone_number "
     cur.execute(query2)
     missinfo =cur.fetchall()
     print(missinfo)
-    # print("its",type(missinfo),len(missinfo))
     today=datetime.now().date()
-    # today="2022-09-22"
     print(today)
     for i in missinfo:
         if MissedCall.objects.filter(callnum=i[1]).filter(missdt=i[2]).exists() == False:
             m=MissedCall.objects.create(username=i[0],callnum=i[1],missdt=i[2],callcount=i[3],contacted="No")
             m.save()
         elif MissedCall.objects.filter(callnum=i[1]).filter(missdt=i[2]).exists():
-             m=MissedCall.objects.filter(callnum=i[1]).update(callcount=i[3])
+            MissedCall.objects.filter(callnum=i[1]).update(callcount=i[3])
     
     if request.user.user_level == 9:
         miss=MissedCall.objects.filter(missdt__contains=today)
@@ -1913,12 +1985,15 @@ def missedcallajax(request):
     if request.method=="POST":
         sd=request.POST.get("sd").rstrip()
         ed=request.POST.get("ed").rstrip()
-        print("before",sd,ed)
+        # print("before",sd,ed)
+        filt = request.POST.get("filter")
+        print(filt)
         sd=datetime.strptime(sd,'%d-%m-%Y')
         ed=datetime.strptime(ed,'%d-%m-%Y')
+    
         sd=sd.strftime("%Y-%m-%d")
         ed=ed.strftime("%Y-%m-%d")
-        print("after",sd,ed)
+        # print("after",sd,ed)
         # query2=f"SELECT user,phone_number,call_date,count(phone_number) as total FROM asterisk.vicidial_closer_log where campaign_id='CAPL_INB4' AND status='DROP' AND date(call_date) between '{sd}' and '{ed}' group by phone_number"
         # cur.execute(query2)
         # miss=cur.fetchall()
@@ -1926,12 +2001,24 @@ def missedcallajax(request):
         #      m=MissedCall.objects.create(username=i[0],callnum=i[1],missdt=i[2],callcount=i[3],contacted="No")
         #      m.save()
         if request.user.user_level == 9: 
-            print(miss,sd,ed)
             miss=MissedCall.objects.filter(missdt__range=[sd,ed])
-            print("aftre filter",miss)
+            if sd == ed:
+               miss=MissedCall.objects.filter(missdt__contains=ed)
         else:
             miss=MissedCall.objects.filter(missdt__range=[sd,ed]).filter(username=request.user.username)
-            print(miss,type(miss))
+            if sd == ed:
+               miss=MissedCall.objects.filter(missdt__contains=ed).filter(username=request.user.username)
+        
+        if filt == "all":
+            miss = miss.filter(contacted__isnull = False)
+        elif filt == "completed":
+            miss = miss.filter(contacted = "Yes").exclude(sub_dispo = "Ringing No Response")
+        elif filt == "no":
+            miss = miss.filter(contacted = "No")
+        elif filt == "rnr":
+            miss = miss.filter(sub_dispo = "Ringing No Response")
+
+        miss = miss[:150]
     
         return JsonResponse({"miss":list(miss.values())})
 
@@ -1949,15 +2036,16 @@ def misscmsajax(request):
             mdt=mdt.strftime("%Y-%m-%d %H:%M:%S")
         except Exception as e:
             print(e)
-        print("ooooooooooooooooooooo",ph,mdt,count)
+
         if MissedCall.objects.filter(callnum=ph).exists() == False:
             print("done")
             mcreate=MissedCall.objects.create(username=user,callnum=ph,missdt=mdt,callcount=count)
             mcreate.save()
         
         # print(ph)
-        phnum=ph[2:]
-        print("after",ph)
+        if len(ph) >= 12:
+            phnum=ph[2:]
+
         try :
             a = Additional.objects.values_list('debtor_id',flat=True).get(contactnum=phnum).first()
             print('a',a)
@@ -1968,8 +2056,8 @@ def misscmsajax(request):
             inf =personaldetails.objects.filter(Q(mobile_number=phnum)| Q(alt_mno_1=phnum) | Q(alt_mno_2=phnum)  | Q(alt_mno_3=phnum) | Q(id=a))
             print('asd',inf[0].id)
             for i in inf:
-             misscall=MissedCall.objects.filter(callnum=ph).update(dispo="Contacted",sub_dispo="Exsisting Customer",lan=i.bank_loan_accountno,name=i.borrowor_name,remark="Exsisting Customer",contacted="Yes",
-             cont_dt=dt)
+                misscall=MissedCall.objects.filter(callnum=ph).update(dispo="Contacted",sub_dispo="Exsisting Customer",lan=i.bank_loan_accountno,name=i.borrowor_name,remark="Exsisting Customer",contacted="Yes",
+                cont_dt=dt)
             return JsonResponse({"status":inf[0].id})
         except Exception as e:
             print(e)
@@ -1977,21 +2065,22 @@ def misscmsajax(request):
     
     return JsonResponse({'status':"none"})
 
-def missunknown(request,ph):
-    print(ph)
-    if request.method == "POST":
+def missunknown(request):
+    
+    if request.method == "POST":    
         print("came")
+        ph = request.POST.get("number")
         name=request.POST.get("name")
         lan=request.POST.get("lan")
         dispo=request.POST.get("dispo")
         sub=request.POST.get("sub_dispo")
         rem=request.POST.get("rem")
         dt=datetime.now()
-        ms=MissedCall.objects.filter(callnum=ph).update(name=name,lan=lan,dispo=dispo,sub_dispo=sub,remark=rem,contacted="Yes",cont_dt=dt)
+        print(ph,name,lan,dispo,sub,rem)
+        MissedCall.objects.filter(callnum=ph).update(name=name,lan=lan,dispo=dispo,sub_dispo=sub,remark=rem,contacted="Yes",cont_dt=dt)
         return JsonResponse({"status":200})
-        
-    return render(request,"missunknown.html",{"ph":ph})
-
+    
+    return JsonResponse({"status":400})
 
 def qualityscore(request):
     # print("hi")
@@ -2133,7 +2222,7 @@ def qsajax(request):
         cur.execute(p)
         b=cur.fetchall()
 
-    
+
         info=list(b)
         print(len(info),info)
         
@@ -2201,7 +2290,7 @@ def score(request,rec):
         print(m1,m2,m3,m4,m5,m6,m7,m8,m9,total,got,per,ls)
         return redirect("/qualityscore")
     return render(request,"score.html",{"q":q})
-
+    
 def qualityexport(request):
     cmp=campaign.objects.all()
     s=Score.objects.values("agent").distinct()

@@ -1,398 +1,331 @@
-{% extends 'base.html' %}
+{% extends 'base.html'  %}
 
-{% load static %}
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
 
-{% block content %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-{% include "style.html" %}
-    <style>
-  .clicked{
- background: #121B55;
+<main class="main-reminder main-ots">
+  <div class="sicdiv">
+    <input type="text" class="osd" placeholder="Search">
+    <img  src="{% static 'Images/Vector.png'%}" class="searchicon" alt="" >
+</div>
+<div class="overcarddiv">
+  <a class="overcard" href="/ptp  ">
+    <img  src="{% static 'Images/nfolder.svg'%}" class="cimg" alt="" >
+     <span class="crdhead">Lead PTP Behaviour</span>
+  </a>
+<a href="/ptpcount" class="linkme">
+<div class="overcard">
+    <img  src="{% static 'Images/npaid.svg'%}" class="cimg" alt="" >
+    <span class="crdhead">PTP Status</span>
+</div>
+</a>
+<a href="/paidcount" class="linkme">
+<div class="overcard">
+    <img  src="{% static 'Images/nptp.svg'%}" class="cimg" alt="" >
+    <span class="crdhead">Paid Status</span>
+</div>
+</a>
+<a href="/teamoverall" class="linkme">
+<div class="overcard clicked">
+    <img  src="{% static 'Images/ngrp.svg'%}" class="cimg" alt=""  style="filter:brightness(100)" >
+    <span class="crdhead"  style="color: #FFFFFF;">Disposition Status</span>
+</div>
+</a>
+<div class="overcard">
+    <img  src="{% static 'Images/nnc.svg'%}" class="cimg" alt="" >
+    <spa class="crdhead">Non Attempted</span>
+</div>
+</div>
+
+<div class="table-wrapper table-responsive" style="margin: auto;margin-top: 12px;">
+    <table class="table table-borderless  rounded">
+      <thead class="sticky-top">
+        <tr>
+          <th  scope="col" style="width: 17%;">Sub Disposition</th>
+          <th  scope="col">1</th>
+          <th  scope="col">2</th>
+          <th  scope="col">3</th>
+          <th  scope="col">4</th>
+          <th  scope="col">5</th>
+          <th  scope="col">6</th>
+          <th  scope="col">7</th>
+          <th  scope="col">8</th>
+          <th  scope="col">9</th>
+          <th  scope="col">10</th>
+        </tr>
+      </thead>
+      <tbody class="tablebody">
+        {% for i in con %}
+        <tr>
+         <td class="{{i.1}}">{{i.0}}</td>
+         <td class="atm1"></td>
+         <td class="atm2"></td>
+         <td class="atm3"></td>
+         <td class="atm4"></td>
+         <td class="atm5"></td>
+         <td class="atm6"></td>
+         <td class="atm7"></td>
+         <td class="atm8"></td>
+         <td class="atm9"></td>
+         <td class="atm10"></td>
+        </tr>
+        {% endfor%}
+       </tbody>
+     
+      <tfoot>
+
+      </tfoot>
+    </table>
+</div>
+
+
+</main>
+
+<script>
+  // table design starts
+
+const cc = (dispo,htdispo,ct) => {
+  // if (dispo == htdispo){
+        if(ct ==  1){
+              
+              $(`.${htdispo}`).parent().find('.atm1').html()== "" ?  $(`.${htdispo}`).parent().find('.atm1').html(1):$(`.${htdispo}`).next().html(parseInt($(`.${htdispo}`).parent().find('.atm1').html()) + 1)
+          }
+          else if(ct ==  2){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm2').html()== "" ?  $(`.${htdispo}`).parent().find('.atm2').html(1):$(`.${htdispo}`).parent().find('.atm2').html(parseInt($(`.${htdispo}`).parent().find('.atm2').html()) + 1)
+              
+        }
+          else if(ct ==  3){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm3').html()== "" ?  $(`.${htdispo}`).parent().find('.atm3').html(1):$(`.${htdispo}`).parent().find('.atm3').html(parseInt($(`.${htdispo}`).parent().find('.atm3').html()) + 1)     
+        }
+          else if(ct ==  4){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm4').html()== "" ?  $(`.${htdispo}`).parent().find('.atm4').html(1):$(`.${htdispo}`).parent().find('.atm4').html(parseInt($(`.${htdispo}`).parent().find('.atm4').html()) + 1)
+              
+        }
+          else if(ct ==  5){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm5').html()== "" ?  $(`.${htdispo}`).parent().find('.atm5').html(1):$(`.${htdispo}`).parent().find('.atm5').html(parseInt($(`.${htdispo}`).parent().find('.atm5').html()) + 1)
+              
+        }
+          else if(ct ==  6){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm6').html()== "" ?  $(`.${htdispo}`).parent().find('.atm6').html(1):$(`.${htdispo}`).parent().find('.atm6').html(parseInt($(`.${htdispo}`).parent().find('.atm6').html()) + 1)
+              
+        }
+          else if(ct ==  7){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm7').html()== "" ?  $(`.${htdispo}`).parent().find('.atm7').html(1):$(`.${htdispo}`).parent().find('.atm7').html(parseInt($(`.${htdispo}`).parent().find('.atm7').html()) + 1)
+              
+        }
+          else if(ct ==  8){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm8').html()== "" ?  $(`.${htdispo}`).parent().find('.atm8').html(1):$(`.${htdispo}`).parent().find('.atm8').html(parseInt($(`.${htdispo}`).parent().find('.atm8').html()) + 1)
+              
+        }
+          else if(ct ==  9){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm9').html()== "" ?  $(`.${htdispo}`).parent().find('.atm9').html(1):$(`.${htdispo}`).parent().find('.atm9').html(parseInt($(`.${htdispo}`).parent().find('.atm9').html()) + 1)
+              
+        }
+          else if(ct ==  10){
+            // console.log("Busy",count)
+            // if (x[i][0] == "Busy"){
+              $(`.${htdispo}`).parent().find('.atm10').html()== "" ?  $(`.${htdispo}`).parent().find('.atm10').html(1):$(`.${htdispo}`).parent().find('.atm10').html(parseInt($(`.${htdispo}`).parent().find('.atm10').html()) + 1)
+              
+        }
+      // }
+}
+
+
+  const disstat = () => {
+    console.log("fun")
+    $.ajax({
+      method:'get',
+      headers: {
+      "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+      },
+      url: "{% url 'tvajax' %}",
+      // data:data2,
+      processData: false,
+      contentType: false,
+      datatype:'json',
+      success: function (data) {
+        var x=data.stat
+        console.log(x)
+        
+        
+        for(var i in x ){
+
+          if (x[i][0] == "Busy" ){
+
+            cc(x[i][0],"Busy",x[i][1])
+          }
+          else if (x[i][0] == "Promise To Pay" ){
+
+            cc(x[i][0],"PTP",x[i][1])
+          }
+          else if (x[i][0] == "Call Back" ){
+
+            cc(x[i][0],"CBK",x[i][1])
+          }
+          else if (x[i][0] == "Schedule Call" ){
+
+            cc(x[i][0],"SCBK",x[i][1])
+          }
+          else if (x[i][0] == "OTS Request" ){
+
+            cc(x[i][0],"OTS",x[i][1])
+          }
+          else if (x[i][0] == "Settlement" ){
+
+            cc(x[i][0],"SETTEL",x[i][1])
+          }
+          else if (x[i][0] == "Send FE To Collect" ){
+
+            cc(x[i][0],"SFTCOL",x[i][1])
+          }
+          else if (x[i][0] == "Broken Promise" ){
+
+            cc(x[i][0],"BPTP",x[i][1])
+          }
+          else if (x[i][0] == "Refused To Pay" ){
+
+            cc(x[i][0],"RTP",x[i][1])
+          }
+          else if (x[i][0] == "No-Recall" ){
+
+            cc(x[i][0],"nocall",x[i][1])
+          }
+          else if (x[i][0] == "No-Recall" ){
+
+            cc(x[i][0],"nocall",x[i][1])
+          }
+          else if (x[i][0] == "Ringing No Response" ){
+
+            cc(x[i][0],"RNR",x[i][1])
+          }
+          else if (x[i][0] == "Call Wating" ){
+
+            cc(x[i][0],"Cwait",x[i][1])
+          }
+          else if (x[i][0] == "Switch OFF" ){
+
+            cc(x[i][0],"SOFF",x[i][1])
+          }
+          else if (x[i][0] == "Wrong Contact" ){
+
+            cc(x[i][0],"WCN",x[i][1])
+          }
+          else if (x[i][0] == "Not Available" ){
+
+            cc(x[i][0],"NOTAVL",x[i][1])
+          }
+          else if (x[i][0] == "Language not Communicable " ){
+
+            cc(x[i][0],"LNC",x[i][1])
+          }
+
+        }
+      }
+    })
   }
 
-    
-    </style>
-      {% csrf_token %}
-  
-  </style>
-  {% csrf_token %}
-    <div class="container-fluid">
-        <div class="row" >
 
-            <div class="dash">
-              {% if request.user.user_level == 9 %}
-               Team Overall Report  
-               {% else %}
-               Overall Report
-               {% endif %}
-               <div style="float: right">
-                <!-- <img src="{% static 'Images/user.png' %}" class="show" style=" height: 41px; margin-right: 10px;" alt=""> -->
+   
+      $(document).ready(function () {
+        // console.log($(".dispo").html())
+        // console.log("get ready")
+        $('.header-title').html("Team Overall Report")
+        disstat()
+      //    var table =  $('#example').DataTable({
+      //       "aLengthMenu":[100]
+      //     });
+      //     var search = $.fn.dataTable.util.throttle(
+      //     function(val) {
+      //         table.search(val).draw();
+      //     },
+      //     400  // Search delay in ms
+      // );
 
-                           
-                </div>
-              </div>
-              <div>
-              <div style="position: relative;
-              float: right;
-              width: 35%;"  >
-                <img  src="{% static 'Images/Vector.png'%}" style="position: absolute;top: 20px;
-                 left: 34px;" class="searchicon" alt="" >
-                <input type="search" class="dashsearch"  placeholder="Search" >
-               
-              </div>
-            </div>
-
-            <div class="cardBox flex-wrap">
-                
-                  <a href="/ptp" class="linkme">
-                    <div class="dashcard">
-                      <div class="imgcard ptp" style="padding-top: 18px;" >
-                      <img src="{% static 'Images/ptp status icon 2.svg' %}"/></div>
-                      <p class="cardcontent">Lead PTP Behaviour</p>
-                  </div>
-                  </a>
-              <a href="/ptpcount" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard" style="padding-top: 6%;" id="paid">
-                      <img src="{% static 'Images/pay icon.svg' %}"/>
-                    </div>
-                    
-                    <p class="cardcontent">PTP Status</p>
-                </div>
-                </a>
-                <a href="/paidcount" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard" style="padding-top: 3%; " id="ptps">
-                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"/>
-                    </div>
-                    
-                    <p class="cardcontent">Paid Status</p>
-                </div>
-                </a>
-                <!-- <div class="dashcard">
-                    <div class="imgcard" style="padding-top: 4%; " id="ptpsc">
-                      <img src="{% static 'Images/paid status icon.svg' %}"/>
-                    </div>
-                   <p class="cardcontent">Paid Status Comparison</p>
-                </div> -->
-                <a href="/teamoverall" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard clicked" style="padding-top: 3%;" id="dispostatus">
-                      <img src="{% static 'Images/folder.svg' %}"/>      
-                    </div>
-                    <p class="cardcontent">Disposition Status</p>
-                </div>
-                </a>
-                <a href="/dashtlots" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard" style="padding-top: 14px;" id="notattempt">
-                      <img src="{% static 'Images/warning.svg' %}"/>
-                    </div>
-                   
-                    <p class="cardcontent">One Time Settlement</p>
-                </div>
-                </a>
-            </div>
-           
-                
-                <div class="table-responsive table-div" style="height: 437px;">
-                <table id="example" class="table"  style=" width: 100%; margin-bottom: 0;">
-                  <thead style="background: #047BD5;  position: sticky;top: 0;" class="tableheadings">
-                    <tr class="importantth">
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Sub Dispositions
-                      </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-1
-                      </th>
-                      <th class="th-sm"  style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-2
-                      </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-3
-                      </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-4
-                      </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-5
-                      </th>
-                      <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-6
-                    </th>
-                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-7
-                    </th>
-                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-8
-                    </th>
-                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-9
-                    </th>
-                    <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Attempted-10
-                    </th>
-                    </tr>
-                    </thead>
-                  <tbody class="tablebody">
-                   {% for i in con %}
-                   <tr>
-                    <td class="{{i.1}}">{{i.0}}</td>
-                    <td class="atm1"></td>
-                    <td class="atm2"></td>
-                    <td class="atm3"></td>
-                    <td class="atm4"></td>
-                    <td class="atm5"></td>
-                    <td class="atm6"></td>
-                    <td class="atm7"></td>
-                    <td class="atm8"></td>
-                    <td class="atm9"></td>
-                    <td class="atm10"></td>
-                   </tr>
-                   {% endfor%}
-                  </tbody>
-                
-                </table>
-              </div>
-              
-            </div>
-     
-
-    </div>
-
- 
-      <script>
-        // table design starts
-
-      const cc = (dispo,htdispo,ct) => {
-        // if (dispo == htdispo){
-              if(ct ==  1){
-                    
-                    $(`.${htdispo}`).parent().find('.atm1').html()== "" ?  $(`.${htdispo}`).parent().find('.atm1').html(1):$(`.${htdispo}`).next().html(parseInt($(`.${htdispo}`).parent().find('.atm1').html()) + 1)
-                }
-                else if(ct ==  2){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm2').html()== "" ?  $(`.${htdispo}`).parent().find('.atm2').html(1):$(`.${htdispo}`).parent().find('.atm2').html(parseInt($(`.${htdispo}`).parent().find('.atm2').html()) + 1)
-                    
-              }
-                else if(ct ==  3){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm3').html()== "" ?  $(`.${htdispo}`).parent().find('.atm3').html(1):$(`.${htdispo}`).parent().find('.atm3').html(parseInt($(`.${htdispo}`).parent().find('.atm3').html()) + 1)     
-              }
-                else if(ct ==  4){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm4').html()== "" ?  $(`.${htdispo}`).parent().find('.atm4').html(1):$(`.${htdispo}`).parent().find('.atm4').html(parseInt($(`.${htdispo}`).parent().find('.atm4').html()) + 1)
-                    
-              }
-                else if(ct ==  5){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm5').html()== "" ?  $(`.${htdispo}`).parent().find('.atm5').html(1):$(`.${htdispo}`).parent().find('.atm5').html(parseInt($(`.${htdispo}`).parent().find('.atm5').html()) + 1)
-                    
-              }
-                else if(ct ==  6){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm6').html()== "" ?  $(`.${htdispo}`).parent().find('.atm6').html(1):$(`.${htdispo}`).parent().find('.atm6').html(parseInt($(`.${htdispo}`).parent().find('.atm6').html()) + 1)
-                    
-              }
-                else if(ct ==  7){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm7').html()== "" ?  $(`.${htdispo}`).parent().find('.atm7').html(1):$(`.${htdispo}`).parent().find('.atm7').html(parseInt($(`.${htdispo}`).parent().find('.atm7').html()) + 1)
-                    
-              }
-                else if(ct ==  8){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm8').html()== "" ?  $(`.${htdispo}`).parent().find('.atm8').html(1):$(`.${htdispo}`).parent().find('.atm8').html(parseInt($(`.${htdispo}`).parent().find('.atm8').html()) + 1)
-                    
-              }
-                else if(ct ==  9){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm9').html()== "" ?  $(`.${htdispo}`).parent().find('.atm9').html(1):$(`.${htdispo}`).parent().find('.atm9').html(parseInt($(`.${htdispo}`).parent().find('.atm9').html()) + 1)
-                    
-              }
-                else if(ct ==  10){
-                  // console.log("Busy",count)
-                  // if (x[i][0] == "Busy"){
-                    $(`.${htdispo}`).parent().find('.atm10').html()== "" ?  $(`.${htdispo}`).parent().find('.atm10').html(1):$(`.${htdispo}`).parent().find('.atm10').html(parseInt($(`.${htdispo}`).parent().find('.atm10').html()) + 1)
-                    
-              }
-            // }
-      }
-
-
-        const disstat = () => {
-          console.log("fun")
-          $.ajax({
-            method:'get',
-            headers: {
-            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-            },
-            url: "{% url 'tvajax' %}",
-            // data:data2,
-            processData: false,
-            contentType: false,
-            datatype:'json',
-            success: function (data) {
-              var x=data.stat
-              console.log(x)
-              
-              
-              for(var i in x ){
-
-                if (x[i][0] == "Busy" ){
-
-                  cc(x[i][0],"Busy",x[i][1])
-                }
-                else if (x[i][0] == "Promise To Pay" ){
-
-                  cc(x[i][0],"PTP",x[i][1])
-                }
-                else if (x[i][0] == "Call Back" ){
-
-                  cc(x[i][0],"CBK",x[i][1])
-                }
-                else if (x[i][0] == "Schedule Call" ){
-
-                  cc(x[i][0],"SCBK",x[i][1])
-                }
-                else if (x[i][0] == "OTS Request" ){
-
-                  cc(x[i][0],"OTS",x[i][1])
-                }
-                else if (x[i][0] == "Settlement" ){
-
-                  cc(x[i][0],"SETTEL",x[i][1])
-                }
-                else if (x[i][0] == "Send FE To Collect" ){
-
-                  cc(x[i][0],"SFTCOL",x[i][1])
-                }
-                else if (x[i][0] == "Broken Promise" ){
-
-                  cc(x[i][0],"BPTP",x[i][1])
-                }
-                else if (x[i][0] == "Refused To Pay" ){
-
-                  cc(x[i][0],"RTP",x[i][1])
-                }
-                else if (x[i][0] == "No-Recall" ){
-
-                  cc(x[i][0],"nocall",x[i][1])
-                }
-                else if (x[i][0] == "No-Recall" ){
-
-                  cc(x[i][0],"nocall",x[i][1])
-                }
-                else if (x[i][0] == "Ringing No Response" ){
-
-                  cc(x[i][0],"RNR",x[i][1])
-                }
-                else if (x[i][0] == "Call Wating" ){
-
-                  cc(x[i][0],"Cwait",x[i][1])
-                }
-                else if (x[i][0] == "Switch OFF" ){
-
-                  cc(x[i][0],"SOFF",x[i][1])
-                }
-                else if (x[i][0] == "Wrong Contact" ){
-
-                  cc(x[i][0],"WCN",x[i][1])
-                }
-                else if (x[i][0] == "Not Available" ){
-
-                  cc(x[i][0],"NOTAVL",x[i][1])
-                }
-                else if (x[i][0] == "Language not Communicable " ){
-
-                  cc(x[i][0],"LNC",x[i][1])
-                }
-
-              }
-            }
-          })
-        }
-
-
-         
-            $(document).ready(function () {
-              console.log($(".dispo").html())
-              console.log("get ready")
-              
-              disstat()
-            //    var table =  $('#example').DataTable({
-            //       "aLengthMenu":[100]
-            //     });
-            //     var search = $.fn.dataTable.util.throttle(
-            //     function(val) {
-            //         table.search(val).draw();
-            //     },
-            //     400  // Search delay in ms
-            // );
-
-            $('.dashsearch').keyup(function() {
-                search(this.value);
-                
-                
-              });
-              
+      $('.dashsearch').keyup(function() {
+          search(this.value);
+          
+          
+        });
+        
 
 $('.show').click(function() {
-    $('.logdiv').toggle('slow');  
-    console.log("hiii")      
+$('.logdiv').toggle('slow');  
+console.log("hiii")      
 });
 
 $(".ptp").click(function(){
-  console.log("ptp")
-  $(".ptp").addClass("clicked")
-  $("#paid").removeClass("clicked")
-  $("#ptps").removeClass("clicked")
-  $("#ptpsc").removeClass("clicked")
-  $("#dispostatus").removeClass("clicked")
-  $("#notattempt").removeClass("clicked")
+console.log("ptp")
+$(".ptp").addClass("clicked")
+$("#paid").removeClass("clicked")
+$("#ptps").removeClass("clicked")
+$("#ptpsc").removeClass("clicked")
+$("#dispostatus").removeClass("clicked")
+$("#notattempt").removeClass("clicked")
 })
-  });
-  $("#paid").click(function(){
-  $("#paid").addClass("clicked")
-  $("#ptp").removeClass("clicked")
-  $("#ptps").removeClass("clicked")
-  $("#ptpsc").removeClass("clicked")
-  $("#dispostatus").removeClass("clicked")
-  $("#notattempt").removeClass("clicked")
+});
+$("#paid").click(function(){
+$("#paid").addClass("clicked")
+$("#ptp").removeClass("clicked")
+$("#ptps").removeClass("clicked")
+$("#ptpsc").removeClass("clicked")
+$("#dispostatus").removeClass("clicked")
+$("#notattempt").removeClass("clicked")
 });
 $("#ptps").click(function(){
-  $("#ptps").addClass("clicked")
-  $("#ptp").removeClass("clicked")
-  $("#paid").removeClass("clicked")
-  $("#ptpsc").removeClass("clicked")
-  $("#dispostatus").removeClass("clicked")
-  $("#notattempt").removeClass("clicked")
+$("#ptps").addClass("clicked")
+$("#ptp").removeClass("clicked")
+$("#paid").removeClass("clicked")
+$("#ptpsc").removeClass("clicked")
+$("#dispostatus").removeClass("clicked")
+$("#notattempt").removeClass("clicked")
 });
 $("#ptpsc").click(function(){
-  $("#ptpsc").addClass("clicked")
-  $("#ptp").removeClass("clicked")
-  $("#ptps").removeClass("clicked")
-  $("#paid").removeClass("clicked")
-  $("#dispostatus").removeClass("clicked")
-  $("#notattempt").removeClass("clicked")
+$("#ptpsc").addClass("clicked")
+$("#ptp").removeClass("clicked")
+$("#ptps").removeClass("clicked")
+$("#paid").removeClass("clicked")
+$("#dispostatus").removeClass("clicked")
+$("#notattempt").removeClass("clicked")
 });
 $("#dispostatus").click(function(){
-  $("#dispostatus").addClass("clicked")
-  $("#ptp").removeClass("clicked")
-  $("#ptps").removeClass("clicked")
-  $("#ptpsc").removeClass("clicked")
-  $("#paid").removeClass("clicked")
-  $("#notattempt").removeClass("clicked")
+$("#dispostatus").addClass("clicked")
+$("#ptp").removeClass("clicked")
+$("#ptps").removeClass("clicked")
+$("#ptpsc").removeClass("clicked")
+$("#paid").removeClass("clicked")
+$("#notattempt").removeClass("clicked")
 });
 $("#notattempt").click(function(){
-  $("#notattempt").addClass("clicked")
-  $("#ptp").removeClass("clicked")
-  $("#ptps").removeClass("clicked")
-  $("#ptpsc").removeClass("clicked")
-  $("#dispostatus").removeClass("clicked")
-  $("#paid").removeClass("clicked")
+$("#notattempt").addClass("clicked")
+$("#ptp").removeClass("clicked")
+$("#ptps").removeClass("clicked")
+$("#ptpsc").removeClass("clicked")
+$("#dispostatus").removeClass("clicked")
+$("#paid").removeClass("clicked")
 })
 
 
 
 
 
-      </script>
+</script>
 
-{% endblock content %}
+
+{% endblock content  %}

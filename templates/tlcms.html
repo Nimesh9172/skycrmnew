@@ -1,388 +1,437 @@
-{% extends 'base.html' %} {% load static %}
-<body>
-  {% block content %} {% include "style.html" %}
-  <!-- <link rel="stylesheet" href=
-"https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+{% extends 'base.html'  %}
 
-  <!-- CDN link used below is compatible with this example -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css"
-  />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-  <style>
-    
-   .historyarrow{
-    margin-left: 20px !important;
-   }
-    
-    .calpercotsamt{
-        width: 46px;
-    height: 29px;
-    background: #F0F0F0;
-    border: 1px solid #D2D2D2;
-    border-radius: 8px;
-    margin-left: 2px;
-    padding-top: 6px;
-    text-align: center;
-    font-size: 11px;
-    }
-    .tlots{
-        width: 53px;
-    height: 17px;
-    margin-top: 7px;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
-    color: #000000;
-    }
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
+
+<link rel="stylesheet" href="{% static 'css/cms_style.css'  %}">
+
+<style>
+.historyarrow{
+  margin-left: 20px !important;
+ }
+  
+  .calpercotsamt{
+      width: 46px;
+  height: 29px;
+  background: #F3F5F9;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  margin-left: 2px;
+  padding-top: 6px;
+  text-align: center;
+  font-size: 11px;
+  }
+  .tlots{
+      width: 53px;
+  height: 17px;
+  margin-top: 7px;
+  
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  color: #000000;
+  }
 .tlotsamt{
-    width: 103px;
-    height: 30px;
-    font-size: 9px;
-    background: #F0F0F0;
-    border: 1px solid #D2D2D2;
-    border-radius: 8px;
-    padding-left: 5px;
+  width: 94px;
+  height: 30px;
+  font-size: 9px;
+  background: #F3F5F9;
+  border: 1px solid #E0E0E0;
+  border-radius: 8px;
+  padding-left: 5px;
 }
 .accept{
-    width: 76px;
+  width: 76px;
 height: 43px;
-
-
-background: #4BAE4F;
-box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
+background: #E0FFE5;
+color: #00B84A;
+box-shadow: 0px 4px 10px rgb(0 0 0 / 11%);
 border-radius: 30px;
 }
 .declined{
-    width: 76px;
+  width: 76px;
 height: 43px;
-
-
-background: #E21B1B;
-box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.25);
+background: #FFDADA;
+color: #E21B1B;
+box-shadow: 0px 4px 10px rgb(0 0 0 / 11%);
 border-radius: 30px;
 }
 .hover-text{
-      font-size: 12px;
-      display: none;
-      color: black;
-      margin-left: 16px;
-    margin-top: 7px;
-      /* opacity: 0; */
-    }
-    .accept:hover ~ .hover-text{
-      display: block;
-    }
-    .declined:hover ~ .hover-text{
-      display: block;
-    }
+    font-size: 12px;
+    display: none;
+    color: black;
+    margin-left: 16px;
+  margin-top: 7px;
+    /* opacity: 0; */
+  }
+  .accept:hover ~ .hover-text{
+    display: block;
+  }
+  .declined:hover ~ .hover-text{
+    display: block;
+  }
 
-  </style>
-  <!-- <div class="container"> -->
-  <div class="row" style="margin-left: 87px">
-    {% for i in info %}
-    <div class="main">
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #000000;
+  }
+  
+.select2-container--default .select2-selection--single {
+  box-shadow: none;
+  border: 1px solid #E0E0E0;
+  background: #F3F5F9;
+}
+.select-details-div >.select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 0px;
+}
+.select-details-div >.select2-container--default .select2-selection--single .select2-selection__rendered {
+  line-height: 24px;
+}
+
+.select2-container--default .select2-results>.select2-results__options {
+  color: #000000;
+  /* border: 1px solid #E0E0E0; */
+  background: #F3F5F9;
+  border-radius: 0 0 10px 10px;
+}
+
+.select2-container--default .select2-selection--single {
+  border-radius: 8px;
+}
+
+.select2-results__option {
+  padding: 5px;
+  border-bottom: 1px solid #E0E0E0;
+}
+.select2-container--open .select2-dropdown--below {
+  border-radius: 0 0 10px 10px;
+}
+.form-control:disabled, .form-control[readonly] {
+  border: 1px solid  #E0E0E0 !important;
+  background-color:#F3F5F9 !important;
+  height:28px !important;
+  box-shadow: none !important;
+  width: 93%;
+
+}
+.cal-icon {
+  right: 10%;
+}
+
+/* .select2-container--default .select2-results__option--selected {
+  background-color:red;
+} */
+/* .select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: yellowgreen;
+  color: white;
+} */
+
+.main-disposition-box > .select2-container {
+  width: 87px !important;
+}
+</style>
+
+<div class="row"  style="margin-left:18px ;">
+  {% for i in info %}
+  <div class="main">
       <div class="title">Customer Information</div>
       <div class="content">
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Mobile Number</span>
-          <div class="data">
-            <span>{{i.mobile_number}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/team 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Borrowor Name</span>
-          <div class="data">
-            <span>{{i.borrowor_name}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/team 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Address</span>
-          <div class="data">
-            <span>{{i.address}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">State</span>
-          <div class="data">
-            <span>{{i.state}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Pincode</span>
-          <div class="data">
-            <span>{{i.pincode}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Date Of Birth</span>
-          <div class="data">
-            <span>{{i.dateofbirth}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/address 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Email ID</span>
-          <div class="data">
-            <span>{{i.email_id}}</span>
-          </div>
-        </div>
-     
-        <div class="image">
-          <img src="{% static 'Images/phone 1.png'%}"height="24px" width="24px"alt=""/>
-          <span id="info">Phone Number</span>
-          <div class="data">
-            <span>{{i.phone_number}}</span>
-          </div>
-        </div>
-        <div class="additional" {%if flag %} style="display: block" ;{% else %} style="display: none"{% endif %} >
-          Additionnal Details
-          <div class="emailshow" {% if em %} style="display: block";{% else %} style="display: none" {% endif %}>
-            <span class="additionalheading">Email-Id</span>
-            <div class="additionaldetails" id="email-field">
-              {% for i in a %}
-              <span class="d-block">{{i.email}}</span>
-              {% endfor %}
+
+          <div class="image">
+              <img
+                src="{% static 'Images/Ringing.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Mobile Number</span>
+              <div class="data">
+                <span>{{i.mobile_number}}</span>
+              </div>
             </div>
-          </div>
-          <div class="contactshow" {% if con %}style="display: block;" {% else %} style="display: none" {% endif %}
-          >
-            <span class="additionalheading">Contact-Number</span>
-            <div class="additionaldetails" id="contact-field">
-              {% for i in a %}
-              <span class="d-block">{{i.contactnum}}</span>
-              {% endfor %}
-            </div>
-          </div>
-          <div class="addressshow" {% if add %}style="display: block;"{% else %} style="display: none" {% endif %}
-          >
-            <span class="additionalheading">Address</span>
-            <div class="additionaldetails" id="address-field">
-              {% for i in a %}
-              <span class="d-block"
-                >{{i.address}} {{i.state}} {{i.city}} {{i.landmark}}
-                {{i.pincode}}</span
-              >
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="main">
-      <div class="title title2">Process</div>
-      <div class="content">
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Bank Name</span>
-          <div class="data">
-            <span>{{i.bankname}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Trust Name</span>
-          <div class="data">
-            <span>{{i.trustname}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">System LAN</span>
-          <div class="data">
-            <span>{{i.systemlan}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Bank Loan A/c(loan ID)</span>
-          <div class="data">
-            <span>{{i.bank_loan_accountno}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Branch Name</span>
-          <div class="data">
-            <span>{{i.branchname}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">State</span>
-          <div class="data">
-            <span>{{i.bankstate}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Nature of Facility</span>
-          <div class="data">
-            <span>{{i.nature_of_facility}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Sanction Amount</span>
-          <div class="data">
-            <span>{{i.sanctionamount}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Loan Sanction Date</span>
-          <div class="data">
-            <span>{{i.loan_sanction_date}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">NPA DATE</span>
-          <div class="data">
-            <span>{{i.NPA_Date}}</span>
-          </div>
-        </div>
-        <div class="image">
-            <img
-              src="{% static 'Images/rupee.png'%}"
-              height="24px"
-              width="24px"
-              alt=""
-            />
-            <span id="info">Interest Rate(%p.a)</span>
-            <div class="data">
-              <span>{{i.interest_rate}}</span>
-            </div>
-      </div>
-      <div class="image">
-        <img
-          src="{% static 'Images/rupee.png'%}"
-          height="24px"
-          width="24px"
-          alt=""
-        />
-        <span id="info">Account status</span>
-        <div class="data">
-          <span>{{i.account_status}}</span>
-        </div>
-        </div>
-        <div class="image">
-            <img
-              src="{% static 'Images/rupee.png'%}"
-              height="24px"
-              width="24px"
-              alt=""
-            />
-            <span id="info">Security Value</span>
-            <div class="data">
-              <span>{{i.security_value}}</span>
-            </div>
-            </div>
+
             <div class="image">
+              <img
+                src="{% static 'Images/team 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Borrower Name</span>
+              <div class="data">
+                <span>{{i.borrowor_name}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/address 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Address</span>
+              <div class="data">
+                <span>{{i.address}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/address 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">State</span>
+              <div class="data">
+                <span>{{i.state}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/address 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Pincode</span>
+              <div class="data">
+                <span>{{i.pincode}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/dis.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Date Of Birth</span>
+              <div class="data">
+                <span>{{i.dateofbirth}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/email 1.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Email ID</span>
+              <div class="data">
+                <span>{{i.email_id}}</span>
+              </div>
+            </div>
+
+            <div class="image">
+              <img
+                src="{% static 'Images/Ringing.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Phone Number</span>
+              <div class="data">
+                <span>{{i.phone_number}}</span>
+              </div>
+            </div>
+
+            <div class="image" {% if i.alt_mno_1 == None and i.alt_mno_2 == None and alt_mno_3 == None %}style="display:none";{% else %}style="display: block"{% endif %}>
+              <img
+                src="{% static 'Images/Ringing.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info" >Alternate Phone Numbers</span>
+              <div class="data" >
+                <span {% if i.alt_mno_1 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_1}}</span>
+                <span {% if i.alt_mno_2 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_2}}</span>
+                <span {% if i.alt_mno_3 == None or "nan" %}style="display:none" {% else %}style="display:block" {% endif %}>{{i.alt_mno_3}}</span>
+              </div>
+            </div>
+           
+            <div class="additional" {%if flag %} style="display: block"; {%else%} style="display: none"{%endif%}>
+              Additionnal Details
+              <div class="emailshow"{% if em %} style="display: block";{%else%} style="display: none"{% endif %}>
+                <span class="additionalheading">Email-Id</span>
+                <div class="additionaldetails" id="email-field">
+                  {% for i in a %}
+                  <span class="d-block">{{i.email}}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="contactshow"{% if con %}style="display: block;"{% else%} style="display: none"{%endif%}>
+                <span class="additionalheading">Contact-Number</span>
+                <div class="additionaldetails" id="contact-field">
+                  {% for i in a %}
+                  <span class="d-block">{{i.contactnum}}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="addressshow" {% if add %}style="display: block;"{%else%} style="display: none"{%endif%}>
+                <span class="additionalheading">Address</span>
+                <div class="additionaldetails" id="address-field">
+                  {% for i in a %}
+                    <span class="d-block">{{i.address}} {{i.state}} {{i.city}} {{i.landmark}} {{i.pincode}}</span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+      </div>
+  </div>
+  <div class="main">
+      <div class="title">Process</div>
+      <div class="content">
+          <div class="image">
+            <img src="{% static 'Images/user.png'%}" height="24px" width="24px" alt=""/>
+            <span id="info">Bank Name</span>
+            <div class="data">
+              <span>{{i.bankname}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/user.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Trust Name</span>
+            <div class="data">
+              <span>{{i.trustname}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">System LAN</span>
+            <div class="data">
+              <span>{{i.systemlan}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/dis.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Bank Loan A/c(loan ID)</span>
+            <div class="data">
+              <span>{{i.bank_loan_accountno}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Branch Name</span>
+            <div class="data">
+              <span>{{i.branchname}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/address 1.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">State</span>
+            <div class="data">
+              <span>{{i.bankstate}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img src="{% static 'Images/rupee.png'%}" height="24px" width="24px"alt=""/>
+            <span id="info">Nature of Facility</span>
+            <div class="data">
+              <span>{{i.nature_of_facility}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Sanction Amount</span>
+            <div class="data">
+              <span>{{i.sanctionamount}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Loan Sanction Date</span>
+            <div class="data">
+              <span>{{i.loan_sanction_date}}</span>
+            </div>
+          </div>
+          <div class="image">
+            <img
+              src="{% static 'Images/dis.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">NPA Date</span>
+            <div class="data">
+              <span>{{i.NPA_Date}}</span>
+            </div>
+          </div>
+          <div class="image">
               <img
                 src="{% static 'Images/rupee.png'%}"
                 height="24px"
                 width="24px"
                 alt=""
               />
-              <span id="info">Document Custody</span>
+              <span id="info">Interest Rate (%p.a)</span>
+              <div class="data">
+                <span>{{i.interest_rate}}</span>
+              </div>
+        </div>
+        <div class="image">
+          <img
+            src="{% static 'Images/rupee.png'%}"
+            height="24px"
+            width="24px"
+            alt=""
+          />
+          <span id="info">Account status</span>
+          <div class="data">
+            <span>{{i.account_status}}</span>
+          </div>
+          </div>
+          <div class="image">
+              <img
+                src="{% static 'Images/rupee.png'%}"
+                height="24px"
+                width="24px"
+                alt=""
+              />
+              <span id="info">Security Value</span>
               <div class="data">
                 <span>{{i.security_value}}</span>
               </div>
@@ -394,31 +443,7 @@ border-radius: 30px;
                   width="24px"
                   alt=""
                 />
-                <span id="info">Security Flag</span>
-                <div class="data">
-                  <span>{{i.security_flag}}</span>
-                </div>
-                </div>
-            <div class="image">
-              <img
-                src="{% static 'Images/rupee.png'%}"
-                height="24px"
-                width="24px"
-                alt=""
-              />
-              <span id="info">Current Allocation</span>
-              <div class="data">
-                <span>{{i.current_allocation}}</span>
-              </div>
-              </div>
-              <div class="image">
-                <img
-                  src="{% static 'Images/rupee.png'%}"
-                  height="24px"
-                  width="24px"
-                  alt=""
-                />
-                <span id="info">Current Allocation Date</span>
+                <span id="info">Document Custody</span>
                 <div class="data">
                   <span>{{i.security_value}}</span>
                 </div>
@@ -430,405 +455,458 @@ border-radius: 30px;
                     width="24px"
                     alt=""
                   />
-                  <span id="info">team Leader</span>
+                  <span id="info">Security Flag</span>
                   <div class="data">
-                    <span>{{i.team_ledear}}</span>
+                    <span>{{i.security_flag}}</span>
+                  </div>
+                  </div>
+              <div class="image">
+                <img
+                  src="{% static 'Images/rupee.png'%}"
+                  height="24px"
+                  width="24px"
+                  alt=""
+                />
+                <span id="info">Current Allocation</span>
+                <div class="data">
+                  <span>{{i.current_allocation}}</span>
+                </div>
+                </div>
+                <div class="image">
+                  <img
+                    src="{% static 'Images/dis.png'%}"
+                    height="24px"
+                    width="24px"
+                    alt=""
+                  />
+                  <span id="info">Current Allocation Date</span>
+                  <div class="data">
+                    <span>{{i.security_value}}</span>
                   </div>
                   </div>
                   <div class="image">
                     <img
-                      src="{% static 'Images/rupee.png'%}"
+                      src="{% static 'Images/user.png'%}"
                       height="24px"
                       width="24px"
                       alt=""
                     />
-                    <span id="info">Zone Name</span>
+                    <span id="info">Team Leader</span>
                     <div class="data">
-                      <span>{{i.zone_name}}</span>
+                      <span>{{i.team_ledear}}</span>
                     </div>
                     </div>
                     <div class="image">
                       <img
-                        src="{% static 'Images/rupee.png'%}"
+                        src="{% static 'Images/user.png'%}"
                         height="24px"
                         width="24px"
                         alt=""
                       />
-                      <span id="info">Branch Emal ID</span>
+                      <span id="info">Zone Name</span>
                       <div class="data">
-                        <span>{{i.branch_email_id}}</span>
+                        <span>{{i.zone_name}}</span>
                       </div>
                       </div>
                       <div class="image">
                         <img
-                          src="{% static 'Images/rupee.png'%}"
+                          src="{% static 'Images/email 1.png'%}"
                           height="24px"
                           width="24px"
                           alt=""
                         />
-                        <span id="info">Branch Contact Details</span>
+                        <span id="info">Branch Email ID</span>
                         <div class="data">
-                          <span>{{i.branch_contact_details}}</span>
+                          <span>{{i.branch_email_id}}</span>
                         </div>
                         </div>
-                      </div>  
-                       
-                         
-                            
-    </div>
-    <div class="main">
-      <div class="title title3">Process Additional Information</div>
+                        <div class="image">
+                          <img
+                            src="{% static 'Images/Ringing.png'%}"
+                            height="24px"
+                            width="24px"
+                            alt=""
+                          />
+                          <span id="info">Branch Contact Details</span>
+                          <div class="data">
+                            <span>{{i.branch_contact_details}}</span>
+                          </div>
+                          </div>
+              </div>    
+     
+  </div>
+  <div class="main">
+      <div class="title">Process Additional Information</div>
       <div class="content">
-        <div class="image">
-          <img
+          <div class="image">
+            <img
+              src="{% static 'Images/rupee.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
+            />
+            <span id="info">Current Principal Outstanding</span>
+            <div class="data">
+              <span>{{i.current_principal_outstanding}}</span>
+            </div>
+            </div>
+            <div class="image">
+            <img
             src="{% static 'Images/rupee.png'%}"
             height="24px"
             width="24px"
             alt=""
           />
-          <span id="info">Current Principal Outstanding</span>
+          <span id="info">Total Collected Amount</span>
           <div class="data">
-            <span>{{i.current_principal_outstanding}}</span>
+          <span>{{i.total_collected_amount}}</span>
           </div>
           </div>
+          
+      <div class="image">
+      <img
+          src="{% static 'Images/rupee.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+      />
+      <span id="info">Balance POS Amount</span>
+      <div class="data">
+          <span>{{i.balance_POS_amount}}</span>
+      </div>
+      </div>
+      <div class="image">
           <img
           src="{% static 'Images/rupee.png'%}"
           height="24px"
           width="24px"
           alt=""
-        />
-        <span id="info">Total Collected Amount</span>
-                          <div class="data">
-                            <span>{{i.total_collected_amount}}</span>
-                          </div>
-                         
-                          <div class="image">
-                            <img
-                              src="{% static 'Images/rupee.png'%}"
-                              height="24px"
-                              width="24px"
-                              alt=""
-                            />
-                            <span id="info">Balance POS Amount</span>
-                            <div class="data">
-                              <span>{{i.balance_POS_amount}}</span>
-                            </div>
-                            </div>
-                            <div class="image">
-                              <img
-                                src="{% static 'Images/rupee.png'%}"
-                                height="24px"
-                                width="24px"
-                                alt=""
-                              />
-                              <span id="info">TOS</span>
-                              <div class="data">
-                                <span class="tos">{{i.TOS}}</span>
-                              </div>
-                              </div>
-                              <div class="image">
-                                <img
-                                  src="{% static 'Images/rupee.png'%}"
-                                  height="24px"
-                                  width="24px"
-                                  alt=""
-                                />
-                                <span id="info">TOS as on Date</span>
-                                <div class="data">
-                                  <span>{{i.TOS_as_on_Date}}</span>
-                                </div>
-                                </div>
-                                 <div class="image">
-                            
-                    
-                              
-</div>
-    </div>
-    </div>
-  
-    
-    <div class="parent">
-     
-      <div class="history" style="background-color: #FFFFFF;">
-        <div class="title title3">Customer History</div>
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
           />
-          <span id="info">Agent username</span>
+          <span id="info">TOS</span>
           <div class="data">
-            <span>{{i.agent_username}}</span>
+          <span class="tos">{{i.TOS}}</span>
           </div>
-        </div>
-        <div class="image">
+          </div>
+          <div class="image">
           <img
-            src="{% static 'Images/rupee.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
+              src="{% static 'Images/dis.png'%}"
+              height="24px"
+              width="24px"
+              alt=""
           />
-          <span id="info">Sub-Disposition</span>
+          <span id="info">TOS as on Date</span>
           <div class="data">
-            <span>{{i.sub_dispossitions}}</span>
+              <span>{{i.TOS_as_on_Date}}</span>
           </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/pencil 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Remark</span>
-          <div class="data">
-            <span>{{i.remark}}</span>
           </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Contacted Date & Time</span>
-          <div class="data">
-            <span>{{i.contacted_DateTime}}</span
-            >
-              <div class="historytitle">See Call History<i class="fa-solid fa-arrow-right historyarrow" id="showcall"  style="color:  #047BD5;cursor:pointer;" ></i></div>
-          </div>
-        </div>
-      </div>
+              <div class="image">
+      
 
-      <div class="callhistory" style="display: none;padding-left: 6px;">
-        <div class="main-data-wrapper">
-        {% for a in pers %}
-          <div class="list-wrapper">
-            <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 15px;cursor:pointer;" id="back"></i>
-            <span style="font-size: 11px; margin-left:5px;margin-right:3px">{{a.contacted_DateTime}}</span
-              >
-            <i class="fa-solid fa-arrow-right historyarrow" style="color:  #047BD5;" ></i>
-           <div class="historycontent" style="margin-top: 5px;">
-            <div id="info" style="margin-top: 0px;">Agent Name</div>
-            <div class="data" style="margin-top: 0px;margin-left: 7px;">
-              
-              <div><i class="bi bi-telephone-forward-fill" style="font-size: 12px;color:  #047BD5; margin-right: 9px;"></i>{{a.callername}}</div>
-            </div>
-            <div id="info" style="margin-top: 2px;">Sub dispostion</div>
-            <div class="data" style="margin-top: 2px;margin-left: 3px;">
-              <div>{{a.sub_dispossitions}}</div>
-            </div>
-    
-            <div id="info" style="margin-top: 1px;">Remark</div>
-            <div class=" historyremark">
-              {{a.remark}}hvdjwhebdiuewduewnwnoeiwni ndwjnwo ejnjkwe ndjwnoij 
-            </div>
-            </div>
-    
-            </div>
-            {% endfor %}
-          </div>
-        <div id="pagination-container"></div>
-      </div>
-
-
-       <div class="mortgage">
-        <div class="title title3">Mortgage Details</div>
-        <div class="image">
-          <img
-            src="{% static 'Images/user.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Mortgage Type</span>
-          <div class="data">
-            <span>{{i.agent_username}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/detail.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Category</span>
-          <div class="data">
-            <span>{{i.sub_dispossitions}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/pencil 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Details</span>
-          <div class="data">
-            <span>{{i.remark}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/pencil 1.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Details 2</span>
-          <div class="data">
-            <span>{{i.remark}}</span>
-          </div>
-        </div>
-        <div class="image">
-          <img
-            src="{% static 'Images/dis.png'%}"
-            height="24px"
-            width="24px"
-            alt=""
-          />
-          <span id="info">Value</span>
-          <div class="data">
-            <span>{{i.contacted_DateTime}}</span
-            >
-            </div>
-
-       </div>
-    </div>
-    </div>
- 
-
-
-    <div class="parent">
-      <div class="Agent">
-        <div class="title title4">TL Action</div>
-
-        <div class="d-flex justify-content-center" style="margin-top: 15px;column-gap: 26px;">
-           <div class="maindiv" id="acc">
-             <div class="accept" >
-               <i class="fa-solid fa-check" style="margin-top: 7px;margin-left: 24px;font-size: 27px;color: #ffff;"></i>
-             </div>
-             <div class="hover-text" id="acpt">
-                Accept
-                 </div>
-         </div>
-       
-         <div class="maindiv" id="decl">
-           <div class="declined">
-            <i class="fa-solid fa-xmark" style="margin-top: 7px;margin-left: 29px;font-size: 27px;color: #ffff;"></i>
-           </div>
           
+  </div>
+      </div>
+  </div>
+  
+  <div class="parent">
         
-        <div class="hover-text" id="dec">
-            Declined
-            </div>
-     
-        </div>
+    <div class="history" style="background-color: #FFFFFF;">
+      <div class="title">Customer History</div>
+      <div class="content">
+      <div class="image">
+        <img
+          src="{% static 'Images/user.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Agent username</span>
+        <div class="data">
+          <span>{{i.callername}}</span>
         </div>
       </div>
-      <div class="Agnttag">
-        <div class="title angtagtitle">TL Tagging</div>
-        <div class="content" style="margin-left: 3px;margin-right: 3px;">
-          <form action="" method="post">
-            <input type="hidden"  value="" name="status" class="stat">
-
-            {% csrf_token %}
-            <div class="d-flex" style="margin-top: 12px;">
-            <span class="tlots">
-                 OTS Raised
-            </span>
-            <input type="tel" name="otsamt" placeholder="Enter Amount" class="tlotsamt"  value="{{otsamt}}" autocomplete="off" id="">
-            <span class="calpercotsamt" style="display: none;"></span>
-            <input type="hidden" value="" name="percentage">
-            </div>
-            <div class="remark" style="position: relative">
-                <!-- <i class="bi bi-mic-fill"style="position: absolute;z-index: 1;right: 10px margin-top: 10px;"></i>--->
-                <textarea name="remark"id="remark"class="rm"cols="29"rows="7"placeholder="Remarks"style="position: relative"></textarea>
-         
-              <input class="subbtn" type="submit" />
-            </form>
-            <!-- send FE to Collect end-->
-          </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/rupee.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Sub-Disposition</span>
+        <div class="data">
+          <span>{{i.sub_dispossitions}}</span>
         </div>
-    
-  {% endfor %}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.js"></script>
- 
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/pencil 1.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Remark</span>
+        <div class="data">
+          <span>{{i.remark}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/dis.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Contacted Date & Time</span>
+        <div class="data">
+          <span>{{i.contacted_DateTime}}</span
+          >
+            <div class="historytitle"><span class="historyspan" style="margin: 0px;">See Call History</span><i class="fa-solid fa-arrow-right historyarrow" id="showcall"  style="color:  #047BD5;" ></i></div>
+        </div>
+      </div>
 
-  <script type="text/javascript">
-    $(document).ready(function () {
+      </div>
+    </div>
+
+    <div class="callhistory" style="display: none;padding-left: 6px;">
+      <div class="main-data-wrapper">
+        {% if show %}
+      {% for a in pers %}
+  
       
-      
-      
-    
-      //Pagination start
-      var items = $(".main-data-wrapper .list-wrapper");
-      var numItems = items.length;
-      var perPage = 1;
-
-      items.slice(perPage).hide();
-
-      $('#pagination-container').pagination({
-          items: numItems,
-          itemsOnPage: perPage,
-          prevText: "&laquo;",
-          nextText: "&raquo;",
-          onPageClick: function (pageNumber) {
-              var showFrom = perPage * (pageNumber - 1);
-              var showTo = showFrom + perPage;
-              items.hide().slice(showFrom, showTo).show();
-          }
-      });
-      //Pagination end 
-     
-
-      $("#showcall").click(function(){
-      console.log("click")
-        $(".history").css({"display":"none"})
-        $(".callhistory").css({"display":"block"})
-    })
-     $("#back").click(function(){
-      console.log("click")
-        $(".history").css({"display":"block"})
-        $(".callhistory").css({"display":"none"})
-    })
-
-    $("#acc").click(function(){
-        $("#acpt").css({display:"block"});
-        $("#dec").css({display:"none"});
-        $("input[name='status']").val("Accepted")
-        console.log( $("input[name='status']").val())
-    })
-    $("#decl").click(function(){
-        $("#dec").css({display:"block"});
-        $("#acpt").css({display:"none"});
-        $("input[name='status']").val("Declined")
-        console.log( $("input[name='status']").val())
-    })
+        <div class="list-wrapper">
+          <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 31px;cursor:pointer" id="back"></i>
+          <span style="font-size: 11px; margin-left:5px;margin-right:3px">{{a.contacted_DateTime}}</span
+            >
+          <i class="fa-solid fa-arrow-right historyarrow" style="color:  #047BD5;" ></i>
+         <div class="historycontent" style="margin-top: 5px;">
+          <div id="info" style="margin-top: 0px;">Agent Name</div>
+          <div class="data" style="margin-top: 0px;margin-left: 7px;">
+            
+            <div><i class="bi bi-telephone-forward-fill" style="font-size: 12px;color:  #047BD5; margin-right: 9px;"></i>{{a.caller_name}}</div>
+          </div>
+          <div id="info" style="margin-top: 2px;">Sub dispostion</div>
+          <div class="data" style="margin-top: 2px;margin-left: 3px;">
+            <div>{{a.sub_dispossitions}}</div>
+          </div>
+  
+          <div id="info" style="margin-top: 1px;">Remark</div>
+          <div class="historyremark">
+            {{a.remark}}
+          </div>
+          </div>
+  
+          </div>
         
-        $('.tlotsamt').keyup(function (){
-            $(".calpercotsamt").css({ display: "block" });
-            b = $('.tlotsamt').val()
-                var TOS = $('.tos').html()
-                percentage=(b/parseInt(TOS))*100
-                percentage=Math.round(percentage)
-                console.log(percentage)
+          {% endfor %}
+          <div id="pagination-container"></div>
+          {% else %}
+          <i class="fa-solid fa-arrow-left" style="color:  #047BD5;margin-top:15px;margin-left: 15px;cursor:pointer" id="back"></i>
+          <div class="text-center text-danger blink_me">No History Found</div>
+          {% endif %}
+        </div>
+ 
+    </div>
 
-                $('.calpercotsamt').html(`${percentage}%`)
-                $('input[name=percentage]').val(`${percentage}%`)
-                console.log( $('input[name=percentage]').val())
-    
-        })
-        a = undefined
-    });
-  </script>
+    <div class="mortgage">
+      <div class="title">Mortgage Details</div>
+      <div class="content" style="height: 85%;">
+      <div class="image">
+        <img
+          src="{% static 'Images/user.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Mortgage Type</span>
+        <div class="data">
+          <span>{{i.agent_username}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/detail.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Category</span>
+        <div class="data">
+          <span>{{i.sub_dispossitions}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/pencil 1.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Details</span>
+        <div class="data">
+          <span>{{i.remark}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/pencil 1.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Details 2</span>
+        <div class="data">
+          <span>{{i.remark}}</span>
+        </div>
+      </div>
+      <div class="image">
+        <img
+          src="{% static 'Images/dis.png'%}"
+          height="24px"
+          width="24px"
+          alt=""
+        />
+        <span id="info">Value</span>
+        <div class="data">
+          <span>{{i.contacted_DateTime}}</span
+          >
+          </div>
 
-  {% endblock content %}
-</body>
+     </div>
+   </div>  
+  </div>
+
+      
+  </div>
+  <div class="parent">
+      <div class="Agent">
+          <div class="title">TL Action</div>
+
+          <div class="d-flex justify-content-center" style="margin-top: 15px;column-gap: 26px;">
+             <div class="maindiv" id="acc">
+               <div class="accept" >
+                 <i class="fa-solid fa-check" style="margin-top: 7px;margin-left: 24px;font-size: 27px;"></i>
+               </div>
+               <div class="hover-text" id="acpt">
+                  Accept
+                   </div>
+           </div>
+         
+           <div class="maindiv" id="decl">
+             <div class="declined">
+              <i class="fa-solid fa-xmark" style="margin-top: 7px;margin-left: 29px;font-size: 27px;"></i>
+             </div>
+            
+          
+          <div class="hover-text" id="dec">
+              Declined
+              </div>
+       
+          </div>
+          </div>
+          </div>
+          <div class="Agnttag">
+              <div class="title">TL Tagging</div>
+              <div class="content" style="margin-left: 3px;margin-right: 3px;">
+                <form  method="post">
+                  <input type="hidden"  value="" name="status" class="stat">
+      
+                  {% csrf_token %}
+                  <div class="d-flex justify-content-around" style="margin-top: 12px;">
+                  <span class="tlots">
+                       OTS Raised
+                  </span>
+                  <input type="tel" name="otsamt" placeholder="Enter Amount" class="tlotsamt"  value="{{otsamt}}" autocomplete="off" id="">
+                  <span class="calpercotsamt" style="display: none;"></span>
+                  <input type="hidden" value="" name="percentage">
+                  </div>
+                  <div class="remark" style="position: relative">
+                      <!-- <i class="bi bi-mic-fill"style="position: absolute;z-index: 1;right: 10px margin-top: 10px;"></i>--->
+                      <textarea name="remark"id="remark"class="rm"cols="29"rows="7"placeholder="Remarks"style="position: relative;width:98%"></textarea>
+               
+                    <input class="subbtn" type="submit" />
+                  </form>
+                  <!-- send FE to Collect end-->
+                </div>
+              </div>
+              </div>
+          
+        {% endfor %}
+
+        <script type="text/javascript">
+          $(document).ready(function () {
+
+            $(".top-header").css({"display":"none"})
+
+              $("input").focusout(function(){
+              $(this).css({"color":"#047BD5"})
+          })
+
+          $("input").focusin(function(){
+              $(this).css({"color":"#000000"})
+          }) 
+            
+            
+          
+            //Pagination start
+            var items = $(".main-data-wrapper .list-wrapper");
+            var numItems = items.length;
+            var perPage = 1;
+      
+            items.slice(perPage).hide();
+      
+            $('#pagination-container').pagination({
+                items: numItems,
+                itemsOnPage: perPage,
+                prevText: "&laquo;",
+                nextText: "&raquo;",
+                onPageClick: function (pageNumber) {
+                    var showFrom = perPage * (pageNumber - 1);
+                    var showTo = showFrom + perPage;
+                    items.hide().slice(showFrom, showTo).show();
+                }
+            });
+            //Pagination end 
+           
+      
+            $("#showcall").click(function(){
+            console.log("click")
+              $(".history").css({"display":"none"})
+              $(".callhistory").css({"display":"block"})
+          })
+           $("#back").click(function(){
+            console.log("click")
+              $(".history").css({"display":"block"})
+              $(".callhistory").css({"display":"none"})
+          })
+      
+          $("#acc").click(function(){
+              $("#acpt").css({display:"block"});
+              $("#dec").css({display:"none"});
+              $("input[name='status']").val("Accepted")
+              console.log( $("input[name='status']").val())
+          })
+          $("#decl").click(function(){
+              $("#dec").css({display:"block"});
+              $("#acpt").css({display:"none"});
+              $("input[name='status']").val("Declined")
+              console.log( $("input[name='status']").val())
+          })
+              
+              $('.tlotsamt').keyup(function (){
+                  $(".calpercotsamt").css({ display: "block" });
+                  b = $('.tlotsamt').val()
+                      var TOS = $('.tos').html()
+                      percentage=(b/parseInt(TOS))*100
+                      percentage=Math.round(percentage)
+                      console.log(percentage,b,TOS)
+      
+                      $('.calpercotsamt').html(`${percentage}%`)
+                      $('input[name=percentage]').val(`${percentage}%`)
+                      console.log( $('input[name=percentage]').val())
+          
+              })
+              a = undefined
+          });
+        </script>
+      
+        {% endblock content %}
+      

@@ -1,218 +1,83 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html'  %}
 
-{% block content %}
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
 
-{% include "style.html" %}
-    <style>
-    
-    .otslink{
-        color:#047BD5;
-    /* background-color: white; */
-    /* border-radius: 10px; */
-    display: inline-block;
-    text-decoration: none;
-    height: 32px;
-    border: 2px solid #047BD5;
-    width: 118px;
-    border-radius: 10px;
-    margin-top: 12px;
-    margin-left: 10px;
-    padding-top: 2px;
-    padding-left: 10px;
-    font-size: 14px;
-    font-family: 'Roboto';
-       }
+<main class="main-reminder main-ots">
 
-.dataTables_wrapper {
-    margin-left: 1px;
-    text-align: center;
-}
-  .otslink:hover{
-   color: white;
-   background-color: #047BD5;
-}
-
-.linkme:nth-of-type(1) .dashcard .imgcard img{
-  height: 22px !important;
-}
-.linkme:nth-of-type(3) .dashcard .imgcard img{
-  height: 33px !important;
-}
-
-.dashcard .imgcard img{
-  height: 33px !important;
-}
-
-.dashcard:nth-of-type(3) .imgcard img{
-  height: 22px !important;
-}
-    </style>
-    <div class="container-fluid">
-        <div class="row" >
-            <div class="dash">
-                Paid Count
-              </div>
-            <div >
-              <div style="position: relative;
-              float: right;
-              width: 50%;"  >
-                <img  src="{% static 'Images/Vector.png'%}" class="searchicon" style="position: absolute;top: 20px;
-                left: 34px;" alt="" >
-                <input type="search" class="dashsearch"  placeholder="Search" style="width: 69%;">
-                <a href="{% url 'dashtlots' %}" class="otslink">OTS Request</a>
-              </div> 
-           
-            <div class="cardBox flex-wrap">
-              <a href="/ptp" class="linkme">
-                <div class="dashcard">
-                  <div class="imgcard ptp" style="padding-top: 18px;" >
-                  <img src="{% static 'Images/ptp status icon 2.svg' %}"/></div>
-                  <p class="cardcontent">Lead PTP Behaviour</p>
-              </div>
-              </a>
-              <a href="/ptpcount" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/pay icon.svg' %}" style="padding-top: 18%; "/>
-                    </div>
-                    <p class="cardcontent">PTP Status</p>
-                </div>
-              </a>
-              <a href="/paidcount" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard" style="background-color: #121B55;">
-                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"  style="padding-top: 3%; "/>
-                    </div>
-                    
-                    <p class="cardcontent">Paid Status</p>
-                </div>
-                </a>
-                <a href="/teamoverall" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard" >
-                      <img src="{% static 'Images/paid status icon.svg' %}"  style="padding-top: 12%; "/>
-                    </div>
-           
-                    <p class="cardcontent">Disposition Status</p>
-                </div>
-                </a>
-                <a href="/dashtlots" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/folder.svg' %}" style="padding-top: 3%;"/>      
-                    </div>
-                    <p class="cardcontent">One Time Settlement</p>
-                </div>
-                </a>
-                <!-- <div class="dashcard" id="clickplz">
-                    <div class="imgcard" >
-                      <img src="{% static 'Images/warning.svg' %}" style="padding-top: 25%; "/>
-                    </div>
-                    
-                    <p class="cardcontent">Not Attempted</p>
-                </div> -->
-            </div>
-            <div class="infotable" style=" margin-left: 65px;">
-                <div class="dashboardtable" >
-            
-               
-                </div>
-                <div class="table-responsive table-div" style="text-align:center;
-                  margin-left: 12px;
-                  border-radius: 10px;height: 374px;width: 99%;">
-                <table id="example" class="table  "  style="width:100%;">
-                 <thead style="position: sticky;top:0;color: #FFFF;
-                 font-size: 12px;
-                 height: 55px;">
-                      <tr style="background-color: #047BD5;">
-                        <th >Agent Name
-                        </th>
-                        <th >Today's Paid
-                        </th>
-                        <th>Week's Paid
-                        </th>
-                        <th>Month's Paid
-                        </th>
-                        <th>Overall Amount(TOS)
-                        </th>
-                        <th>Overall Amount(Paid)
-                        </th>
-                        <th>Paid % on TOS
-                        </th>
-                       
-                       
-                      </tr>
-                    </thead>
-                    <tbody style="font-size: 12px;font-style:'Roboto';">
-                      {% for i,j in d.items %}
-                      <tr>
-                        <td>{{i}}</td>
-                        <td>{{j.td}}</td>
-                        <td>{{j.tw}}</td>
-                        <td>{{j.tm}}</td>
-                        <td>{% if j.tos == None %}0{% else %}{{j.tos}}{% endif %}</td>
-                        <td>{% if j.ptp == None %}0{% else %}{{j.ptp}}{% endif %}</td>
-                        <td>{{j.paidontos}}%</td>
-         
-                      </tr>
-                  {% endfor %}
-                      
-                    </tbody>
-                    <tfoot>
-          
-                    </tfoot>
-                  </table>
-            </div>
-            </div>
-            
-        </div>
-    
+  <div class="sicdiv">
+    <input type="text" class="osd" placeholder="Search">
+    <img  src="{% static 'Images/Vector.png'%}" class="searchicon" alt="" >
+  </div>
+  <div class="overcarddiv">
+    <a href="/ptp" class="linkme">
+    <div class="overcard">
+        <img  src="{% static 'Images/nfolder.svg'%}" class="cimg" alt="" >
+        <span class="crdhead">Lead PTP Behaviour</span>
     </div>
-  </section>
- 
-      <script>
-        // table design starts
-         
-            $(document).ready(function () {
-               var table =  $('#example').DataTable({
-                  "aLengthMenu":[100]
-                  
-                });
+    </a>
+    <a href="/ptpcount" class="linkme">
+    <div class="overcard">
+        <img  src="{% static 'Images/npaid.svg'%}" class="cimg" alt="" >
+        <span class="crdhead" >PTP Status</span>
+    </div>
+  </a>
+    <a href="/paidcount" class="linkme">
+    <div class="overcard clicked">
+        <img  src="{% static 'Images/nptp.svg'%}" class="cimg" alt=""  style="filter:brightness(100)" >
+        <span class="crdhead" style="color: #FFFFFF;">Paid Status</span>
+    </div>
+    </a>
+    <a href="/teamoverall" class="linkme">
+    <div class="overcard">
+        <img  src="{% static 'Images/ngrp.svg'%}" class="cimg" alt="" >
+        <span class="crdhead">Disposition Status</span>
+    </div>
+    </a>
+    <div class="overcard">
+        <img  src="{% static 'Images/nnc.svg'%}" class="cimg" alt="" >
+        <spa class="crdhead">Non Attempted</span>
+    </div>
 
-                var search = $.fn.dataTable.util.throttle(
-                function(val) {
-                    table.search(val).draw();
-                },
-                400  // Search delay in ms
-            );
+  </div>
 
-            $('.dashsearch').keyup(function() {
-                search(this.value);
-            });
-           
-          $("#clickplz").mouseover(function(){
-            alert("done")
-          })
-      
-        })       
-// table design end
-$(document).ready(function(){
-    $(".sidebar").mouseover(function(){
-      $(".sidebar").removeClass("close")
-    })
-    $(".sidebar").mouseout(function(){
-      $(".sidebar").addClass("close")
-    })
+  <div class="table-wrapper table-responsive" style="margin: auto;margin-top: 12px;">
+    <table class="table table-borderless  rounded" style="width: 100%;">
+      <thead class="sticky-top">
+        <tr>
+          <th  scope="col">Agent Name</th>
+          <th  scope="col">Today's Paid</th>
+          <th  scope="col">Week's Paid</th>
+          <th  scope="col">Month's Paid</th>
+          <th  scope="col">Overall Amount(TOS)</th>
+          <th  scope="col">Overall Amount(Paid)</th>
+          <th  scope="col">Paid % on TOS</th>
+        </tr>
+      </thead>
+      <tbody style="font-size: 12px;font-style:'Roboto';">
+        {% for i,j in d.items %}
+        <tr>
+          <td>{{i}}</td>
+          <td>{{j.td}}</td>
+          <td>{{j.tw}}</td>
+          <td>{{j.tm}}</td>
+          <td>{% if j.tos == None %}0{% else %}{{j.tos}}{% endif %}</td>
+          <td>{% if j.ptp == None %}0{% else %}{{j.ptp}}{% endif %}</td>
+          <td>{{j.paidontos}}%</td>
 
-  
-  })
+        </tr>
+    {% endfor %}
         
-  $(window).on("beforeunload", function(e) {
-      
-    });
+      </tbody>
+    </table>
+  </div>
 
-      </script>
+</main>
 
-{% endblock content %}
-  </body>
+<script>
+  $(document).ready(function(){
+    $('.header-title').html("Team Overall Report")
+  })
+</script>
+{% endblock content  %}

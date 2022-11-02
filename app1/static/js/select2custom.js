@@ -65,5 +65,17 @@ $(document).ready(function() {
     $(".breaksel").select2({
         minimumResultsForSearch: -1
     })
+    $(".np-select").select2({
+        minimumResultsForSearch: -1
+    })
+    $(".rm-sortby").select2({
+        minimumResultsForSearch: -1
+    })
+    $(".unknown-select").select2({
+        minimumResultsForSearch: -1
+    })
+    $("#breakdrop").select2({
+        minimumResultsForSearch: -1
+    })
 
 });

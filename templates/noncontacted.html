@@ -1,45 +1,86 @@
-{% extends 'base.html' %}
-{% load static %}
-<body>
-    {% block content %}
-    {% include "style.html" %}
-    <div class="row">
-        <div class="dash">
-         Non-Attempted</div>
-         <div class="table-responsive table-div"  style=" margin-left: 94px; margin-top: 12px;">
-         <table class="table flex-wrap" style=" width: 100%;
-         text-align: center;
-         margin-bottom: 0px;">
-             
-            <tr style="background-color: #047BD5;" >
-                <th style="padding: 18px 0px;">ID</th>
-                <th style="padding: 18px 0px;">Borrower Name</th>
-                <th style="padding: 18px 0px;">Phone Number</th>
-                <th style="padding: 18px 0px;">Loan Number</th>
-                
-            </tr>
-            {% for i in data %}
-            <tr class='clickable-row dashhover' data-href='{% url  "cms" i.id %}' style="cursor: pointer;">
-                <td style="font-size: 13px;">{{i.id}}</td>
-                <td style="font-size: 13px;">{{i.borrowor_name}}</td>
-                <td style="font-size: 13px;">{{i.mobile_number}}</td>
-                <td style="font-size: 13px;">{{i.bank_loan_accountno}}</td>
-           
-            </tr>
-            {% endfor %}
+{% extends 'base.html'  %}
+
+{% block content  %}
+<style>
+    .main-non-attempted .table-wrapper {
+        background-color: #fff;
+        height: calc(100vh - 5em);
+    }
+</style>
+{% csrf_token %}
+<main class="main-non-attempted">
+  <div class="table-wrapper table-responsive">
+      <table class="table table-borderless  table-striped rounded">
+        <thead class="sticky-top">
+          <tr>
+            <th scope="col">Lead id</th>
+            <th scope="col">Borrower Name</th>
+            <th scope="col">Phone no.</th>
+            <th scope="col">Loan no.</th>
+            <th scope="col">Caller ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mark</td>
+            <td>Mark</td>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+        </tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+  $('.header-title').html("Non-attempted")
+
+  function agn(name){
+    var data=new FormData()
+    data.append("agent",name)
             
-         </table>
-         </div>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript">
+    $.ajax({
+      method: "POST",
+      headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+      url: "{% url 'nonattempted'  %}",
+      data: data,
+      datatype:'json',
+      processData: false,
+      contentType: false,
+      success: function (data) {
+        console.log(data.data)
+        let v=data.data
+        output=''
+        $('tbody').empty()
+        // if (v != undefined ){
+        for(var i in v){
+          console.log("tbody",`${v[i].id}`)
+          $("tbody").append(`  <tr class='clickable-row dashhover' data-href="/cms/${v[i].id}/" style="cursor: pointer;">
+                    <td style="font-size: 12px;">${v[i].id}</td>
+                    <td style="font-size: 12px;">${v[i].borrowor_name}</td>
+                    <td style="font-size: 12px;">${v[i].mobile_number}</td>
+                    <td style="font-size: 12px;">${v[i].bank_loan_accountno}</td>
+                    <td style="font-size: 12px;text-transform: uppercase;">${v[i].callername}</td>
+                </tr>`)
+          }
+      
+      },
+
+        });
+      }
     $(document).ready(function () {
-        $(".non-atmped").addClass("active-page")
-        $(".clickable-row").click(function() {
+      agn()
+      $(".non-atmp").addClass("active-page")
+        $(document).on('click','.clickable-row',function() {
         window.location = $(this).data("href");
     });
-    })
-    </script>
-   
-    {% endblock content %}
-</body>
+    let un = `{{ request.user.username  }}`
+    // console.log("ASDASD",un)
+    agn(un)
+    
+  })
+</script>
+{% endblock content  %}

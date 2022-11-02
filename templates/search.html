@@ -1,139 +1,136 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html'  %}
 
-<body>
-    
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
 
-{% block content %}
-<div>
-<div class="row">
-    <div class="dash">Search</div>
-    <!-- <form  id="searchform"> -->
-        {% csrf_token %}
+<main class="main-reminder main-ots">
     <div class="searchdiv flex-wrap">
-        
-        <input class="searchinput" type="text"  name="borrowor_name"  autocomplete="off" placeholder="Borrowor Name">
-        <input class="searchinput"  type="tel" name="mobile_number" autocomplete="off" placeholder="Phone Number">
-        <input class="searchinput"  type="tel" name="loan_id"  autocomplete="off"  placeholder="Loan Number">
-        <input class="searchbtn"  type="button" value="Search">
-  
-    </div>
-<!-- </form> -->
-<!-- <div class="searchtablediv"> -->
-    <div class="table-responsive table-div" style='margin-left:108px;height: 485px' >
-        <table class="table" style="width:100%; text-align: center;margin-bottom: 0px;">
-            <thead style="background-color: #047BD5;font-size: 14px; font-family:'Roboto';    background-color: #047BD5;
-            font-size: 14px;
-            font-family: 'Roboto';
-            position: sticky;
-            top: 0;
-           ;">
-             <tr>
-                <th style="padding: 18px 0px;">ID</th>
-                <th style="padding: 18px 0px;">Borrowor  Name</th>
-                <th style="padding: 18px 0px;">Phone Number</th>
-                <th style="padding: 18px 0px;">Loan Number</th>
-                <th style="padding: 18px 0px;">Attachment</th>
-             </tr>
-            </thead>
-            <tbody style="font-size: 12px; font-family:'Roboto';">
-            
-            </tbody>
-        </table>
-    </div>
-   </div>
-    {% include "style.html" %}
-    
-</div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript">
- 
- function sajax(){
-        data = new FormData()
-        
-        data.append('borrowor_name',$('input[name="borrowor_name"]').val())
-        data.append('mobile_number',$('input[name="mobile_number"]').val())
-        data.append('loan_id',$('input[name="loan_id"]').val())
+        <div class="searchlabel">
+            <span class="sl">Borrowor Name</span>
+            <input type="text" name="borrowor_name"  autocomplete="off"  class="searchinput">
+        </div>
+             
 
-
-        $.ajax({
-                method: 'POST',
-                headers: {
-                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-                },
-                url: "{% url 'sajax' %}",
-                data: data,
-                datatype:'json',
-                processData: false,
-                contentType: false,    
-                success: function (data) {
-                   console.log(data.status)
-                   let x = data.all_data
-                    console.log(x)
-                   
-                    output = ""
-                    if (x != undefined){
-                        for (var i in x){
-                            output += (`<tr class='clickable-row dashhover'data-href='/cms/${x[i].id}''  id="show">
-                            <input type="hidden" class="attempted" value="${x[i].attempted}">
-                            <td>${x[i].id}</td>
-                            <td>${x[i].borrowor_name}</td>
-                            <td>${x[i].mobile_number}</td>
-                            <td>${x[i].bank_loan_accountno}</td>
-                            
-                            <td><img src="/static/Images/Attachment 1.svg"/></td>
-                            
-                        </tr>`)
-
-                        }
-                    }
-
-                    $('tbody').html(output)
-
-                    $('.attempted').each(function(){
-                        if ($(this).val() != 0){
-                            $(this).parent().css({'color':'#047BD5','font-size': '12px', 'font-weight': 'bold'})
-                        }
-                    })
-                }
-            })
-     }
-
-     
-     function setsess(){
-            sessionStorage.setItem('bn',$('input[name="borrowor_name"]').val())
-            sessionStorage.setItem('mn',$('input[name="mobile_number"]').val())
-            sessionStorage.setItem('ld',$('input[name="loan_id"]').val())
-        }
+        <div class="searchlabel" style="margin: 0;"> 
+            <span class="sl">Phone no</span>
+            <input  type="tel" name="mobile_number" autocomplete="off" class="searchinput">
+        </div>
+           
+        <div class="searchlabel"  style="margin: 0;">
+            <span class="sl">Loan No.</span>
+            <input  type="tel" name="loan_id"  autocomplete="off" class="searchinput">
+        </div>
          
-        function getsess(){
-            let abn = sessionStorage.getItem('bn')
-            let amn = sessionStorage.getItem('mn')
-            let ald  = sessionStorage.getItem('ld')
-            $('input[name="borrowor_name"]').val(abn)
-            $('input[name="mobile_number"]').val(amn)
-            $('input[name="loan_id"]').val(ald)
-            console.log(abn,amn,ald)
-        }
+                <button  type="button" class="searchbtn">Search</button>
+            </div>
+
+            <div class="table-wrapper table-responsive" >
+                <table class="table table-borderless  rounded" >
+                  <thead class="sticky-top">
+                    <tr>
+                      <th  scope="col">Lead id</th>
+                      <th  scope="col">Borrower Name</th>
+                      <th  scope="col">Phone no.</th>
+                      <th  scope="col">Loan no.</th>
+                      <th  scope="col">Caller ID</th>
+                    </tr>
+                  </thead>
+                  <tbody style="cursor: pointer;">
+                  </tbody>
+        </div>    
+</main>
+
+<script>
+function sajax(){
+    data = new FormData()
+    
+    data.append('borrowor_name',$('input[name="borrowor_name"]').val())
+    data.append('mobile_number',$('input[name="mobile_number"]').val())
+    data.append('loan_id',$('input[name="loan_id"]').val())
+
+
+    $.ajax({
+            method: 'POST',
+            headers: {
+                "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+            },
+            url: "{% url 'sajax' %}",
+            data: data,
+            datatype:'json',
+            processData: false,
+            contentType: false,    
+            success: function (data) {
+               console.log(data.status)
+               let x = data.all_data
+                console.log(x)
+               
+                output = ""
+                if (x != undefined){
+                    for (var i in x){
+                        output += (`<tr class='clickable-row dashhover'data-href='/cms/${x[i].id}''  id="show">
+                        <input type="hidden" class="attempted" value="${x[i].attempted}">
+                        <td>${x[i].id}</td>
+                        <td>${x[i].borrowor_name}</td>
+                        <td>${x[i].mobile_number}</td>
+                        <td>${x[i].bank_loan_accountno}</td>
+                        
+                        <td><img src="/static/Images/Attachment 1.svg"/></td>
+                        
+                    </tr>`)
+
+                    }
+                }
+
+                $('tbody').html(output)
+
+                $('.attempted').each(function(){
+                    if ($(this).val() != 0){
+                        $(this).parent().css({'color':'#047BD5','font-size': '12px', 'font-weight': 'bold'})
+                    }
+                })
+            }
+        })
+ }
 
  
-    $(document).ready(function () {
-      $(".sa").addClass("active-page")
-        getsess()
-        $('.searchbtn').click(function(){
-            setsess()
-            sajax()
-        })
-
-        $(document).on('click',".clickable-row",function() {
-        window.location = $(this).data("href");
-        })
-        
-        sajax()
-
-    });
-    
+ function setsess(){
+        sessionStorage.setItem('bn',$('input[name="borrowor_name"]').val())
+        sessionStorage.setItem('mn',$('input[name="mobile_number"]').val())
+        sessionStorage.setItem('ld',$('input[name="loan_id"]').val())
+    }
      
-    </script>
-{% endblock content %}
+    function getsess(){
+        let abn = sessionStorage.getItem('bn')
+        let amn = sessionStorage.getItem('mn')
+        let ald  = sessionStorage.getItem('ld')
+        $('input[name="borrowor_name"]').val(abn)
+        $('input[name="mobile_number"]').val(amn)
+        $('input[name="loan_id"]').val(ald)
+        console.log(abn,amn,ald)
+    }
+
+
+$(document).ready(function () {
+    $('.header-title').html("Search")
+
+
+  $(".sa").addClass("active-page")
+    getsess()
+    $('.searchbtn').click(function(){
+        setsess()
+        sajax()
+    })
+
+    $(document).on('click',".clickable-row",function() {
+    window.location = $(this).data("href");
+    })
+    
+    sajax()
+
+});
+
+ 
+</script>
+
+{% endblock content  %}

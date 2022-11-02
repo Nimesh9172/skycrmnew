@@ -2,7 +2,7 @@
 
     id=1
 const ots_ac_html = (id,bname,cname,loanid,otsamt,suggest,tlstat,tldate,tos,remark) => {
-    return component = `<a href="/cms/${id}" class="ots-wrapper act-ots">
+    return component = `<a href="/tlcms/${id}" class="ots-wrapper act-ots">
       <div class="svg-icon">
         <img src="/static/Images/ptp_icon.svg" alt="">
       </div>
@@ -38,7 +38,7 @@ const ots_ac_html = (id,bname,cname,loanid,otsamt,suggest,tlstat,tldate,tos,rema
 } 
 
 const ots_rej_html = (id,bname,cname,loanid,otsamt,suggest,tlstat,tldate,tos,remark) => {
-    return component = `<a href="/cms/${id}" class="ots-wrapper rej-ots">
+    return component = `<a href="/tlcms/${id}" class="ots-wrapper rej-ots">
       <div class="svg-icon">
         <img src="/static/Images/ptp_icon.svg" alt="">
       </div>
@@ -74,7 +74,7 @@ const ots_rej_html = (id,bname,cname,loanid,otsamt,suggest,tlstat,tldate,tos,rem
    </div>`
 }
 const ots_pen_html = (id,bname,cname,loanid,otsamt,suggest,tlstat,tldate,tos,remark) => {
-    return component = `<a href="/cms/${id}" class="ots-wrapper pen-ots">
+    return component = `<a href="/tlcms/${id}" class="ots-wrapper pen-ots">
       <div class="svg-icon">
         <img src="/static/Images/ptp_icon.svg" alt="">
       </div>
@@ -167,10 +167,7 @@ const dashtlajax = () => {
                     $('.main-data-wrapper').append(ots_rej_html(x[i].info_id,x[i].borrower_name,x[i].callername,x[i].loan_id,x[i].ots_amt,x[i].suggest,x[i].tlstat,x[i].tlstatdate,x[i].tos,x[i].remark))
                 }else{
                     $('.main-data-wrapper').append(ots_pen_html(x[i].info_id,x[i].borrower_name,x[i].callername,x[i].loan_id,x[i].ots_amt,x[i].suggest,x[i].tlstat,x[i].tlstatdate,x[i].tos,x[i].remark))
-                }
-
-              
-                
+                }               
         }
     }
         }

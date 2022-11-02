@@ -1,430 +1,496 @@
 {% extends 'base.html' %}
 {% load static %}
-  
-  {% block content %}
+{% block content %}
 
-{% include "style.html" %}
-  <style>
-  .error{
-      color:red;
-      font-size: 10px;
-    }
-
-.box {
-  position: relative;
-  background: #ffffff;
-  width: 100%;
+<style>
+ .select2-container--default .select2-selection--single {
+   
+    background-color:  #F3F5F9;
 }
-
-.box-header {
-  color: #444;
-  display: block;
-  padding: 10px;
-  position: relative;
-  border-bottom: 1px solid #f4f4f4;
-  margin-bottom: 10px;
-}
-
-.dropzone-wrapper {
-  border: 2px dashed #91b0b3;
-  color: #92b0b3;
-  position: relative;
-  height: 65px;
-  margin-top: 20px;
-  background: #FFFFFF;
-}
-
-.dropzone-desc {
-  position: absolute;
-  margin: 0 auto;
-  left: 0;
-  right: 0;
-  text-align: center;
-  width: 100%;
-  top: 0px;
-  font-size: 16px;
-}
-
-.dropzone,
-.dropzone:focus {
-  /* position: absolute; */
-  outline: none !important;
-  width: 100%;
-  height: 59px;
-  cursor: pointer;
-  opacity: 0;
-}
-
-.dropzone-wrapper:hover,
-.dropzone-wrapper.dragover {
-  background: #ecf0f5;
-}
-
-.downloadbtn{
-  text-decoration: none;
-  text-align: center;
-}
-.downloadbtn:hover{
-  color: white;
-}
-.uploaddiv{
-  width: 90%;
-  height: 284px;
-
-
-background: #FFFF;
-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-border-radius: 10px;
-}
-
-.select2-container .select2-selection--single {
-    height: 31px !important;
-
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+    color: #047BD5;
+    font-weight: 500;
+    padding-left: 19px !important;
 }
 .select2-container--default .select2-selection--single {
-    border: none !important;
-    box-shadow: 0px 0px 4px rgb(0 0 0 / 25%);
-}
 
-  .select2-container--default .select2-selection--single {
-    border: none !important ;
+    box-shadow: none !important;
+    border: 1px solid #E0E0E0;
 }
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
-    border-color: #197AA4 transparent transparent transparent !important;
+.select2-container .select2-selection--single {
+    height: 29px;
 }
-.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
-    border-color: transparent transparent #197AA4 transparent !important;
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+
+    line-height: 28px;
+}
+.select2-container {
+    width: 96% !important;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow {
-    right: 15px !important;
+    top: 1px;
+    right: 7px;
 }
-@media screen and (max-width: 512px) {
-  .uploaddiv{
-    width: 74%;
-    margin-left: 94px;
-    padding-left: 0;
-    height: 60%;
-  }
-  .uploadinput1{
-    width: 80%;
-  }
-  .uploadinput2{
-    width: 80%;
-  }
-  .uploadbtn{
-    width: 43%;
-  }
-  .downloadbtn{
-    width: 43%;
-    margin-left: 12px;
-    margin-bottom: 12px;
-  }
-  .table-div{
-    margin-left: 97px !important;
-    width: 74%;
-  }
-
-
-
- 
-  .dropzone-desc > p{
-    margin-top: 8px;
-  } 
+.form-control {
+    width: 97%;
+    background: #F3F5F9 !important;
+    box-shadow: none!important;
+    height: 29px;
+    font-size: 12px;
+}
+.cal-icon {
+    right: 10%;
+}
+.form-control:disabled, .form-control[readonly] {
+    border: 1px solid #E0E0E0;
+}
+.table-wrapper{
+    height: calc(-65vh - -48em);
+    padding: 0px;
+    width:50%;
 }
 
+.exportimg{
+    margin-top: 0px;
+    margin-left: 9px;
+}
 
+.exfil{
+    width: min(100%,865px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
 
+.inexfdt{
+    margin-top: 0px;
+    margin: 0px !important;
+}
+.ftd{
+    margin: 0px;
+  
+}
+.supsel{
+    width: min(205px);
+}
+.exportimg{
+    width: min(100% , 234px);
+}
+</style>
 
-
-  </style>
-    <link href="{% static 'vendor/css/select2.min.css' %}" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'css/select2custom.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    
-
-
-<form  action="{% url 'dataupload' %}" method="post"  enctype="multipart/form-data" id="uploadform">
+<main class="main-reminder">
+  <form  action="{% url 'dataupload' %}" method="post"  enctype="multipart/form-data" id="uploadform">
     {% csrf_token %}
-<div class="row">
-  <div class="dash">Data Upload</div>
+
+
  
-<div class="alert alert-info alert-dismissible fade show data-up" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+<div class="alert alert-info alert-dismissible fade show data-up" role="alert" style="width: 100%;display: none;">
   Data Uploaded Successfully!
    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-<div class="alert alert-warning alert-dismissible fade show data-down" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+<div class="alert alert-warning alert-dismissible fade show data-down" role="alert" style="width: 100%;display: none;">
   Something Went Wrong!
    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-<div class="alert listidalert alert-warning alert-dismissible fade show" role="alert" style="margin-left: 94px;width: 90%;display: none;">
+<div class="alert listidalert alert-warning alert-dismissible fade show" role="alert" style="width: 100%;display: none;">
   This list id already exists!
  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-  <div class="uploaddiv">
-      <div class="row firstrow ">
-        
-          <div class="col-4">
-          <div class="upsdiv">
-            <select name="campion" class="ups">
-              <option value="">Select Campaign</option>
-              
-              {% for i in camp %}
-              <option value="{{i.campaign_id}}">{{i.campaign_name}}</option>
-              {% endfor %}
-            </select>
-            <span class="error" id="campion-error"></span>
-          </div>
-        </div>
-        <div class="col-4">
-          <input type="text" name="listid" placeholder="List ID" class="uploadinput2" autocomplete="off" onkeypress="return isNumber(event)">
-          <span class="error" id="listid-error"></span>
-        </div>
-        <div class="col-4">
-          <input type="text" name="listname" placeholder="List Name" class="uploadinput2" autocomplete="off" >
-          <span class="error" id="listname-error"></span>
-        </div>
-        
-        <div class="uploaddiv2">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <div class="dropzone-wrapper">
-                    <div class="dropzone-desc">
-                      <p class="mt-sm-3 mb-0"><i><img src="{% static 'Images/arrowup.png' %}" alt=""></i>Drag and drop .csv files here or <span class="uploadspan">Choose files </span></p>
+    
+  
+            <div class="smstop" style="width: 100%;">
+                <div class="upsms" >
+                    <div class="upt" style="margin-bottom: 0px;">
+                        <div class="supimg">
+                            <img src="{% static 'Images/smsup.svg' %}"  height="45px" alt="">
+                        </div>
+                        <div class="suptxt" style="padding:0px;margin-left: 5%;margin-top: 14px; width: 25%;font-size: 14px;">
+                           Select Campign
+                        </div>
+                       
+                        
+                        <div class="supsel" style="width: min(347px);">
+                            <div class="upsdiv">
+                                <select name="campion" class="ups">
+                                  <option value="">Select </option>
+                                  {% for i in camp %}
+                                <option value="{{i.campaign_id}}">{{i.campaign_name}}</option>
+                                {% endfor %}
+                                </select>
+                                <span class="error" id="campion-error"></span>
+                              </div>
+                        </div>
+                        
                     </div>
-                    <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="listfile" class="dropzone" required>
-                  </div>
+
+                    <div class="ftd" style="width: 88%;margin-left: 3%;margin-top: 13px;">
+                        <div class="d-flex flex-wrap inexfdt">
+                           <div style="width: 47%;">
+                                <div class="dtitle"> <span class="starspan">&#42;</span>  Enter List Id</div>
+                               <input type="tel"  name="listid" class="upin" autocomplete="off" onkeypress="return isNumber(event)">
+                               <span class="error" id="listid-error"></span>
+                           </div>
+                            <div style="width: 47%;">
+                                <div class="dtitle"> <span class="starspan">&#42;</span> Enter List Name</div>
+                                <input type="text"  name="listname" class="upin">
+                                <span class="error" id="listname-error"></span>
+                            </div>
+                            
+                          
+                     
+                        </div>
+                
+                    </div>
+                    <input type="file" accept=".csv," name="listfile" class="actual__input"style="opacity: 0;width:0px;height:0; position:absolute;inset:0">
+                    <div class="upbox file__input" style="height: 130px;cursor: pointer;">
+                        <div class="upbw">
+                            <img src="{% static 'Images/upbw.svg' %}"  height="60px" alt="" style="margin-top: 14px">
+                        </div>
+                        <div class="sinfo" style="margin-top: 9px;">
+                            <div class="suptxt" style="padding: 0;text-align: center;">Drop your file here, or <span class="inspan file__input" style="cursor: pointer;">Browse</span></div>
+                            <div class="gtxt">Supports only .csv files (Max 5Mb)</div>
+                        </div>
                 </div>
-              </div>
-              <div class="d-flex justify-content-between flex-wrap">
-                <span >File name: <span class="filename"></span></span>
-                <span>Maximum size 5MB</span>
-              </div>
-          </div>
-          <span class="error" id="listfile-error"></span>
+                <div class="sinfo" style="margin-top:15px;margin-bottom: 8px;">
+                    <input type="submit" class="upbtn uploadbtn" value="Upload file"/>
+                    <div class="inspan"><a href="/media/arcformat.csv" download >Click here to Download sample Format</a></div>
+                </div>
+            </div>
+            </form>
+               
+                 
+            <div class="table-wrapper table-responsive tb" style="">
+                <table class="table table-borderless  table-striped rounded" >
+                  <thead class="sticky-top">
+                    <tr>
+                      <!-- <th  scope="col">ID</th> -->
+                      <th  scope="col">List id</th>
+                      <th  scope="col">Campaign</th>
+                      <th  scope="col">Entry date</th>
+                      <th  scope="col">List name</th>
+                      <th  scope="col">File</th>
+                      <th  scope="col">Count</th>
+                      <th  scope="col">Status</th>
 
-          <div class="btn-box d-flex justify-content-center flex-wrap">
-            <button type="button" class="uploadbtn" id="load">
-            <i class="fa " id="start"></i><span class="loadht">Upload</span></button>
-            <a href="/media/arcformat.csv" download  class="downloadbtn">Download format</a>
-          </div>
-
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in read %}
+                    <tr>
+                        <!-- <td>{{i.id}}</td> -->
+                        <td>{{i.listid}}</td>
+                        <td>{{i.campion}}</td>
+                        <td>{{i.entry}}</td>
+                        <td>{{i.listname}}</td>
+                        <td>{{i.file}}</td>
+                        <td>{{i.count}}</td>
+                        <td>
+                            <div class="form-check form-switch" >
+                                <input class="form-check-input" type="checkbox" class="status" {% if i.status == 1 %}checked{% endif %} role="switch" id="flexSwitchCheckDefault" >
+                                <label class="form-check-label" for="flexSwitchCheckDefault"></label>
+                              </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
         </div>
-      </div>
-     </div>
-    </form>
-    <div class="row ">
-      <div class="table-div table-responsive uploaddiv p-0" style="margin-left:104px;height: 218px;">
-          <table class="table flex-wrap">
-              <thead style="background: #047BD5;  position: sticky;top: 0;">
-                <tr>
-                  <th style="padding: 18px 0px;">ID</th>
-                  <th style="padding: 18px 0px;">List id</th>
-                  <th style="padding: 18px 0px;">Campaign</th>
-                  <th style="padding: 18px 0px;">List name</th>
-                  <th style="padding: 18px 0px;">File</th>
-                  <th style="padding: 18px 0px;">Count</th>
-                  <th style="padding: 18px 0px;">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for i in read %}
-                <tr>
-                   <td style="font-size: 13px;"  class="listid">{{i.id}}</td>
-                   <td style="font-size: 13px;">{{i.listid}}</td>
-                   <td style="font-size: 13px;">{{i.campion}}</td>
-                   <td style="font-size: 13px;">{{i.listname}}</td>
-                   <td style="font-size: 13px;">{{i.file}}</td>
-                   <td style="font-size: 13px;">{{i.count}}</td>
-                   <td style="font-size: 13px;">
-                    <div class="form-check form-switch" >
-                      <input class="form-check-input" type="checkbox" class="status" {% if i.status == 1 %}checked{% endif %} role="switch" id="flexSwitchCheckDefault" style="margin-left: 29%;" >
-                      <label class="form-check-label" for="flexSwitchCheckDefault"></label>
-                    </div>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-          </table>
-          </div>
-      </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-	  <script type="text/javascript">
-	function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
+        
+        </div>
+
+        <div class="exportdiv" style="display: flex;flex-wrap: wrap;">
+            <div class="exportimg">
+                <img src="{% static 'Images/exup.svg' %}"  height="48px" alt=""><span class="suptxt" style="font-size: 12px;">Export SMS Data</span> 
+            </div>
+
+         <form action="{% url 'dataexport' %}" method="post">  
+          {% csrf_token %} 
+        <div class="exfil" >
+           <div class="supsel exsel">
+            <div class="dtitle">Select Campign</div>
+                <div class="upsdiv">
+                    <select name="excampion" class="ups">
+                    <option value="">Select </option>
+                    {% for i in camp %}
+                    <option value="{{i.campaign_id}}">{{i.campaign_name}}</option>
+                    {% endfor %}
+                    </select>
+                    <span class="error" id="campion-error"></span>
+                </div>
+            </div>
+            <div class="supsel exsel">
+                <div class="dtitle">Select Criteria</div>
+                <div class="upsdiv">
+                    <select name="criteria" class="ups">
+                      <option value="">Select </option>
+                      <option value="Paid">Paid</option>
+                      <option value="Promise To Pay">Promise To Pay</option>
+                      <option value="Call Back">Call Back</option>
+                      <option value="Schedule Call">Schedule Call</option>
+                      <option value="OTS Request">OTS Request</option>
+                      <option value="Send FE To collect">Send FE To collect</option>
+                      <option value="Settlement">Settlement</option>
+                      <option value="Broken Promise">Broken Promise To Pay</option>
+                      <option value="Refused To Pay">Refused To Pay</option>
+                      <option value="Busy">Busy</option>
+                      <option value="No-recall">No-recall</option>
+                      <option value="Ringing No Response">Ringing No Response</option>
+                      <option value="Call Waiting">Call Waiting</option>
+                      <option value="Switch OFF">Switch OFF</option>
+                      <option value="Not Reachable">Not Reachable</option>
+                      <option value="Wrong Contact">Wrong Contact</option>
+                      <option value="Language Not Communicable">Language Not Communicable</option>
+                      <option value="Not Available But Resides Here">Not Available But Resides Here</option>
+                      
+                    </select>
+                    <span class="error" id="campion-error"></span>
+                  </div>
+            </div>
+
+            <div class="supsel exsel">
+                <div class="dtitle">From Date</div>
+                <div class="cal-con">
+                  <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+                  </svg>
+                <!-- <img class="cal-icon c1" src="{% static 'Images/cal.png' %}" class="calender" alt=""> -->
+                <input type="text" class="datepick form-control cal1 startdate" name="sdate">
+
+                <!-- <input class="form-control cal1 startdate" name="sdate" type="datetime-local" placeholder="Select"> -->
+                </div>
+           </div>
+
+           <div class="supsel exsel">
+            <div class="dtitle">To Date</div>
+            <div  class="cal-con" >
+              <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+              </svg>
+              <!-- <img class="cal-icon c2" src="{% static 'Images/cal.png' %}" alt=""> -->
+              <input type="text" class="datepick form-control cal2 enddate" name="edate">
+
+              <!-- <input class="form-control cal2 enddate" name="edate" type="datetime-local" placeholder="Select"> -->
+            </div>
+        </div>
+
+           
+            </div>
+
+            <div class="exbtndiv">
+
+                <input type="submit" placeholder="Submit"  value="Export" class="exportbtn" >
+            </div>
+        </div>
+    </div>
+   </form>
+
+</main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+
+  function isNumber(evt) {
+  evt = (evt) ? evt : window.event;
+  var charCode = (evt.which) ? evt.which : evt.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+  }
+  return true;
 }
 
+
+
+
+// function dataexport(){
+//     $.ajax({
+//       type:"POST",
+//       url:'{% url "dataexport" %}',
+//       data:{
+//                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+//                sel:$("select[name=criteria]").val(),
+//                sd:$("input[name=sdate]").val(),
+//                ed:$("input[name=edate]").val(),
+               
+//             },
+//             success: function(data){
+//             }
+//           })
+//         }
 </script>
 
 <script>
- function showstatus(an,lstid){
-      console.log("its",an,lstid )
-      var data=new FormData()
-            data.append("an",an)
-            data.append("lstid",lstid)
-            
-            $.ajax({
-                method: 'POST',
-                headers: {
-                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-                },
-                url: "{% url 'datastatus' %}",
-                data: data,
-                datatype:'json',
-                processData: false,
-                contentType: false,
-                success: function (data) {
-                    console.log(data)
-                  }
-    })
-  }
-  $(document).ready(function(){
-    $(".lms").addClass("active-page")
-    $(".uploadbtn").click(function(e){
-      e.preventDefault()
-      if ($('#uploadform').valid()!=true){
-        console.log("True")
-      }else{
-        console.log("False")
-        var data2 = new FormData();
-      data2.append('campion',$('select[name=campion]').val())
-      data2.append('listname',$('input[name="listname"]').val())
-      data2.append('listid',$('input[name="listid"]').val())
-      data2.append('listfile',$('input[name="listfile"]')[0].files[0])
-        
-      $(".loadht").html("Uploading")
-      $("#start").addClass("fa-spinner fa-spin");
-      $('.uploadinput2').css("filter","blur(3px)");
-      $('.uploadinput1').css("filter","blur(3px)");
-      $(".downloadbtn").css("filter","blur(3pxform-group)");
-      $('.table-div').css("filter","blur(3px)");
-      $('.sidebar').css("filter","blur(3px)");
-      $('.dash').css("filter","blur(3px)");
-      $(".form-group").css("filter","blur(3px)");
-      
-      // data.append('camp',$('select[name=campion]').val())
+  $('.header-title').html("Lead Management System")
 
-      $.ajax({
-        method: 'POST',
-        headers: {
-            "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
-        },
-        url: "{% url 'upload' %}",
-        data:data2,
-        processData: false,
-        contentType: false,
-        datatype:'json',
-        success: function (e) {
-          $(".loadht").html("Submit")
-          $("#start").removeClass("fa-spinner fa-spin");
-          $('.uploadinput2').css("filter","blur(0px)");
-          $('.uploadinput1').css("filter","blur(0px)");
-          $(".downloadbtn").css("filter","blur(0px)");
-          $('.table-div').css("filter","blur(0px)");
-          $('.sidebar').css("filter","blur(0px)");
-          $('.dash').css("filter","blur(0px)");
-          $(".form-group").css("filter","blur(0px)");
-
-          $('select[name=campion]').val('')
-          $('input[name="listname"]').val('')
-          $('input[name="listid"]').val('')
-          $('input[name="listfile"]').val('')
-          $('.filename').html('')
-
-
-            console.log("working",e.status)
-            if (e.status==200){
-              $('.data-up').css({'display':'block'})
-              console.log("200")
-              
-            }
-            if (e.status==300){
-              $('.data-down').css({'display':'block'})
-
-              // location.reload()
-              console.log("300")
-            }
-            if (e.status==400){
-              // location.reload()
-              console.log("400")
-              $('.data-down').css({'display':'block'})
-            }
-        }
-     })
-      }
-      
-    })
-    $("#flexSwitchCheckDefault").click(function(){
-      var lstid=$(this).parent().parent().parent().find(".listid").html()
-      console.log("switch",lstid)
-      if($(this).prop('checked')){
-         showstatus("1",lstid)
-      }else{
-        showstatus("0",lstid)
-
-      }
-      
-    })
-
-    $('.uploadspan').click(function(){
-      $('input[name=listfile]').click()
-    })
-
-    $('#uploadform').validate({ // initialize the plugin
-        rules: {
-          campion: {
-                required: true,
-            },
-          listname: {
-                required: true,
-            },
-            listid: {
-                required: true,
-            },
-            listfile:{
-              required:true
-            },
-        },errorPlacement: function(error,element){
-          if (element.attr("name")=='listid'){
-            error.appendTo('#listid-error')
-          }if (element.attr("name")=='listname'){
-            error.appendTo('#listname-error')
-          }if (element.attr("name")=='campion'){
-            error.appendTo('#campion-error')
-          }if (element.attr("name")=='listfile'){
-            error.appendTo('#listfile-error')
-          }
+function showstatus(an,lstid){
+    console.log("its",an,lstid )
+    var data=new FormData()
+          data.append("an",an)
+          data.append("lstid",lstid)
           
-        },highlight: function(element) {
-            $(element).removeClass("error");
+          $.ajax({
+              method: 'POST',
+              headers: {
+                  "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+              },
+              url: "{% url 'datastatus' %}",
+              data: data,
+              datatype:'json',
+              processData: false,
+              contentType: false,
+              success: function (data) {
+                  console.log(data)
+                }
+  })
+}
+
+$(document).ready(function(){
+
+
+  $(".exportbtn").click(function(){
+    console.log("usygdfdu",$("input[name=sdate]").val())
+    console.log($("input[name=edate]").val(),"ahdiuqwd")
+    dataexport()
+  })
+
+  $('.cal__icon').click(function () {
+    $(this).next().click()
+  })
+
+  $('.datepick').daterangepicker({
+    singleDatePicker:true,
+    autoApply:true,
+    locale: {
+            format: 'DD-MM-YYYY'
         }
-     });   
+  });
 
-    // $("#load").click(function(){
-    //   console.log("hi")
-    //        if ($('#uploadform').valid()===true){
+  $('.file__input').click(function(){$('.actual__input').click()})
+
+  $(".lms").addClass("active-page")
+
+  $(".uploadbtn").click(function(e){
+    e.preventDefault()
+    // cn
+    if ($('#uploadform').valid()!=true){
+      console.log("True")
+    }else{
+      console.log("False")
+      var data2 = new FormData();
+    data2.append('campion',$('select[name=campion]').val())
+    data2.append('listname',$('input[name="listname"]').val())
+    data2.append('listid',$('input[name="listid"]').val())
+    data2.append('listfile',$('input[name="listfile"]')[0].files[0])
+      
+    $(".loadht").html("Uploading")
+    $("#start").addClass("fa-spinner fa-spin");
+    $('.uploadinput2').css("filter","blur(3px)");
+    $('.uploadinput1').css("filter","blur(3px)");
+    $(".downloadbtn").css("filter","blur(3pxform-group)");
+    $('.table-div').css("filter","blur(3px)");
+    $('.sidebar').css("filter","blur(3px)");
+    $('.dash').css("filter","blur(3px)");
+    $(".form-group").css("filter","blur(3px)");
+    
+    // data.append('camp',$('select[name=campion]').val())
+
+    $.ajax({
+      method: 'POST',
+      headers: {
+          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+      },
+      url: "{% url 'upload' %}",
+      data:data2,
+      processData: false,
+      contentType: false,
+      datatype:'json',
+      success: function (e) {
+        $(".loadht").html("Submit")
+        $("#start").removeClass("fa-spinner fa-spin");
+        $('.uploadinput2').css("filter","blur(0px)");
+        $('.uploadinput1').css("filter","blur(0px)");
+        $(".downloadbtn").css("filter","blur(0px)");
+        $('.table-div').css("filter","blur(0px)");
+        $('.sidebar').css("filter","blur(0px)");
+        $('.dash').css("filter","blur(0px)");
+        $(".form-group").css("filter","blur(0px)");
+
+        $('select[name=campion]').val('')
+        $('input[name="listname"]').val('')
+        $('input[name="listid"]').val('')
+        $('input[name="listfile"]').val('')
+        $('.filename').html('')
+
+
+          console.log("working",e.status)
+          if (e.status==200){
+            $('.data-up').css({'display':'block'})
+            console.log("200")
             
-            // $(".loadht").html("Uploading")
-            // $("#start").addClass("fa-spinner fa-spin");
-            // $('.uploadinput2').css("filter","blur(3px)");
-            // $('.uploadinput1').css("filter","blur(3px)");
-            // $(".downloadbtn").css("filter","blur(3pxform-group)");
-            // $('.table-div').css("filter","blur(3px)");
-            // $('.sidebar').css("filter","blur(3px)");
-            // $('.dash').css("filter","blur(3px)");
-            // $(".form-group").css("filter","blur(3px)");
-            // console.log("see")
-            // console.log("me")
-    //        }
-    //    })
+          }
+          if (e.status==300){
+            $('.data-down').css({'display':'block'})
 
-       $('input[name=listname]').keyup(function(){
+            // location.reload()
+            console.log("300")
+          }
+          if (e.status==400){
+            // location.reload()
+            console.log("400")
+            $('.data-down').css({'display':'block'})
+          }
+      }
+   })
+    }
+    
+  })
+  $("#flexSwitchCheckDefault").click(function(){
+    var lstid=$(this).parent().parent().parent().find(".listid").html()
+    console.log("switch",lstid)
+    if($(this).prop('checked')){
+       showstatus("1",lstid)
+    }else{
+      showstatus("0",lstid)
+
+    }
+    
+  })
+
+  $('.uploadspan').click(function(){
+    $('input[name=listfile]').click()
+  })
+
+  $('#uploadform').validate({ // initialize the plugin
+      rules: {
+        campion: {
+              required: true,
+          },
+        listname: {
+              required: true,
+          },
+          listid: {
+              required: true,
+          },
+          listfile:{
+            required:true
+          },
+      },errorPlacement: function(error,element){
+        if (element.attr("name")=='listid'){
+          error.appendTo('#listid-error')
+        }if (element.attr("name")=='listname'){
+          error.appendTo('#listname-error')
+        }if (element.attr("name")=='campion'){
+          error.appendTo('#campion-error')
+        }if (element.attr("name")=='listfile'){
+          error.appendTo('#listfile-error')
+        }
+        
+      },highlight: function(element) {
+          $(element).removeClass("error");
+      }
+   });   
+
+   $('input[name=listname]').keyup(function(){
       if ($("input[name=listname]").val().length<6){
      
         $("#listname-error").css({'display':'block'})
@@ -518,3 +584,5 @@ border-radius: 10px;
 </script>
 
 {% endblock content %}
+    
+

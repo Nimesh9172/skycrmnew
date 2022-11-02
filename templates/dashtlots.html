@@ -1,165 +1,128 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html'  %}
 
-{% block content %}
 
-{% include "style.html" %}
+{% block content  %}
+{% load static  %}
+{% csrf_token  %}
 <style>
-    .clicked{
- background: #121B55;
+  .menu {
+  --indicator-left: 10px;
+  --indicator-width: 39px;
   }
-  .otslink{
-        color:#047BD5;
-    background-color: #FFFF;
-    /* border-radius: 10px; */
-    display: inline-block;
-    text-decoration: none;
-    height: 32px;
-    border: 3px solid #047BD5;
-    width: 118px;
-    border-radius: 10px;
-    margin-top: 12px;
-    margin-left: 10px;
-    padding-top: 2px;
-    padding-left: 10px;
-    font-size: 14px;
-    font-family: 'Roboto';
-       }
-
-.dataTables_wrapper {
-    margin-left: 1px;
-    text-align: center;
-}
-  .otslink:hover{
-   color: white;
-   background-color: #047BD5;
-}
-  .table>:not(:last-child)>:last-child>* {
-    border-bottom-color: darkgrey;
-}
 </style>
-    <div class="container-fluid">
-        <div class="row" >
-            <div class="dash">
-              One Time Settlement 
-            </div>
-            <div>
-            <div style="position: relative;
-              float: right;
-              width: 50%;"  >
-                <img  src="{% static 'Images/Vector.png'%}" class="searchicon" style="position: absolute;top: 20px;
-                left: 34px;" alt="" >
-                <input type="search" class="dashsearch"  placeholder="Search" style="width: 69%;">
-                <a href="{% url 'ptp' %}" class="otslink">TeamOverall </a>
-              </div> 
-            <div class="cardBox flex-wrap">
-              <a href="/ptp" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/ptp status icon 2.svg' %}" style="padding-top: 25%; "/>
-                    </div>
-                    <p class="cardcontent">Lead PTP Behaviour </p>
-                </div>
-                </a>
-                <a href="/ptpcount" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/pay icon.svg' %}" style="padding-top: 18%; "/>
-                    </div>
-                    
-                    <p class="cardcontent">PTP Status</p>
-                </div>
-                </a>
-                <a href="/paidcount" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/ptp status comparison icon.svg' %}"  style="padding-top: 3%; "/>
-                    </div>
-                    <p class="cardcontent">Paid Status</p>
-                </div>
-                </a>
-                <a href="/teamoverall" class="linkme">
-                <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/paid status icon.svg' %}" style="padding-top: 12%; "/>
-                    </div>
-                    <p class="cardcontent">Disposition Status</p>
-                </div>
-                </a>
-                <div class="dashcard">
-                    <div class="imgcard clicked">
-                      <img src="{% static 'Images/folder.svg' %}" style="padding-top: 3%;"/>      
-                    </div>
-                    <p class="cardcontent">One Time Settlement</p>
-                </div>
-                <!-- <div class="dashcard">
-                    <div class="imgcard">
-                      <img src="{% static 'Images/warning.svg' %}" style="padding-top: 25%; "/>
-                    </div>
-                    <p class="cardcontent">Not Contacted</p>
-                </div> -->
-            </div>
-            
+<input type="hidden" value="all" name="filterval">
+<main class="main-reminder main-ots">
+  <div class="parent-filter-wrapper">
+    <div class="first-child-parent-filter">
+      <div class="filter-wrapper-reminder">
+        <p class="m-0">From</p>
+        <div class="date-wrapper">
+          <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+          </svg>
+          <input type="text" class="datepick" name="fdate">
+        </div>
+      </div>
+      <div class="filter-wrapper-reminder" >
+        <p class="m-0">To</p>
+        <div class="date-wrapper">
+          <svg class="cal__icon" width="18" height="13" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 9V11H4V9H6ZM10 9V11H8V9H10ZM14 9V11H12V9H14ZM16 2C16.5304 2 17.0391 2.21071 17.4142 2.58579C17.7893 2.96086 18 3.46957 18 4V18C18 18.5304 17.7893 19.0391 17.4142 19.4142C17.0391 19.7893 16.5304 20 16 20H2C0.89 20 0 19.1 0 18V4C0 3.46957 0.210714 2.96086 0.585786 2.58579C0.960859 2.21071 1.46957 2 2 2H3V0H5V2H13V0H15V2H16ZM16 18V7H2V18H16ZM6 13V15H4V13H6ZM10 13V15H8V13H10ZM14 13V15H12V13H14Z" fill="#575757"/>
+          </svg>
+          <input type="text" class="datepick" name="todate">
+        </div>
+      </div>
+    </div>
+    <div class="filter-wrapper-reminder ">
+      <div class="sort-by-wrapper">
+        <svg class="sort-by-icon" width="14" height="17" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.2 21.6L14.4 16.8H18V4.8H14.4L19.2 0L24 4.8H20.4V16.8H24L19.2 21.6ZM0 19.2V16.8H12V19.2H0ZM0 12V9.6H8.4V12H0ZM0 4.8V2.4H4.8V4.8H0Z" fill="#575757"/>
+        </svg>
+          
+        <select class="rm-sortby" name="">
+          <option value="">Sort By</option>
+          <option value="Largest to Smallest">Largest to Smallest</option>
+          <option value="Oldest to Newest">Oldest to Newest </option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <section class="filter-slider-section">
+    <div class="menu">
+      <div class="menu__indicator"></div>
+      <div class="menu-line__indicator"></div>
+      <ul class="menu__list">
+        <li class="menu__item">
+          <a class="menu__link fall-link"  href="#">All OTS</a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link acp-link" id="fall"  href="#" >Accepted OTS</a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link rej-link" href="#">Rejected OTS</a>
+        </li>
+        <li class="menu__item">
+          <a class="menu__link pen-link" href="#">Pending</a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="data-render-section">
+    <div class="main-data-wrapper">
+    </div>
+  </section>
+</main>
+
+
+
+<script>
+const menu = document.querySelector('.menu');
+const menuindicator = document.querySelector('.menu__indicator');
+
+function updateIndicator(linkElem) {
+  menu.style.setProperty('--indicator-left', `${linkElem.offsetLeft}px`);
+  menu.style.setProperty('--indicator-width', `${linkElem.offsetWidth}px`);
+}
+
+function resetIndicator() {
+  menu.style.setProperty('--indicator-left', 0);
+  menu.style.setProperty('--indicator-width', 0);  
+}
+
+menu.addEventListener('click', function(evt) {
+  const link = evt.target.closest('.menu__link');
+  evt.target.classList.add("ac1");
   
-            <div class="table-responsive table-div"style="text-align:center;margin-left: 81px;border-radius: 10px;height: 414px;width: 93%;">
-                        <table id="example" class="table otstable"  style="width:100%;">
-                          <thead>
-                            <tr class="importantth" style="background-color: #047BD5;">
-                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Borrowor Name
-                              </th>
-                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Account Number
-                              </th>
-                              <th class="th-sm"  style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">TOS
-                              </th>
-                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">OTS
-                              </th>
+  if (link) {
+    updateIndicator(link);
+  }
+});
 
-                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">OTS %
-                              </th>
-                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Suggest OTS
-                              </th>
-                              
-                              <th class="th-sm" style="font-family: 'Roboto';font-style: normal;font-weight: 400;padding-bottom: 21px; font-size: 14px;">Status
-                              </th>
-                              
+menu.addEventListener('click', function(evt) {
+  evt.target.classList.remove("ac1");
+  evt.target.classList.contains('ac1')?resetIndicator():console.log("asd")
+});
 
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for i in data %}
-                            
-                            <tr  class='clickable-row dashhover' data-href='{% url  "tlcms" i.info_id %}' style="cursor: pointer;">
-                              <td style="font-size: 12px;">{{i.borrower_name}}</td>
-                              <td style="font-size: 12px;">{{i.loan_id}}</td>
-                              <td style="font-size: 12px;">{{i.tos}}</td>
-                              <td style="font-size: 12px;">{{i.ots_amt}}</td>
-                              <td style="font-size: 12px;">{{i.otspercentage}} </td>
-                              <td style="font-size: 12px;">{{i.suggest}} </td>
-                               <td {%if i.tlstat == 'Accepted'  %} style="color: #1CD833;font-size: 13px; font-weight: bold;" {%elif i.tlstat == 'Declined'  %} style="color: red;font-size: 13px;font-weight: bold;"{%endif%}>{%if i.tlstat == 'Accepted' or  i.tlstat == 'Declined' %}{{i.tlstat}}{%else%}{% endif %}</td>
-                              
-                              
-                              
-                            </tr>
-                            {% endfor %}
-                            
-                          </tbody>
-                          <tfoot>
-                
-                          </tfoot>
-                        </table>
-                       
-                      </div>
-                      </div>
-                    </div>
-                    </div>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript">
-    $(document).ready(function () {
-    
-      $(".otspg").addClass("active-page")
-        $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
-    });
-    })
-    </script>
-                    {% endblock content %}
+$(document).ready(function (){
+  $('.cal__icon').click(function (){
+    $(this).next().click()
+  })
+})
+
+  $('.datepick').daterangepicker({
+    singleDatePicker:true,
+    autoApply:true,
+    locale: {
+            format: 'DD-MM-YYYY'
+        }
+  });
+
+  $('.header-title').html("One Time Settlement (OTS)")
+
+
+
+</script>
+{% include 'dashtlotsajax.html'  %}
+{% endblock content  %}

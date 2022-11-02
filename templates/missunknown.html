@@ -864,20 +864,20 @@ Array.from(document.querySelectorAll('button[data-for]'))
           // console.log($('select[name=subdispositionvalue]').val())
           if ($('#disform').valid()===true){
             $.ajax({
-            type:"post",
-            url:'{% url "dispose" %}',
-            data:{
-              // dialnum3:$('input[name=dialnum3]').val(),
-               csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-               dispos:$('select[name=subdispositionvalue]').val()
-            },
-            success: function(data){
-              console.log("disposed")
-              // alert(" Disposed")
-              formsub()
+              type:"post",
+              url:'{% url "dispose" %}',
+              data:{
+                // dialnum3:$('input[name=dialnum3]').val(),
+                csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+                dispos:$('select[name=subdispositionvalue]').val()
+              },
+              success: function(data){
+                console.log("disposed")
+                // alert(" Disposed")
+                formsub()
 
              
-            }
+            } 
           })
           }
         })
